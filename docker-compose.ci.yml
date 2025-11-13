@@ -1,0 +1,23 @@
+services:
+  laravel:
+    build:
+      context: ./laravel
+    container_name: my_app-laravel-ci
+    environment:
+      APP_ENV: testing
+      APP_DEBUG: true
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ':memory:'
+    working_dir: /var/www/html
+    command: tail -f /dev/null
+    volumes:
+      - ./laravel:/var/www/html
+
+  react:
+    build:
+      context: ./react
+    container_name: my_app-react-ci
+    working_dir: /app
+    volumes:
+      - ./react:/app
+    command: tail -f /dev/null

@@ -1,0 +1,58 @@
+# ===================================
+# 🟢 GLOBAL IGNORE (Laravel + React + Docker)
+# ===================================
+
+# ===============================
+# Node / React / Vite
+# ===============================
+react/node_modules/
+react/.vite/
+react/.vite/deps_temp_*/
+react/dist/
+react/build/
+react/npm-debug.log*
+react/yarn-debug.log*
+react/yarn-error.log*
+react/pnpm-debug.log*
+react/package-lock.json
+react/pnpm-lock.yaml
+react/yarn.lock
+react/vite.config.ts.timestamp*
+react/vite.config.js.timestamp*
+
+# ===============================
+# Laravel vendrá con su propio .gitignore
+# ===============================
+# (no lo repetimos aquí)
+
+# ===============================
+# Docker
+# ===============================
+.docker/
+docker-compose.override.yml
+*.pid
+*.seed
+*.log
+tmp/
+*.sock
+
+# ===============================
+# IDE / SO
+# ===============================
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ===============================
+# Cachés de PHPUnit o coverage global
+# ===============================
+.phpunit.result.cache
+coverage/
+
+# ===============================
+# Otros directorios auxiliares
+# ===============================
+docs/.vite/
+docs/node_modules/

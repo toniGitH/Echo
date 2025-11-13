@@ -1,0 +1,7 @@
+# Archivo generado automáticamente - no versionar
+openapi.yml
+
+# Mantener en el repositorio
+!openapi.source.yml
+!paths/
+!build.sh

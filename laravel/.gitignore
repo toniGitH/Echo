@@ -1,0 +1,36 @@
+# ===================================
+# ⚙️ LARAVEL
+# ===================================
+
+# Entorno
+.env
+.env.*
+!.env.example
+.env.backup
+.env.production
+.env.testing
+
+# Dependencias
+/vendor
+/node_modules
+
+# Compilados y cachés
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+
+# PHPUnit y otros
+.phpunit.result.cache
+/.phpunit.cache
+/.idea
+/.vscode
+/.fleet
+/.zed
+/.nova
+.phpactor.json
+Homestead.json
+Homestead.yaml
+Thumbs.db
+.DS_Store

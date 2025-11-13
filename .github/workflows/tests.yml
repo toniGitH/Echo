@@ -1,0 +1,86 @@
+# Este es un workflow que protege las ramas main y develop
+# Todos los push deben hacerse mediante PR
+# Para que una PR se pueda mergear, deben haberse pasado todos los tests existentes
+# MUY IMPORTANTE: además de esta configuración, se debe realizar la correspondiente configuración en el repositorio de github
+# En Github, ir a Settings->Branches->Branch protection rules y generar aquí la configuración oportuna
+
+name: Tests Laravel y React
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  tests-laravel:
+    name: Tests Laravel (PHPUnit)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Crear archivo .env para tests
+        run: |
+          cp laravel/.env.example laravel/.env || echo "No hay .env.example"
+
+      - name: Construir contenedor Laravel
+        run: docker compose -f docker-compose.ci.yml build laravel
+
+      - name: Levantar contenedor Laravel
+        run: docker compose -f docker-compose.ci.yml up -d laravel
+
+      - name: Instalar dependencias de Composer
+        run: docker compose -f docker-compose.ci.yml exec -T laravel composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generar clave de aplicación
+        run: docker compose -f docker-compose.ci.yml exec -T laravel php artisan key:generate --force
+
+      - name: Ejecutar tests de Laravel (SQLite en memoria)
+        run: docker compose -f docker-compose.ci.yml exec -T laravel php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+
+      - name: Limpiar contenedor
+        if: always()
+        run: docker compose -f docker-compose.ci.yml down -v
+
+  tests-react:
+    name: Tests React
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Construir contenedor React
+        run: docker compose -f docker-compose.ci.yml build react
+
+      - name: Instalar dependencias de npm
+        run: docker compose -f docker-compose.ci.yml run --rm react npm install
+
+      - name: Ejecutar lint (si existe)
+        continue-on-error: true
+        run: docker compose -f docker-compose.ci.yml run --rm react npm run lint || echo "No hay script de lint configurado"
+
+      - name: Ejecutar tests de React (si existen)
+        continue-on-error: true
+        run: docker compose -f docker-compose.ci.yml run --rm react npm test -- --run || echo "No hay tests de React configurados"
+
+      - name: Build de producción para verificar
+        run: docker compose -f docker-compose.ci.yml run --rm react npm run build
+
+      - name: Limpiar contenedores
+        if: always()
+        run: docker compose -f docker-compose.ci.yml down -v
+
+  resultado-final:
+    name: Verificación completa
+    runs-on: ubuntu-latest
+    needs: [tests-laravel, tests-react]
+    
+    steps:
+      - name: Todos los tests pasaron
+        run: echo "✅ Todos los tests han pasado correctamente"

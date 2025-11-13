@@ -1,0 +1,147 @@
+services:
+
+  # Contenedor para la base de datos MySQL para desarrollo
+  mysql:
+    image: mysql:8.0
+    container_name: my_app-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
+      MYSQL_USER: ${MYSQL_USER:-app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-app}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    ports:
+      - "3700:3306"
+    volumes:
+      - my_app_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Contenedor para la base de datos MySQL para tests (independiente de la base de datos de desarrollo)
+  mysql_test:
+    image: mysql:8.0
+    container_name: my_app-mysql-test
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_TEST_DATABASE:-app_testing}
+      MYSQL_USER: ${MYSQL_TEST_USER:-app}
+      MYSQL_PASSWORD: ${MYSQL_TEST_PASSWORD:-app}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_TEST_ROOT_PASSWORD:-root}
+    ports:
+      - "3701:3306"
+    volumes:
+      - my_app_db_test_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Contenedor php
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: my_app-php
+    restart: unless-stopped
+    volumes:
+      - ./laravel:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # Contenedor nginx
+  nginx:
+    image: nginx:alpine
+    container_name: my_app-nginx
+    restart: unless-stopped
+    ports:
+      - "8988:80"
+    volumes:
+      - ./laravel:/var/www/html:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - php
+
+  # Contenedor laravel
+  laravel:
+    build:
+      context: ./laravel
+    container_name: my_app-laravel
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-local}
+      APP_DEBUG: ${APP_DEBUG:-true}
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE:-app}
+      DB_USERNAME: ${MYSQL_USER:-app}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-app}
+      # Variables CORS para habilitar llamadas desde Swagger
+      CORS_ALLOWED_ORIGINS: "*"
+      CORS_ALLOWED_METHODS: "*"
+      CORS_ALLOWED_HEADERS: "*"
+    volumes:
+      - ./laravel:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: >-
+      sh -lc "composer install || true;
+      php artisan key:generate --force || true;
+      php artisan migrate --force || true;
+      php artisan queue:work --tries=3 --sleep=3"
+
+  # Contenedor react
+  react:
+    build:
+      context: ./react
+    container_name: my_app-react
+    restart: unless-stopped
+    ports:
+      - "8989:5173"
+    environment:
+      HOST: 0.0.0.0
+    working_dir: /app
+    volumes:
+      - ./react:/app
+    command: sh -lc "npm install && npm run dev -- --host"
+
+  # Contenedor de compilación de la documentación Swagger (redocly)
+  swagger-builder:
+    image: node:18-alpine
+    container_name: my_app-swagger-builder
+    working_dir: /docs
+    volumes:
+      - ./docs:/docs
+    command: >
+      sh -c "npm install -g @redocly/cli &&
+             redocly bundle /docs/openapi.source.yml --output /docs/openapi.yml &&
+             echo '✅ Documentación Swagger compilada' &&
+             tail -f /dev/null"
+    restart: unless-stopped
+
+  # Contenedor de SwaggerUI
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    container_name: my_app-swagger
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docs:/usr/share/nginx/html/docs:ro
+    environment:
+      SWAGGER_JSON: /usr/share/nginx/html/docs/openapi.yml
+    depends_on:
+      - swagger-builder
+
+# Volúmenes persistentes para las bases de datos
+volumes:
+  # Datos de MySQL para desarrollo
+  my_app_db_data:
+  # Datos de MySQL para tests (independiente del volumen de desarrollo)
+  my_app_db_test_data:

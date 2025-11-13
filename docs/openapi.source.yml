@@ -1,0 +1,53 @@
+# Documento base para ir añadiendo toda la documentación de los diferentes
+# endpoints de tu aplicación.
+# Cada vez que levantes contenedores, se debería regenerar automáticamente
+# el documento openapi.yml ÚNICO que SwaggerUI utilizará para presentar al
+# usuario esta documentación.
+
+openapi: 3.0.3
+info:
+  title: API my_app
+  version: 1.0.0
+  description: |
+    API REST para la aplicación de notificaciones.
+    
+    Esta API permite gestionar usuarios, autenticación y notificaciones.
+    
+    **Características:**
+    - Arquitectura hexagonal con DDD
+    - Validaciones completas en cada endpoint
+    - Respuestas en formato JSON
+    - Mensajes de error descriptivos
+
+  contact:
+    name: Soporte API my_app
+    email: soporte@my_app.com
+
+servers:
+  - url: http://localhost:8988/api
+    description: API de desarrollo
+
+paths:
+# ==============================================================
+  # Aquí se definen los endpoints de la API.
+  #
+  # Ejemplo de cómo añadir uno nuevo:
+  #
+  # /auth/register:
+  #   $ref: './paths/auth/register.yml'
+  #
+  # /auth/login:
+  #   $ref: './paths/auth/login.yml'
+  #
+  # Asegúrate de que las rutas sean relativas a este archivo.
+  # Es decir, que cada archivo de documentación que generes, debe
+  # estar físicamente dentro de la carpeta docs.
+  # Por ejemplo, para crear la documentación del endpoint de registro,
+  # el archivo debe estar en esta ruta: docs/paths/auth/register.yml
+  # La carpate auth es una sugerencia para organizar los endpoints
+  # relacionados con registro y autenticación.
+  # Puedes organizar tus archivos de documentación en diferentes
+  # carpetas (auth, products, clients, etc...).
+  # Los diferentes archivos que vayas creando se irán fusionando 
+  # con esta base cuando vuelvas a levantar los contenedores.
+  # ==============================================================
