@@ -28,6 +28,8 @@ servers:
     description: API de desarrollo
 
 paths:
+  /auth/register:
+    $ref: './paths/auth/register.yml'
 # ==============================================================
   # Aquí se definen los endpoints de la API.
   #

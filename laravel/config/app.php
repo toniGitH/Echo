@@ -84,6 +84,18 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Supported Locales
+    |--------------------------------------------------------------------------
+    |
+    | Define the list of languages that your app supports.
+    |
+    */
+    #'supported_locales' => ['en', 'es'],
+
+    
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
