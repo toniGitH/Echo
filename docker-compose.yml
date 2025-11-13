@@ -3,7 +3,7 @@ services:
   # Contenedor para la base de datos MySQL para desarrollo
   mysql:
     image: mysql:8.0
-    container_name: my_app-mysql
+    container_name: echo-mysql
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
@@ -13,7 +13,7 @@ services:
     ports:
       - "3700:3306"
     volumes:
-      - my_app_db_data:/var/lib/mysql
+      - echo_db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -23,7 +23,7 @@ services:
   # Contenedor para la base de datos MySQL para tests (independiente de la base de datos de desarrollo)
   mysql_test:
     image: mysql:8.0
-    container_name: my_app-mysql-test
+    container_name: echo-mysql-test
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${MYSQL_TEST_DATABASE:-app_testing}
@@ -33,7 +33,7 @@ services:
     ports:
       - "3701:3306"
     volumes:
-      - my_app_db_test_data:/var/lib/mysql
+      - echo_db_test_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -45,7 +45,7 @@ services:
     build:
       context: ./php
       dockerfile: Dockerfile
-    container_name: my_app-php
+    container_name: echo-php
     restart: unless-stopped
     volumes:
       - ./laravel:/var/www/html
@@ -56,7 +56,7 @@ services:
   # Contenedor nginx
   nginx:
     image: nginx:alpine
-    container_name: my_app-nginx
+    container_name: echo-nginx
     restart: unless-stopped
     ports:
       - "8988:80"
@@ -70,7 +70,7 @@ services:
   laravel:
     build:
       context: ./laravel
-    container_name: my_app-laravel
+    container_name: echo-laravel
     restart: unless-stopped
     environment:
       APP_ENV: ${APP_ENV:-local}
@@ -100,7 +100,7 @@ services:
   react:
     build:
       context: ./react
-    container_name: my_app-react
+    container_name: echo-react
     restart: unless-stopped
     ports:
       - "8989:5173"
@@ -114,7 +114,7 @@ services:
   # Contenedor de compilación de la documentación Swagger (redocly)
   swagger-builder:
     image: node:18-alpine
-    container_name: my_app-swagger-builder
+    container_name: echo-swagger-builder
     working_dir: /docs
     volumes:
       - ./docs:/docs
@@ -128,7 +128,7 @@ services:
   # Contenedor de SwaggerUI
   swagger-ui:
     image: swaggerapi/swagger-ui:latest
-    container_name: my_app-swagger
+    container_name: echo-swagger
     restart: unless-stopped
     ports:
       - "8081:8080"
@@ -142,6 +142,6 @@ services:
 # Volúmenes persistentes para las bases de datos
 volumes:
   # Datos de MySQL para desarrollo
-  my_app_db_data:
+  echo_db_data:
   # Datos de MySQL para tests (independiente del volumen de desarrollo)
-  my_app_db_test_data:
+  echo_db_test_data:

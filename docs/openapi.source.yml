@@ -6,7 +6,7 @@
 
 openapi: 3.0.3
 info:
-  title: API my_app
+  title: API Echo
   version: 1.0.0
   description: |
     API REST para la aplicación de notificaciones.
@@ -20,8 +20,8 @@ info:
     - Mensajes de error descriptivos
 
   contact:
-    name: Soporte API my_app
-    email: soporte@my_app.com
+    name: Soporte API Echo
+    email: soporte@echo.com
 
 servers:
   - url: http://localhost:8988/api
