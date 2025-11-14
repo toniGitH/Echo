@@ -1,99 +1,56 @@
-# Notifier – Guía de instalación y uso con Docker
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Este proyecto incluye un entorno Docker con 5 servicios:
-- Nginx (sirve Laravel) en puerto 8988
-- MySQL (3306 dentro del contenedor) expuesto en 3700
-- PHP-FPM 8.2 (para Laravel)
-- Laravel (contenedor utilitario para composer/artisan)
-- React (Vite) en puerto 8989
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-Requisitos
-- Docker Engine/Daemon y Docker Compose Plugin (o Docker Desktop que los incluye)
-- 4 GB de RAM disponible y ~2 GB de espacio en disco
+# 📚 Menú
 
-Instalar Docker
+- [🧩 Servicios principales](#-servicios-principales)
+- [🐋 Docker: requisitos previos](#-docker-requisitos-previos)
 
-Windows 10/11
-1) Instala Docker Desktop para Windows desde el sitio oficial.
-2) Habilita WSL 2 si Docker Desktop lo solicita.
-3) Reinicia y verifica:
-   - Abre PowerShell y ejecuta: docker --version y docker compose version
+# 🧩 Servicios principales
 
-macOS (Intel/Apple Silicon)
-1) Instala Docker Desktop para macOS desde el sitio oficial.
-2) Inicia Docker Desktop y espera a que esté “Running”.
-3) Verifica en Terminal: docker --version y docker compose version
+Este proyecto incluye un entorno Docker completo con **8 servicios**:
 
-Ubuntu/Debian (ejemplo para Ubuntu 22.04+)
-1) Desinstala versiones antiguas (opcional):
-   sudo apt-get remove -y docker docker-engine docker.io containerd runc || true
-2) Paquetes previos y repositorio oficial de Docker:
-   sudo apt-get update
-   sudo apt-get install -y ca-certificates curl gnupg lsb-release
-   sudo install -m 0755 -d /etc/apt/keyrings
-   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-3) Instala Docker Engine + Compose plugin:
-   sudo apt-get update
-   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-4) (Recomendado) Permitir usar docker sin sudo:
-   sudo usermod -aG docker $USER
-   # Cierra sesión y vuelve a entrar (o reinicia) para aplicar el grupo
-5) Verifica la instalación:
-   docker --version
-   docker compose version
-   docker run --rm hello-world
+📌 **Nginx** – Servidor web que expone la aplicación **Laravel** al puerto **8988**. Recibe las peticiones HTTP y las pasa a PHP-FPM para procesar la lógica de Laravel. ➡️ [localhost:8988](http://localhost:8988)  
 
-Puertos del proyecto
-- http://localhost:8988 → Nginx + Laravel (public/)
-- http://localhost:8989 → React (Vite dev server)
-- MySQL: host localhost puerto 3700 (3306 en contenedor)
-  - Credenciales por defecto (si usas .env.example): usuario app / pass app / base app
+📌 **PHP-FPM 8.2** – Motor PHP que ejecuta el código de Laravel dentro del contenedor PHP. No expone puertos, solo procesa peticiones enviadas por Nginx.  
 
-Cómo levantar el proyecto
-1) Clona el repositorio (o entra a la carpeta del proyecto):
-   git clone <URL_DEL_REPO>
-   cd notifier
-2) (Opcional) Copia variables por defecto y ajústalas si es necesario:
-   cp .env.example .env
-3) Levanta la pila (construye imágenes si es la primera vez):
-   docker compose up -d --build
-4) Espera unos segundos y comprueba:
-   - docker compose ps
-   - curl -I http://localhost:8988/
-   - curl -I http://localhost:8989/
+📌 **Laravel** – Contenedor utilitario encargado de instalar dependencias, generar la clave de aplicación, ejecutar migraciones y procesar colas. No expone puertos.  
 
-Comandos útiles
-- Ver estado: docker compose ps
-- Ver logs de un servicio (ej. nginx): docker compose logs -f nginx
-- Reconstruir y reiniciar: docker compose up -d --build
-- Parar: docker compose down
-- Parar y borrar volúmenes (atención: borra datos de MySQL): docker compose down -v
+📌 **MySQL (desarrollo)** – Base de datos principal para la aplicación. Puerto interno **3306**, expuesto en el host como **3700**.
 
-Notas de implementación
-- Nginx sirve la carpeta ./laravel/public y envía PHP a php-fpm (servicio "php"). Configuración en nginx/conf.d/default.conf.
-- El contenedor "laravel" instala dependencias, genera APP_KEY, ejecuta migraciones y deja un queue:work corriendo para mantenerse activo. Puedes cambiar el comando en docker-compose.yml según tus necesidades (horizon, scheduler, etc.).
-- El contenedor "react" arranca Vite en 5173 (expuesto a 8989) y monta ./react en /app para hot reload.
+📌 **MySQL (tests)** – Base de datos separada para pruebas automáticas. Puerto interno **3306**, expuesto en el host como **3701**.
 
-Solución de problemas
-1) Permisos de Laravel (500 por permisos en storage):
-   docker exec notifier-php sh -lc 'cd /var/www/html && chown -R www-data:www-data storage bootstrap/cache && chmod -R ug+rwX storage bootstrap/cache'
-2) Laravel no conecta a MySQL (SQLSTATE[HY000] [2002]):
-   - Asegúrate de que DB_HOST=mysql, DB_PORT=3306, DB_DATABASE=app, DB_USERNAME=app, DB_PASSWORD=app en ./laravel/.env
-   - Limpia cache de config: docker exec notifier-php php /var/www/html/artisan config:clear
-   - Comprueba MySQL healthy: docker compose ps (estado del servicio mysql)
-3) Puerto en uso (8988/8989/3700):
-   - Cambia los puertos en docker-compose.yml o libera el puerto en tu máquina.
-4) React devuelve 404/No response:
-   - Espera a que npm install termine dentro del contenedor react
-   - Revisa logs: docker compose logs -f react
+📌 **React (Vite)** – Interfaz frontend de la aplicación. Incluye su propio servidor de desarrollo y expone el puerto **8989**. No depende de Nginx. ➡️ [localhost:8989](http://localhost:8989)  
 
-Estructura de carpetas relevante
-- ./docker-compose.yml → definición de servicios
-- ./nginx/conf.d/default.conf → vhost de Nginx
-- ./php/Dockerfile → imagen php-fpm con extensiones
-- ./laravel/ → app Laravel (artisan, composer.json, public/)
-- ./react/ → app React (Vite)
+📌 **Swagger Builder (Redocly)** – Contenedor utilitario que compila la documentación OpenAPI a partir de los archivos fuente YAML en `docs/`. No expone puertos.  
 
-Soporte
-Si necesitas ajustar puertos, añadir HTTPS (reverse proxy, certificados), o integrar otros servicios (Redis, Horizon, Mailhog), puedes ampliar docker-compose.yml y la configuración de Nginx en nginx/conf.d.
+📌 **Swagger UI** – Servidor web que sirve la documentación generada en [http://localhost:8081](http://localhost:8081). Escucha en su propio puerto interno y lo mapea al host como 8081. ➡️ [localhost:8081](http://localhost:8081)
+
+
+---
+
+# 🐋 Docker: requisitos previos
+
+Para ejecutar correctamente el entorno necesitarás utilizar **Docker**.
+  
+A continuación se detallan las diferencias según tu sistema operativo:
+
+## 🪟 Windows
+- Asegurate de tener la virtualización activada en BIOS/UEFI.
+- Instala WSL2.
+- Instala **Docker Desktop** para Windows.
+- Docker Desktop incluye todo lo necesario (Docker Engine + Docker Compose).
+- Docker Desktop crea una máquina virtual que gestiona permisos y volúmenes de forma automática.
+- No necesitas ajustar permisos ni propiedad de archivos y carpetas (como sí pasa en Linux y Mac).
+
+💡 Cómo trabajar con Docker en Windows:
+
+   **1.** Ejecuta la aplicación Docker Desktop y déjala corriendo en segundo plano (no la necesitas para nada más, aunque puedes utilizar sus funciones, que pueden ser interesantes)
+
+  **2.** Abre la consola (Ubuntu/WSL2 si la tienes, o CMD o PowerShell) y ya podrás ejecutar todos los comandos habituales de Docker.
