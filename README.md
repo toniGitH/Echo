@@ -7,10 +7,15 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# 📚 Menú
+# 📋 Menú
 
-- [🧩 Servicios principales](#-servicios-principales)
-- [🐋 Docker: requisitos previos](#-docker-requisitos-previos)
+[📖 Descripción de la aplicación](#-descripción-de-la-aplicación)
+[🧩 Servicios principales](#-servicios-principales)
+[🐋 Docker: requisitos previos](#-docker-requisitos-previos)
+
+# 📖 Descripción de la aplicación
+
+Aplicación de envío de notificaciones en desarrollo.
 
 # 🧩 Servicios principales
 
