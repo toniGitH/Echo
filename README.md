@@ -7,7 +7,10 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# 📋 Índice de contenidos
+---
+
+
+## 📋 Índice de contenidos
 
 <details>
   <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
@@ -21,21 +24,22 @@
 
 </details>
 
+---
 
-# 🎯 Descripción de la aplicación
+## 🎯 Descripción de la aplicación
 
 Aplicación de envío de notificaciones en desarrollo.
 
 ---
 
-# ⚠️ Requisitos previos
+## ⚠️ Requisitos previos
 
 - Docker Engine/Daemon y Docker Compose Plugin (o Docker Desktop que los incluye)
 - 4 GB de RAM disponible y ~2 GB de espacio en disco
 
 ---
 
-# 🔌 Puertos del proyecto
+## 🔌 Puertos del proyecto
 
 ##### 👉 Backend: Nginx + Laravel (public/) ➡️ [http://localhost:8988](http://localhost:8988)
 
@@ -49,12 +53,12 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ---
 
-# 📖 Documentación API
+## 📖 Documentación API
 ##### 👉 SwaggerUI ➡️ [http://localhost:8081](http://localhost:8081) 
 
 ---
 
-# 🧩 Servicios principales (Docker)
+## 🧩 Servicios principales (Docker)
 
 Este proyecto incluye un entorno Docker completo con **8 servicios**:
 
@@ -76,13 +80,15 @@ Este proyecto incluye un entorno Docker completo con **8 servicios**:
 
 ---
 
-# 🐋 Docker: instalación y requisitos previos
+## 🐋 Docker: instalación y requisitos previos
 
 Para ejecutar el proyecto necesitarás utilizar **Docker**.
   
-A continuación se detallan las diferencias según tu sistema operativo:
+A continuación se detallan las diferencias según tu sistema operativo.
 
-## 🪟 Windows 10/11
+<br>
+
+### 🪟 Windows 10/11
 ##### 1) Asegurate de tener la virtualización activada en BIOS/UEFI.
 ##### 2) Instala Docker Desktop para Windows desde el sitio oficial.
 ##### 3) Habilita WSL 2 si Docker Desktop lo solicita.
@@ -97,7 +103,9 @@ docker compose version
 ##### 5) Inicia la aplicación Docker Desktop y déjala corriendo en segundo plano (no la necesitas para nada más, aunque puedes utilizar sus funciones, que pueden ser interesantes)
 ##### 6) En la consola (Ubuntu/WSL2 si la tienes, o CMD o PowerShell) ya podrás ejecutar todos los comandos habituales de Docker.
 
-## 🍎 macOS (Intel / Apple Silicon)
+<br>
+
+### 🍎 macOS (Intel / Apple Silicon)
 
 ##### 1) Comprueba compatibilidad del procesador.
 Docker Desktop funciona tanto en Apple Silicon (M1/M2/M3) como en Intel, pero usa tecnologías distintas internamente (HyperKit vs Apple Virtualization Framework).
@@ -132,8 +140,9 @@ Se controla desde: *Docker Desktop → Settings → Resources*
 Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 *Settings → Features in development / Extensions*
 
+<br>
 
-## 🐧 Ubuntu/Debian (ejemplo para Ubuntu 22.04+)
+### 🐧 Ubuntu/Debian (ejemplo para Ubuntu 22.04+)
 
 ##### 1) Desinstalar versiones antiguas (opcional)
 
