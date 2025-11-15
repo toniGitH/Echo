@@ -16,7 +16,7 @@
   <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
 
 - [🎯 Descripción de la aplicación](#-descripción-de-la-aplicación)
-- [📋 Requisitos](#-requisitos)
+- [📋 Requisitos previos](#-requisitos-previos)
 - [🔌 Puertos del proyecto](#-puertos-del-proyecto)
 - [📖 Documentación API](#-documentación-api)
 - [🧩 Servicios principales (Docker)](#-servicios-principales-docker)
@@ -32,7 +32,7 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ---
 
-## ⚠️ Requisitos previos
+## 📋 Requisitos previos
 
 - Docker Engine/Daemon y Docker Compose Plugin (o Docker Desktop que los incluye)
 - 4 GB de RAM disponible y ~2 GB de espacio en disco
