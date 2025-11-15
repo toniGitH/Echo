@@ -21,6 +21,7 @@
 - [📖 Documentación API](#-documentación-api)
 - [🧩 Servicios principales (Docker)](#-servicios-principales-docker)
 - [🐋 Docker: instalación y requisitos previos](#-docker-instalación-y-requisitos-previos)
+- [🚀 Cómo levantar el proyecto](#-cómo-levantar-el-proyecto)
 
 </details>
 
@@ -201,7 +202,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io   docker-buildx-pl
 sudo usermod -aG docker $USER
 ```
 
-➡️ Cierra sesión y vuelve a entrar para aplicar los cambios.
+⚠️ Cierra sesión y vuelve a entrar para aplicar los cambios.
 
 
 ##### 8) Verificar instalación
@@ -213,11 +214,8 @@ docker --version
 docker compose version
 docker run --rm hello-world
 ```
-
-
-
-
 ---
 
+## 🚀 Cómo levantar el proyecto
 
 ☝🏼 No necesitas ajustar permisos ni propiedad de archivos y carpetas (como sí pasa en Linux y Mac).
