@@ -236,6 +236,5 @@ docker run --rm hello-world
 
 ---
 
-[🔝](#🔎-índice-de-contenidos)
-<br>
-<br>
+[🔝](#índice-de-contenidos)
+<br><br>
