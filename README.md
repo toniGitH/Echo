@@ -47,6 +47,8 @@ Aplicación de envío de notificaciones en desarrollo.
 - Docker Engine/Daemon y Docker Compose Plugin (o Docker Desktop que los incluye)
 - 4 GB de RAM disponible y ~2 GB de espacio en disco
 
+🔝 [Volver al índice](#index)
+
 ---
 
 ## 🔌 Puertos del proyecto
@@ -61,10 +63,14 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ###### 🔑 Credenciales base de datos por defecto (si usas .env.example) ➡️ usuario: *app* / pass: *app* / base: *app*
 
+🔝 [Volver al índice](#index)
+
 ---
 
 ## 📖 Documentación API
 ##### 👉 SwaggerUI ➡️ [http://localhost:8081](http://localhost:8081) 
+
+🔝 [Volver al índice](#index)
 
 ---
 
@@ -88,6 +94,8 @@ Este proyecto incluye un entorno Docker completo con **8 servicios**:
 
 📌 **Swagger UI** – Servidor web que sirve la documentación generada. Escucha en su propio puerto interno y lo mapea al host como 8081.
 
+🔝 [Volver al índice](#index)
+
 ---
 
 ## 🐋 Docker: instalación y requisitos previos
@@ -96,7 +104,6 @@ Para ejecutar el proyecto necesitarás utilizar **Docker**.
   
 A continuación se detallan las diferencias según tu sistema operativo.
 
-<br>
 
 ### 🪟 Windows 10/11
 ##### 1) Asegurate de tener la virtualización activada en BIOS/UEFI.
@@ -113,6 +120,7 @@ docker compose version
 ##### 5) Inicia la aplicación Docker Desktop y déjala corriendo en segundo plano (no la necesitas para nada más, aunque puedes utilizar sus funciones, que pueden ser interesantes)
 ##### 6) En la consola (Ubuntu/WSL2 si la tienes, o CMD o PowerShell) ya podrás ejecutar todos los comandos habituales de Docker.
 
+🔝 [Volver al índice](#index)
 <br>
 
 ### 🍎 macOS (Intel / Apple Silicon)
@@ -150,6 +158,7 @@ Se controla desde: *Docker Desktop → Settings → Resources*
 Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 *Settings → Features in development / Extensions*
 
+🔝 [Volver al índice](#index)
 <br>
 
 ### 🐧 Ubuntu/Debian (ejemplo para Ubuntu 22.04+)
@@ -223,17 +232,22 @@ docker --version
 docker compose version
 docker run --rm hello-world
 ```
+
+🔝 [Volver al índice](#index)
+
 ---
 
 ## 🚀 Cómo levantar el proyecto
 
 ☝🏼 No necesitas ajustar permisos ni propiedad de archivos y carpetas (como sí pasa en Linux y Mac).
 
+🔝 [Volver al índice](#index)
+
 ---
 
 ## 🧪 Testing
 
+🔝 [Volver al índice](#index)
+
 ---
 
-[🔝 Volver al índice](#index)
-<br><br>
