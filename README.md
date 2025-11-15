@@ -10,19 +10,19 @@
 ---
 
 
-## 📋🔎 Índice de contenidos
+## 🔎 Índice de contenidos
 
 <details>
   <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
 
-- [🎯 Descripción de la aplicación](#-descripción-de-la-aplicación)
-- [📋 Requisitos previos](#-requisitos-previos)
-- [🔌 Puertos del proyecto](#-puertos-del-proyecto)
-- [📖 Documentación API](#-documentación-api)
-- [🧩 Servicios principales (Docker)](#-servicios-principales-docker)
-- [🐋 Docker: instalación y requisitos previos](#-docker-instalación-y-requisitos-previos)
-- [🚀 Cómo levantar el proyecto](#-cómo-levantar-el-proyecto)
-- [🧪 Testing](#-testing)
+🎯 [Descripción de la aplicación](#-descripción-de-la-aplicación)
+📋 [Requisitos previos](#-requisitos-previos)
+🔌 [Puertos del proyecto](#-puertos-del-proyecto)
+📖 [Documentación API](#-documentación-api)
+🧩 [Servicios principales (Docker)](#-servicios-principales-docker)
+🐋 [Docker: instalación y requisitos previos](#-docker-instalación-y-requisitos-previos)
+🚀 [Cómo levantar el proyecto](#-cómo-levantar-el-proyecto)
+🧪 [Testing](#-testing)
 
 </details>
 
