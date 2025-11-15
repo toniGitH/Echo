@@ -22,6 +22,7 @@
 - [🧩 Servicios principales (Docker)](#-servicios-principales-docker)
 - [🐋 Docker: instalación y requisitos previos](#-docker-instalación-y-requisitos-previos)
 - [🚀 Cómo levantar el proyecto](#-cómo-levantar-el-proyecto)
+- [🧪 Testing](#-testing)
 
 </details>
 
@@ -219,3 +220,10 @@ docker run --rm hello-world
 ## 🚀 Cómo levantar el proyecto
 
 ☝🏼 No necesitas ajustar permisos ni propiedad de archivos y carpetas (como sí pasa en Linux y Mac).
+
+---
+
+## 🧪 Testing
+
+---
+
