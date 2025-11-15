@@ -14,6 +14,8 @@
 
 <details>
   <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
+  
+<br>
 
 🎯 [Descripción de la aplicación](#-descripción-de-la-aplicación)
 
