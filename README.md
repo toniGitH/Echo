@@ -16,7 +16,7 @@
   <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
 
 - [🎯 Descripción de la aplicación](#-descripción-de-la-aplicación)
-- [📋 Requisitos previos](#-requisitos-previos)
+- [📋 Requisitos](#-requisitos)
 - [🔌 Puertos del proyecto](#-puertos-del-proyecto)
 - [📖 Documentación API](#-documentación-api)
 - [🧩 Servicios principales (Docker)](#-servicios-principales-docker)
