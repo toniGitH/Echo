@@ -9,10 +9,10 @@
 
 ---
 
-<h2 id="index">🔎 Índice de contenidos</h2>
-
 <details>
-  <summary><strong>📂 Mostrar / ocultar índice</strong></summary>
+<summary style="font-size:40px; list-style: none; cursor: pointer;">
+    🔎 <strong>Índice de contenidos</strong>
+  </summary>
   
 <br>
 
