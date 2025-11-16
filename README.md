@@ -242,19 +242,19 @@ Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 
 ## 🐧 Cómo levantar el proyecto en Linux
 
-###### IMPORTANTE:
-- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
-- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
-- En la ejecución de los comandos que verás en estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+>###### 🚨 IMPORTANTE:
+>- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En la ejecución de los comandos que verás en estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
 
-###### NOTA PREVIA SOBRE DOCKER EN LINUX:
-- Docker es nativo en Linux, por lo que no necesita Docker Desktop.
-- En Linux el Docker Engine se ejecuta directamente sobre el kernel, sin capas intermedias ni virtualización.
-- Por eso no necesita Docker Desktop, ya que el motor corre directamente en el sistema.
-- En Linux no se necesita WSL2, porque WSL2 es solo para Windows y Linux ya ejecuta contenedores de forma real y nativa.
+>###### 🗒️ NOTA PREVIA SOBRE DOCKER EN LINUX:
+>- Docker es nativo en Linux, por lo que no necesita Docker Desktop.
+>- En Linux el Docker Engine se ejecuta directamente sobre el kernel, sin capas intermedias ni virtualización.
+>- Por eso no necesita Docker Desktop, ya que el motor corre directamente en el sistema.
+>- En Linux no se necesita WSL2, porque WSL2 es solo para Windows y Linux ya ejecuta contenedores de forma real y nativa.
 
-###### RECOMENDADO:
-- Permitir usar docker sin sudo: `sudo usermod -aG docker $USER` (Es a nivel global, para cualquier proyecto).
+>###### 💡 RECOMENDADO:
+>- Permitir usar docker sin sudo: `sudo usermod -aG docker $USER` (Es a nivel global, para cualquier proyecto).
 
 #### PASO A PASO DE INSTALACIÓN
 
@@ -476,21 +476,3 @@ Este paso se aplica únicamente en Linux y macOS.
 🔝 [Volver al índice](#index)
 
 ---
-
->[!IMPORTANTE]
->
->This is a standard NOTE block.
-
->###### 🚨 IMPORTANTE:
->- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
->- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
->- En la ejecución de los comandos que verás en estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
-
->###### 🗒️ NOTA PREVIA SOBRE DOCKER EN LINUX:
->- Docker es nativo en Linux, por lo que no necesita Docker Desktop.
->- En Linux el Docker Engine se ejecuta directamente sobre el kernel, >sin capas intermedias ni virtualización.
->- Por eso no necesita Docker Desktop, ya que el motor corre >directamente en el sistema.
->- En Linux no se necesita WSL2, porque WSL2 es solo para Windows y >Linux ya ejecuta contenedores de forma real y nativa.
-
->###### 💡 RECOMENDADO:
->- Permitir usar docker sin sudo: `sudo usermod -aG docker $USER` (Es a >nivel global, para cualquier proyecto).
