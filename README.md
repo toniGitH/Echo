@@ -18,7 +18,7 @@
 
 🎯 [Descripción de la aplicación](#-descripción-de-la-aplicación)
 
-⚙️ [Tecnologías-utilizadas](#-tecnologías-utilizadas)
+⚙️ [Tecnologías utilizadas](#-tecnologías-utilizadas)
 
 📋 [Requisitos previos](#-requisitos-previos)
 
