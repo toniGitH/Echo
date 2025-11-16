@@ -10,8 +10,8 @@
 ---
 
 <details>
-<summary style="font-size:40px; list-style: none; cursor: pointer;" id="index">
-    🔎 <strong>Índice de contenidos</strong>
+<summary style="cursor: pointer;" id="index">
+    <h1>🔎 Índice de contenidos</h1>
   </summary>
   
 <br>
