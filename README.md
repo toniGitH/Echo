@@ -48,7 +48,7 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## 🎯 Tecnologías utilizadas
 
 - Backend: **Laravel**
 - Frontend: **React**
