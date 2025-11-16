@@ -596,7 +596,9 @@ Esto solo es necesario en macOS y Linux.
 
 > ##### 🐋 Contenedor de ejecución
 > ✅ Ejecuta los tests desde el **contenedor de PHP** y no desde el contenedor de Laravel.
+>
 > ✅ El contenedor PHP es un contenedor "limpio" que no setea ninguna variable de entorno en el archivo *docker-compose.yml*, por lo que podrás establecer los valores deseados dentro del archivo phpunit.xml, y éstos serán los que se aplicarán en testing.
+>
 > ❎ El contenedor Laravel está seteando en el archivo *docker-compose.yml* determinadas variables como la base de datos, por lo que si ejecutas los tests desde este contenedor, esos valores tendrán preferencia sobre los que establezcas en el archivo *phpunit.xml* y éstos últimos nunca serán utilizados.
 
 > ##### 💾 Base de datos
