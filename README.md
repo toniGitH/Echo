@@ -592,7 +592,17 @@ Esto solo es necesario en macOS y Linux.
 
 ## 🧪 Testing
 
-### Ejecución de tests
+### Información previa
+
+> ##### ℹ️ Tipos de tests
+>
+> Se han creado tres tipos de tests:
+> - unitarios (para los elementos del dominio, como entidades, v.o., casos de uso, etc...),
+> - de integración y
+> - de feature (probar el endpoint completo)
+>
+> Los tests unitarios utilizan el `PHPUnit\Framework\TestCase` de **Unit**.
+> Los tests de integración y los tests de feature utilizan el `Tests\TestCase` de **Laravel**
 
 > ##### 🐋 Contenedor de ejecución
 > ✅ Ejecuta los tests desde el **contenedor de PHP** y no desde el contenedor de Laravel.
@@ -638,15 +648,6 @@ php artisan test --testsuite=unit
 ```
 Etc...
 
-> ###### ℹ️ Información adicional
->
-> Se han creado tres tipos de tests:
-> - unitarios (para los elementos del dominio, como entidades, v.o., casos de uso, etc...),
-> - de integración y
-> - de feature (probar el endpoint completo)
->
-> Los tests unitarios utilizan el `PHPUnit\Framework\TestCase` de **Unit**.
-> Los tests de integración y los tests de feature utilizan el `Tests\TestCase` de **Laravel**
 
 🔝 [Volver al índice](#index)
 
