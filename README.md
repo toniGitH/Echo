@@ -55,6 +55,7 @@ Aplicación de envío de notificaciones en desarrollo.
 - Entorno de desarrollo: **Docker**
 - Testing: **PHPUnit**
 - Diseño y arquitectura: **DDD** + **Hexagonal**
+- Documentación API: **SwaggerUI**
 
 🔝 [Volver al índice](#index)
 
