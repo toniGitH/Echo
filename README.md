@@ -54,7 +54,7 @@ Aplicación de envío de notificaciones en desarrollo.
 - Frontend: **React**
 - Entorno de desarrollo: **Docker**
 - Testing: **PHPUnit**
-- Arquitectura y diseño: **DDD** + **Hexagonal**
+- Diseño y arquitectura: **DDD** + **Hexagonal**
 
 🔝 [Volver al índice](#index)
 
@@ -591,6 +591,54 @@ Esto solo es necesario en macOS y Linux.
 ---
 
 ## 🧪 Testing
+
+### Ejecución de tests
+
+> ##### 🐋 Contenedor de ejecución
+> ✅ Ejecuta los tests desde el **contenedor de PHP** y no desde el contenedor de Laravel.
+> ✅ El contenedor PHP es un contenedor "limpio" que no setea ninguna variable de entorno en el archivo *docker-compose.yml*, por lo que podrás establecer los valores deseados dentro del archivo phpunit.xml, y éstos serán los que se aplicarán en testing.
+> ❎ El contenedor Laravel está seteando en el archivo *docker-compose.yml* determinadas variables como la base de datos, por lo que si ejecutas los tests desde este contenedor, esos valores tendrán preferencia sobre los que establezcas en el archivo *phpunit.xml* y éstos últimos nunca serán utilizados.
+
+> ##### 💾 Base de datos
+> - El proyecto monta dos bases de datos independientes: una para **desarrollo** y otra para **tests**.
+> - Puedes elegir, a la hora de lanzar los tests, qué base de datos utilizar: **SQLite** en memoria o **MySQL**
+> - En el archivo `phpunit.xml` tienes las dos configuraciones a elegir para establecer si los tests se ejecutarán en una u otra base de datos.
+> - Algunos métodos de tests se omiten automáticamente si la base de datos es SQLite, puesto que están pensados para una base de datos case-insensitive como MySQL. Es decir, se omiten porque en SQLite fallarían, pero en MySQL deben pasar correctamente.
+
+### Cómo ejecutar los tests
+
+#### 1) Elige el entorno de testing (SQLite o MySQL)
+
+Abre el archivo **phpunit.xml** y:
+- mantén descomentado el bloque que corresponda a la configuración que quieras usar
+- comenta el bloque que corresponda a la otra configuración
+
+#### 1) Levanta contenedores
+
+```
+docker compose up -d
+```
+
+#### 2) Entra dentro del contenedor PHP
+
+```
+docker compose exec php bash
+```
+#### 3) DENTRO del contenedor PHP, ejecuta los tests que necesites
+
+Para ejecutar todos los tests:
+```
+php artisan test
+```
+Para ejecutar los tests unitarios:
+```
+php artisan test --testsuite=unit
+```
+Etc...
+
+> ℹ️
+> Los tests unitarios utilizan el **PHPUnit\Framework\TestCase** de Unit.
+> Los tests de integración y los tests de feature utilizan el **Tests\TestCase** de Laravel
 
 🔝 [Volver al índice](#index)
 
