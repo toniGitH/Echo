@@ -612,7 +612,7 @@ Esto solo es necesario en macOS y Linux.
 >
 > ❎ El contenedor Laravel está seteando en el archivo `docker-compose.yml` determinadas variables como la base de datos, por lo que si ejecutas los tests desde este contenedor, esos valores tendrán preferencia sobre los que establezcas en el archivo `phpunit.xml` y éstos últimos nunca serán utilizados.
 
-> ##### 💾 Base de datos
+> ##### 💾 Base de datos de testing
 > - El proyecto monta dos bases de datos independientes: una para **desarrollo** y otra para **tests**.
 > - Puedes elegir, a la hora de lanzar los tests, qué base de datos utilizar: **SQLite** en memoria o **MySQL**
 > - En el archivo `phpunit.xml` tienes las dos configuraciones a elegir para establecer si los tests se ejecutarán en una u otra base de datos.
