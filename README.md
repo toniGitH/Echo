@@ -18,6 +18,8 @@
 
 🎯 [Descripción de la aplicación](#-descripción-de-la-aplicación)
 
+🏗️ [Tecnologías utilizadas](#-tecnologías-utilizadas)
+
 📋 [Requisitos previos](#-requisitos-previos)
 
 🔌 [Puertos del proyecto](#-puertos-del-proyecto)
@@ -43,6 +45,16 @@
 ## 🎯 Descripción de la aplicación
 
 Aplicación de envío de notificaciones en desarrollo.
+
+---
+
+## 🏗️ Tecnologías utilizadas
+
+- Backend: **Laravel**
+- Frontend: **React**
+- Entorno de desarrollo: **Docker**
+- Testing: **PHPUnit**
+- Arquitectura y diseño: **DDD** + **Hexagonal**
 
 ---
 
