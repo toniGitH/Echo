@@ -86,6 +86,9 @@ Aplicación de envío de notificaciones en desarrollo.
 ---
 
 ## 📖 Documentación API
+
+La información sobre los endpoints de la API se ha generado con SwaggerUI.
+
 ##### 👉 SwaggerUI ➡️ [http://localhost:8081](http://localhost:8081) 
 
 🔝 [Volver al índice](#index)
