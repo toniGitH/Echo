@@ -10,7 +10,7 @@
 ---
 
 <details>
-<summary style="font-size:40px; list-style: none; cursor: pointer;">
+<summary style="font-size:40px; list-style: none; cursor: pointer;" id="index">
     🔎 <strong>Índice de contenidos</strong>
   </summary>
   
