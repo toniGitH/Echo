@@ -28,7 +28,11 @@
 
 🐋 [Docker: instalación y requisitos previos](#-docker-instalación-y-requisitos-previos)
 
-🚀 [Cómo levantar el proyecto](#-cómo-levantar-el-proyecto)
+🐧 [Cómo levantar el proyecto en Linux](#-cómo-levantar-el-proyecto-en-linux)
+
+🪟 [Cómo levantar el proyecto en Windows](#-cómo-levantar-el-proyecto-en-windows)
+
+🍎 [Cómo levantar el proyecto en Mac](#-cómo-levantar-el-proyecto-en-mac)
 
 🧪 [Testing](#-testing)
 
@@ -104,63 +108,6 @@ Para ejecutar el proyecto necesitarás utilizar **Docker**.
   
 A continuación se detallan las diferencias según tu sistema operativo.
 
-
-### 🪟 Windows 10/11
-##### 1) Asegurate de tener la virtualización activada en BIOS/UEFI.
-##### 2) Instala Docker Desktop para Windows desde el sitio oficial.
-##### 3) Habilita WSL 2 si Docker Desktop lo solicita.
-##### 4) Reinicia y verifica:
-🔹 Abre la consola (PowerShell, CMD o Ubuntu/WSL2 si la tienes) y ejecuta:
-
-``` bash
-docker --version
-docker compose version
-```
-
-##### 5) Inicia la aplicación Docker Desktop y déjala corriendo en segundo plano (no la necesitas para nada más, aunque puedes utilizar sus funciones, que pueden ser interesantes)
-##### 6) En la consola (Ubuntu/WSL2 si la tienes, o CMD o PowerShell) ya podrás ejecutar todos los comandos habituales de Docker.
-
-🔝 [Volver al índice](#index)
-<br>
-
-### 🍎 macOS (Intel / Apple Silicon)
-
-##### 1) Comprueba compatibilidad del procesador.
-Docker Desktop funciona tanto en Apple Silicon (M1/M2/M3) como en Intel, pero usa tecnologías distintas internamente (HyperKit vs Apple Virtualization Framework).
-No tienes que configurar nada, solo asegurarte de que tu versión de macOS es compatible (macOS 12+ normalmente).
-
-##### 2) Instala Docker Desktop para macOS desde el sitio oficial.
-Descarga la versión correspondiente a tu chip y arrastra el icono a *Aplicaciones*.
-
-##### 3) Autoriza Docker Desktop si macOS te lo solicita.
-macOS puede mostrar un aviso para permitir extensiones o controladores del sistema.
-Ve a: *Preferencias del Sistema → Seguridad y privacidad* y permite las extensiones si aparece el aviso.
-
-##### 4)  Inicia Docker Desktop y espera a que esté "*Running*".
-Igual que en Windows: una vez está ejecutándose, ya no necesitas abrir la app salvo que quieras gestionar contenedores visualmente.
-
-##### 5)  Verifica la instalación desde Terminal:
-
-``` bash
-docker --version
-docker compose version
-```
-
-##### 6)  Usa Docker normalmente desde Terminal.
-No hay diferencias relevantes frente a Linux/WSL: puedes ejecutar *docker*, *docker compose*, etc.
-
-##### 7) Opcional: justa recursos asignados a Docker Desktop.
-
-CPU, memoria RAM, disco usados para las máquinas virtuales.
-Se controla desde: *Docker Desktop → Settings → Resources*
-
-##### 8) Opcional: habilita Docker Buildx y otras extensiones.
-Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
-*Settings → Features in development / Extensions*
-
-🔝 [Volver al índice](#index)
-<br>
-
 ### 🐧 Ubuntu/Debian (ejemplo para Ubuntu 22.04+)
 
 ##### 1) Desinstalar versiones antiguas (opcional)
@@ -235,11 +182,80 @@ docker run --rm hello-world
 
 🔝 [Volver al índice](#index)
 
+### 🪟 Windows 10/11
+##### 1) Asegurate de tener la virtualización activada en BIOS/UEFI.
+##### 2) Instala Docker Desktop para Windows desde el sitio oficial.
+##### 3) Habilita WSL 2 si Docker Desktop lo solicita.
+##### 4) Reinicia y verifica:
+🔹 Abre la consola (PowerShell, CMD o Ubuntu/WSL2 si la tienes) y ejecuta:
+
+``` bash
+docker --version
+docker compose version
+```
+
+##### 5) Inicia la aplicación Docker Desktop y déjala corriendo en segundo plano (no la necesitas para nada más, aunque puedes utilizar sus funciones, que pueden ser interesantes)
+##### 6) En la consola (Ubuntu/WSL2 si la tienes, o CMD o PowerShell) ya podrás ejecutar todos los comandos habituales de Docker.
+
+🔝 [Volver al índice](#index)
+<br>
+
+### 🍎 macOS (Intel / Apple Silicon)
+
+##### 1) Comprueba compatibilidad del procesador.
+Docker Desktop funciona tanto en Apple Silicon (M1/M2/M3) como en Intel, pero usa tecnologías distintas internamente (HyperKit vs Apple Virtualization Framework).
+No tienes que configurar nada, solo asegurarte de que tu versión de macOS es compatible (macOS 12+ normalmente).
+
+##### 2) Instala Docker Desktop para macOS desde el sitio oficial.
+Descarga la versión correspondiente a tu chip y arrastra el icono a *Aplicaciones*.
+
+##### 3) Autoriza Docker Desktop si macOS te lo solicita.
+macOS puede mostrar un aviso para permitir extensiones o controladores del sistema.
+Ve a: *Preferencias del Sistema → Seguridad y privacidad* y permite las extensiones si aparece el aviso.
+
+##### 4)  Inicia Docker Desktop y espera a que esté "*Running*".
+Igual que en Windows: una vez está ejecutándose, ya no necesitas abrir la app salvo que quieras gestionar contenedores visualmente.
+
+##### 5)  Verifica la instalación desde Terminal:
+
+``` bash
+docker --version
+docker compose version
+```
+
+##### 6)  Usa Docker normalmente desde Terminal.
+No hay diferencias relevantes frente a Linux/WSL: puedes ejecutar *docker*, *docker compose*, etc.
+
+##### 7) Opcional: justa recursos asignados a Docker Desktop.
+
+CPU, memoria RAM, disco usados para las máquinas virtuales.
+Se controla desde: *Docker Desktop → Settings → Resources*
+
+##### 8) Opcional: habilita Docker Buildx y otras extensiones.
+Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
+*Settings → Features in development / Extensions*
+
+🔝 [Volver al índice](#index)
+<br>
+
 ---
 
-## 🚀 Cómo levantar el proyecto
+## 🐧 Cómo levantar el proyecto en Linux
 
-☝🏼 No necesitas ajustar permisos ni propiedad de archivos y carpetas (como sí pasa en Linux y Mac).
+
+🔝 [Volver al índice](#index)
+
+---
+
+## 🪟 Cómo levantar el proyecto en Windows
+
+
+🔝 [Volver al índice](#index)
+
+---
+
+## 🍎 Cómo levantar el proyecto en Mac
+
 
 🔝 [Volver al índice](#index)
 
