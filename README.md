@@ -602,6 +602,7 @@ Esto solo es necesario en macOS y Linux.
 > - de feature (probar el endpoint completo)
 >
 > Los tests unitarios utilizan el `PHPUnit\Framework\TestCase` de **Unit**.
+>
 > Los tests de integración y los tests de feature utilizan el `Tests\TestCase` de **Laravel**
 
 > ##### 🐋 Contenedor de ejecución
