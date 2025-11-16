@@ -611,7 +611,7 @@ Esto solo es necesario en macOS y Linux.
 
 #### 1) Elige el entorno de testing (SQLite o MySQL)
 
-Abre el archivo **phpunit.xml** y:
+Abre el archivo `phpunit.xml` y:
 - mantén descomentado el bloque que corresponda a la configuración que quieras usar
 - comenta el bloque que corresponda a la otra configuración
 
@@ -638,9 +638,15 @@ php artisan test --testsuite=unit
 ```
 Etc...
 
-> ℹ️
-> Los tests unitarios utilizan el **PHPUnit\Framework\TestCase** de Unit.
-> Los tests de integración y los tests de feature utilizan el **Tests\TestCase** de Laravel
+> ###### ℹ️ Información adicional
+>
+> Se han creado tres tipos de tests:
+> - unitarios (para los elementos del dominio, como entidades, v.o., casos de uso, etc...),
+> - de integración y
+> - de feature (probar el endpoint completo)
+>
+> Los tests unitarios utilizan el `PHPUnit\Framework\TestCase` de **Unit**.
+> Los tests de integración y los tests de feature utilizan el `Tests\TestCase` de **Laravel**
 
 🔝 [Volver al índice](#index)
 
