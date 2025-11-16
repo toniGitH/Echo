@@ -242,6 +242,110 @@ Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 
 ## 🐧 Cómo levantar el proyecto en Linux
 
+###### IMPORTANTE:
+- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+- En la ejecución de los comandos que verás en estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+
+###### NOTA PREVIA SOBRE DOCKER EN LINUX:
+- Docker es nativo en Linux, por lo que no necesita Docker Desktop.
+- En Linux el Docker Engine se ejecuta directamente sobre el kernel, sin capas intermedias ni virtualización.
+- Por eso no necesita Docker Desktop, ya que el motor corre directamente en el sistema.
+- En Linux no se necesita WSL2, porque WSL2 es solo para Windows y Linux ya ejecuta contenedores de forma real y nativa.
+
+###### RECOMENDADO:
+- Permitir usar docker sin sudo: `sudo usermod -aG docker $USER` (Es a nivel global, para cualquier proyecto).
+
+#### PASO A PASO DE INSTALACIÓN
+
+##### 1. CLONAR REPOSITORIO:
+
+En la terminal, ejecuta:
+
+```
+git clone https://github.com/toniGitH/Echo.git
+```
+
+O si prefieres crearlo en una carpeta con el nombre que tú prefieras, como *MiProyecto*:
+
+```
+git clone https://github.com/toniGitH/Echo.git MiProyecto
+```
+
+Si no lo puedes clonar, puedes hacer un Fork o, directamente, descargarlo.
+
+##### 2. REASIGNAR LA PROPIEDAD DE LOS ARCHIVOS:
+
+Nada más clonar el proyecto, sin levantar aún los contenedores:
+
+```
+cd /home/TU_USUARIO/Proyectos/CARPETA_RAÍZ_DE_TU_PROYECTO
+sudo chown -R $USER:$USER ./laravel
+```
+
+Esto asegura que todos los archivos son tuyos, no del root del contenedor anterior.
+
+Este paso SIEMPRE antes de levantar Docker por primera vez.
+
+##### 3. CREAR ARCHIVO .ENV DE LA CARPETA LARAVEL
+
+Dentro de la carpeta `laravel` del proyecto, crea un archivo `.env`:
+
+```
+cp laravel/.env.example laravel/.env
+```
+
+Asegúrate de que, al menos, exista esto:
+
+```
+APP_KEY=
+APP_URL=http://localhost:8988
+```
+
+**NO ES NECESARIO** tener estas variables definidas en tu archivo `.env`:
+
+```
+APP_ENV: local
+APP_DEBUG: true
+DB_CONNECTION: mysql
+DB_HOST: mysql
+DB_PORT: 3306
+DB_DATABASE: app
+DB_USERNAME: app
+DB_PASSWORD: app
+```
+
+De hecho, es totalmente inútil y nunca van a ser leídas, porque según la configuración actual del proyecto, sus valores son establecidos en el archivo `docker-compose.yml` y dicho archivo tiene prioridad sobre el archivo `.env`.
+
+##### 4. LEVANTAR LA PILA (construye imágenes si es la primera vez)
+
+Asegúrate de que tienes Docker en ejecución en tu sistema.
+
+En una terminal, ejecuta:
+
+```
+docker compose up -d --build
+```
+
+##### 5. DAR PERMISOS A LAS CARPETAS QUE LARAVEL NECESITA ESCRIBIR:
+
+Teclear, en la raíz del proyecto, y cuando estén levantados todos los contenedores, esto:
+
+```
+docker exec my_app-php sh -lc 'cd /var/www/html && chown -R www-data:www-data storage bootstrap/cache && chmod -R ug+rwX storage bootstrap/cache'
+```
+
+Este comando deja `storage/` y `bootstrap/cache/` listos para que Laravel pueda escribir desde el contenedor sin errores de permisos.
+
+##### 6. OPCIONAL
+
+Si en algún momento ves que un archivo vuelve a ser de root, ejecuta esto desde tu máquina, sin parar los contenedores:
+
+```
+sudo chown -R $USER:$USER ./laravel
+```
+
+Esto restablece los permisos de todo el proyecto por si algún comando dentro del contenedor (como `php artisan make:model`) creó archivos
 
 🔝 [Volver al índice](#index)
 
@@ -249,6 +353,112 @@ Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 
 ## 🪟 Cómo levantar el proyecto en Windows
 
+###### IMPORTANTE:
+- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+- En la ejecución de los comandos de estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+
+###### NOTA PREVIA SOBRE DOCKER EN WINDOWS:
+- Windows no puede ejecutar Docker de forma nativa, por lo que Docker Desktop es obligatorio tenerlo instalado y en ejecución.
+- Docker Engine no puede ejecutarse directamente sobre Windows.
+- En Windows, Docker funciona gracias a WSL2, donde se ejecuta realmente el Docker Engine.
+- Docker Desktop crea un entorno Linux dentro de WSL2, y es ahí donde se ejecuta realmente Docker Engine.
+- Sin Docker Desktop + WSL2, ningún comando `docker` o `docker compose` funcionará.
+- Todos los comandos Docker funcionan mientras Docker Desktop esté activo.
+
+###### AJUSTES DE PERMISOS:
+- En Windows NO existe un equivalente al comando `sudo usermod -aG docker $USER`.
+- Por tanto: no es necesario realizar ningún ajuste de permisos para usar docker sin sudo.
+
+#### PASO A PASO DE INSTALACIÓN
+
+##### 1. CLONAR REPOSITORIO
+
+En PowerShell, CMD o Git Bash:
+```
+git clone https://github.com/toniGitH/Echo.git
+```
+
+O si prefieres crearlo en una carpeta con el nombre que tú prefieras, como *MiProyecto*:
+
+```
+git clone https://github.com/toniGitH/Echo.git MiProyecto
+```
+
+Si no puedes clonarlo, puedes hacer un Fork o descargar el ZIP del repositorio.
+
+##### 2. REASIGNAR LA PROPIEDAD DE LOS ARCHIVOS
+
+En Windows **NO es necesario este paso**.
+
+El comando:
+
+```
+sudo chown -R $USER:$USER ./laravel
+```
+no existe en Windows y no es necesario, ya que Windows no gestiona permisos como Linux.
+
+##### 3. CREAR ARCHIVO .ENV DE LA CARPETA LARAVEL
+
+Dentro de la carpeta `laravel` del proyecto, crea un archivo `.env`:
+
+```
+cp laravel/.env.example laravel/.env
+```
+
+Asegúrate de que, al menos, exista esto:
+
+```
+APP_KEY=
+APP_URL=http://localhost:8988
+```
+
+**NO ES NECESARIO** tener estas variables definidas en tu archivo `.env`:
+
+```
+APP_ENV: local
+APP_DEBUG: true
+DB_CONNECTION: mysql
+DB_HOST: mysql
+DB_PORT: 3306
+DB_DATABASE: app
+DB_USERNAME: app
+DB_PASSWORD: app
+```
+
+De hecho, es totalmente inútil y nunca van a ser leídas, porque según la configuración actual del proyecto, sus valores son establecidos en el archivo `docker-compose.yml` y dicho archivo tiene prioridad sobre el archivo `.env`.
+
+##### 4. LEVANTAR LA PILA (construye imágenes si es la primera vez)
+
+Asegúrate de tener iniciada y en ejecución la aplicación Docker Desktop.
+
+En PowerShell, Git Bash o CMD:
+
+```
+docker compose up -d --build
+```
+
+Docker Desktop gestionará las imágenes y contenedores.
+
+##### 5. DAR PERMISOS A LAS CARPETAS QUE LARAVEL NECESITA
+
+En Windows, aunque el sistema de archivos del host no usa permisos UNIX, dentro del contenedor sí es necesario ejecutar el mismo comando que en Linux:
+
+```
+docker exec my_app-php sh -lc 'cd /var/www/html && chown -R www-data:www-data storage bootstrap/cache && chmod -R ug+rwX storage bootstrap/cache'
+```
+
+Esto prepara `storage/` y `bootstrap/cache/` para que Laravel pueda escribir.
+
+##### 6. OPCIONAL
+
+En Windows este comando no existe y no debe ejecutarse:
+
+```
+sudo chown -R $USER:$USER ./laravel
+```
+
+Este paso se aplica únicamente en Linux y macOS.
 
 🔝 [Volver al índice](#index)
 
@@ -267,3 +477,20 @@ Docker Desktop en macOS lo trae activado por defecto, pero puedes ajustarlo en:
 
 ---
 
+>[!IMPORTANTE]
+>
+>This is a standard NOTE block.
+
+>###### 🚨 IMPORTANTE:
+>- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En la ejecución de los comandos que verás en estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+
+>###### 🗒️ NOTA PREVIA SOBRE DOCKER EN LINUX:
+>- Docker es nativo en Linux, por lo que no necesita Docker Desktop.
+>- En Linux el Docker Engine se ejecuta directamente sobre el kernel, >sin capas intermedias ni virtualización.
+>- Por eso no necesita Docker Desktop, ya que el motor corre >directamente en el sistema.
+>- En Linux no se necesita WSL2, porque WSL2 es solo para Windows y >Linux ya ejecuta contenedores de forma real y nativa.
+
+>###### 💡 RECOMENDADO:
+>- Permitir usar docker sin sudo: `sudo usermod -aG docker $USER` (Es a >nivel global, para cualquier proyecto).
