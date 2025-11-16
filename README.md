@@ -295,7 +295,7 @@ Dentro de la carpeta `laravel` del proyecto, crea un archivo `.env`:
 cp laravel/.env.example laravel/.env
 ```
 
-Asegúrate de que, al menos, exista esto:
+Asegúrate de que, al menos, exista esto en tu archivo `.env`:
 
 ```
 APP_KEY=
@@ -353,22 +353,22 @@ Esto restablece los permisos de todo el proyecto por si algún comando dentro de
 
 ## 🪟 Cómo levantar el proyecto en Windows
 
-###### IMPORTANTE:
-- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
-- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
-- En la ejecución de los comandos de estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+>###### 🚨 IMPORTANTE:
+>- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En la ejecución de los comandos de estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
 
-###### NOTA PREVIA SOBRE DOCKER EN WINDOWS:
-- Windows no puede ejecutar Docker de forma nativa, por lo que Docker Desktop es obligatorio tenerlo instalado y en ejecución.
-- Docker Engine no puede ejecutarse directamente sobre Windows.
-- En Windows, Docker funciona gracias a WSL2, donde se ejecuta realmente el Docker Engine.
-- Docker Desktop crea un entorno Linux dentro de WSL2, y es ahí donde se ejecuta realmente Docker Engine.
-- Sin Docker Desktop + WSL2, ningún comando `docker` o `docker compose` funcionará.
-- Todos los comandos Docker funcionan mientras Docker Desktop esté activo.
+>###### 🗒️ NOTA PREVIA SOBRE DOCKER EN WINDOWS:
+>- Windows no puede ejecutar Docker de forma nativa, por lo que Docker Desktop es obligatorio tenerlo instalado y en ejecución.
+>- Docker Engine no puede ejecutarse directamente sobre Windows.
+>- En Windows, Docker funciona gracias a WSL2, donde se ejecuta realmente el Docker Engine.
+>- Docker Desktop crea un entorno Linux dentro de WSL2, y es ahí donde se ejecuta realmente Docker Engine.
+>- Sin Docker Desktop + WSL2, ningún comando `docker` o `docker compose` funcionará.
+>- Todos los comandos Docker funcionan mientras Docker Desktop esté activo.
 
-###### AJUSTES DE PERMISOS:
-- En Windows NO existe un equivalente al comando `sudo usermod -aG docker $USER`.
-- Por tanto: no es necesario realizar ningún ajuste de permisos para usar docker sin sudo.
+>###### 🔒 AJUSTES DE PERMISOS:
+>- En Windows NO existe un equivalente al comando `sudo usermod -aG docker $USER`.
+>- Por tanto: no es necesario realizar ningún ajuste de permisos para usar docker sin sudo.
 
 #### PASO A PASO DE INSTALACIÓN
 
@@ -406,7 +406,7 @@ Dentro de la carpeta `laravel` del proyecto, crea un archivo `.env`:
 cp laravel/.env.example laravel/.env
 ```
 
-Asegúrate de que, al menos, exista esto:
+Asegúrate de que, al menos, exista esto en tu archivo `.env`:
 
 ```
 APP_KEY=
@@ -466,6 +466,111 @@ Este paso se aplica únicamente en Linux y macOS.
 
 ## 🍎 Cómo levantar el proyecto en Mac
 
+>###### 🚨 IMPORTANTE:
+>- En el archivo `docker-compose.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En el archivo `openapi.source.yml`, sustituye "my_app" por el nombre de tu aplicación.
+>- En la ejecución de los comandos de estas instrucciones, sustituye `my_app` por el nombre de tu aplicación.
+
+>###### 🗒️ NOTA PREVIA SOBRE DOCKER EN MAC:
+>- macOS no puede ejecutar Docker de forma nativa, por lo que Docker Desktop es obligatorio tenerlo instalado y en ejecución.
+>- Docker Engine no puede ejecutarse directamente sobre macOS.
+>- Docker Desktop utiliza una máquina virtual interna (HyperKit / Apple HVF / Lima) donde se ejecuta Docker Engine.
+>- Todos los comandos Docker funcionan mientras Docker Desktop esté activo.
+
+>###### 🔒 AJUSTES DE PERMISOS:
+>- No es necesario ningún "docker sin sudo", ya que macOS no necesita ese ajuste.
+>- macOS funciona como Linux a nivel de permisos, por lo que `chown` SÍ es necesario.
+
+---
+
+#### PASO A PASO DE INSTALACIÓN
+
+##### 1. CLONAR REPOSITORIO
+
+En Terminal, ejecuta:
+
+```
+git clone https://github.com/toniGitH/Echo.git
+```
+
+O si prefieres crearlo en una carpeta con el nombre que tú prefieras, como *MiProyecto*:
+
+```
+git clone https://github.com/toniGitH/Echo.git MiProyecto
+```
+
+Si no lo puedes clonar, puedes hacer un Fork o, directamente, descargarlo.
+
+##### 2. REASIGNAR LA PROPIEDAD DE LOS ARCHIVOS
+
+Justo después de clonar, y antes de levantar contenedores:
+
+```
+cd /Users/TU_USUARIO/Proyectos/CARPETA_RAIZ_DE_TU_PROYECTO
+sudo chown -R $USER:$USER ./laravel
+```
+
+Este paso sí es necesario, igual que en Linux, para evitar que archivos heredados del contenedor queden como root.
+
+Este paso SIEMPRE antes de levantar Docker por primera vez.
+
+##### 3. CREAR ARCHIVO .ENV DE LA CARPETA LARAVEL
+
+Dentro de la carpeta `laravel` del proyecto, crea un archivo `.env`:
+
+```
+cp laravel/.env.example laravel/.env
+```
+
+Asegúrate de que, al menos, exista esto en tu archivo `.env`:
+
+```
+APP_KEY=
+APP_URL=http://localhost:8988
+```
+
+**NO ES NECESARIO** tener estas variables definidas en tu archivo `.env`:
+
+```
+APP_ENV: local
+APP_DEBUG: true
+DB_CONNECTION: mysql
+DB_HOST: mysql
+DB_PORT: 3306
+DB_DATABASE: app
+DB_USERNAME: app
+DB_PASSWORD: app
+```
+
+De hecho, es totalmente inútil y nunca van a ser leídas, porque según la configuración actual del proyecto, sus valores son establecidos en el archivo `docker-compose.yml` y dicho archivo tiene prioridad sobre el archivo `.env`.
+
+##### 4. LEVANTAR LA PILA (construye imágenes si es la primera vez)
+
+Asegúrate de tener iniciada y en ejecución la aplicación Docker Desktop.
+
+En Terminal, ejecuta:
+
+```
+docker compose up -d --build
+```
+
+##### 5. DAR PERMISOS A LAS CARPETAS QUE LARAVEL NECESITA
+
+Igual que Linux:
+
+```
+docker exec my_app-php sh -lc 'cd /var/www/html && chown -R www-data:www-data storage bootstrap/cache && chmod -R ug+rwX storage bootstrap/cache'
+```
+
+##### 6. OPCIONAL
+
+Si alguna vez se generan archivos como root dentro del host:
+
+```
+sudo chown -R $USER:$USER ./laravel
+```
+
+Esto solo es necesario en macOS y Linux.
 
 🔝 [Volver al índice](#index)
 
