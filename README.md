@@ -18,7 +18,7 @@
 
 🎯 [Descripción de la aplicación](#-descripción-de-la-aplicación)
 
-🏗️ [Tecnologia](#-tecnologia)
+⚙️ [Tecnologías-utilizadas](#-tecnologías-utilizadas)
 
 📋 [Requisitos previos](#-requisitos-previos)
 
@@ -48,7 +48,7 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ---
 
-## 🏗️ Tecnologia
+## ⚙️ Tecnologías utilizadas
 
 - Backend: **Laravel**
 - Frontend: **React**
