@@ -6,7 +6,9 @@
 - Git instalado
 - Sistema operativo: Linux (Ubuntu, Mint, Debian, etc.)
 
-> 💡 **RECOMENDACIÓN:** Permitir usar Docker sin sudo (solo una vez, a nivel global):
+> 💡 **RECOMENDACIÓN**
+>
+> Permitir usar Docker sin sudo (solo una vez, a nivel global):
 > ```bash
 > sudo usermod -aG docker $USER
 > ```
@@ -29,7 +31,9 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 ### 2. Reasignar propiedad de archivos
 
-> ⚠️ **IMPORTANTE:** Ejecuta esto ANTES de levantar los contenedores Docker.
+> ⚠️ **IMPORTANTE**
+>
+> Ejecuta esto ANTES de levantar los contenedores Docker.
 >
 > Es una medida **PREVENTIVA**, pero **RECOMENDADA**.
 >
@@ -64,9 +68,12 @@ APP_KEY=
 APP_URL=http://localhost:8988
 ```
 
-> 📝 **NOTA:** Variables NO necesarias en `.env`:
+> 📝 **NOTA**
+>
+>Variables NO necesarias en `.env`:
 >
 > Las siguientes variables ya se definen en `docker-compose.yml` para el contenedor de Laravel y tienen prioridad sobre las que pudieramos indicar en el archivo `.env`:
+>
 > - `APP_ENV`, `APP_DEBUG`
 > - `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
 
@@ -88,7 +95,9 @@ docker compose up -d --build
 docker compose ps
 ```
 
-> 💡 **CONSEJO:** Este comando te muestra el estado de todos los contenedores.
+> 💡 **CONSEJO**
+>
+> Este comando te muestra el estado de todos los contenedores.
 >
 > Este comando en sí no forma parte del proceso de puesta en marcha del proyecto.
 >
@@ -100,7 +109,9 @@ docker compose ps
 
 ### 5. Configurar permisos para Laravel
 
-> ⚠️ **IMPORTANTE:** Este es el comando más importante para evitar errores de permisos.
+> ⚠️ **IMPORTANTE**
+>
+> Este es el comando más importante para evitar errores de permisos.
 
 ```bash
 docker exec echo-php sh -c '
@@ -133,13 +144,17 @@ docker exec echo-php sh -c '
 - **Archivos (`664`):** NO necesitan permiso de ejecución porque Laravel solo los lee/escribe (logs, cache, sesiones). PHP los interpreta, no los ejecuta directamente como scripts del sistema
 - **Principio de mínimos privilegios:** Solo se otorgan los permisos estrictamente necesarios, mejorando la seguridad.
 
-> 📝 **NOTA:** Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
+> 📝 **NOTA**
+>
+> Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
 
 ---
 
 ### 6. Verificar migraciones (automáticas)
 
-> ⚠️ **IMPORTANTE:** Las migraciones se ejecutan automáticamente al levantar los contenedores.
+> ⚠️ **IMPORTANTE**
+>
+> Las migraciones se ejecutan automáticamente al levantar los contenedores.
 >
 > El contenedor `echo-laravel` ejecuta `php artisan migrate --force` cada vez que se inicia.
 
@@ -189,7 +204,9 @@ docker compose up -d
 
 ### 2️⃣ Si creas nuevos archivos
 
-> ⚠️ **IMPORTANTE:** ¿Necesitas ajustar permisos?
+> ⚠️ **IMPORTANTE**
+> 
+> ¿Necesitas ajustar permisos?
 >
 > - **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
 > - **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
@@ -330,49 +347,6 @@ En Linux, los permisos se basan en **UID/GID** (números), no en nombres de usua
 | `echo-react` | 3000 | Frontend React (dev server) |
 | `echo-swagger-ui` | 8081 | Documentación API Swagger |
 | `echo-swagger-builder` | - | Compilador de OpenAPI |
-
----
-
-## 🎯 Resumen de comandos esenciales
-
-**Primera vez (configuración inicial):**
-```bash
-git clone https://github.com/toniGitH/Laravel-React-Docker-Template.git
-cd Laravel-React-Docker-Template
-sudo chown -R $USER:$USER ./laravel
-cp laravel/.env.example laravel/.env
-docker compose up -d --build
-docker exec echo-php sh -c '
-  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
-  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
-  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
-  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
-  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
-'
-
-# Opcional: Verificar que las migraciones se ejecutaron
-docker exec echo-php php artisan migrate:status
-```
-
-> 📝 **NOTA:** APP_KEY y migraciones se generan automáticamente gracias al contenedor `echo-laravel`.
-
-**Uso diario:**
-```bash
-docker compose up -d    # Iniciar
-docker compose down     # Detener
-```
-
-**Si archivos son de root:**
-```bash
-sudo chown -R $USER:$USER ./laravel
-docker exec echo-php sh -c '
-  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
-  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
-  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
-  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
-  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
-'
-```
 
 ---
 
