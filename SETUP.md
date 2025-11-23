@@ -6,12 +6,11 @@
 - Git instalado
 - Sistema operativo: Linux (Ubuntu, Mint, Debian, etc.)
 
-> [!TIP]
-> **Recomendado:** Permitir usar Docker sin sudo (solo una vez, a nivel global):
-> ```bash
-> sudo usermod -aG docker $USER
-> ```
-> Después de ejecutar esto, cierra sesión y vuelve a iniciarla para que los cambios surtan efecto.
+💡 **RECOMENDACIÓN:** Permitir usar Docker sin sudo (solo una vez, a nivel global):
+```bash
+sudo usermod -aG docker $USER
+```
+Después de ejecutar esto, cierra sesión y vuelve a iniciarla para que los cambios surtan efecto.
 
 ---
 
@@ -30,10 +29,11 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 ### 2. Reasignar propiedad de archivos
 
-> [!IMPORTANT]
-> **Ejecuta esto ANTES de levantar los contenedores Docker.**
-> Es una medida **PREVENTIVA**.
-> No es necesario en el 100% de las situaciones, pero hacerlo incluso aunque fuera en un caso innecesario, no daña nada.
+⚠️ **IMPORTANTE:** Ejecuta esto ANTES de levantar los contenedores Docker.
+
+Es una medida **PREVENTIVA**, pero **RECOMENDADA**.
+
+No es necesario en el 100% de las situaciones, pero hacerlo incluso aunque fuera en un caso innecesario, no daña nada.
 
 ```bash
 sudo chown -R $USER:$USER ./laravel
@@ -64,11 +64,11 @@ APP_KEY=
 APP_URL=http://localhost:8988
 ```
 
-> [!NOTE]
-> **Variables NO necesarias en `.env`:**
-> Las siguientes variables se definen en `docker-compose.yml` y tienen prioridad:
-> - `APP_ENV`, `APP_DEBUG`
-> - `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+📝 **NOTA:** Variables NO necesarias en `.env`:
+
+Las siguientes variables ya se definen en `docker-compose.yml` para el contenedor de Laravel y tienen prioridad sobre las que pudieramos indicar en el archivo `.env`:
+- `APP_ENV`, `APP_DEBUG`
+- `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
 
 ---
 
@@ -88,15 +88,19 @@ docker compose up -d --build
 docker compose ps
 ```
 
-> [!TIP]
-> Este comando te muestra el estado de todos los contenedores. Asegúrate de que todos muestren `STATUS: Up` antes de continuar. MySQL puede tardar 10-30 segundos en estar listo.
+💡 **CONSEJO:** Este comando te muestra el estado de todos los contenedores.
+
+Este comando en sí no forma parte del proceso de puesta en marcha del proyecto.
+
+Sólo es para que puedas comprobar que todos los contenedores muestren `STATUS: Up` antes de continuar.
+
+MySQL puede tardar 10-30 segundos en estar listo.
 
 ---
 
 ### 5. Configurar permisos para Laravel
 
-> [!IMPORTANT]
-> **Este es el comando más importante para evitar errores de permisos.**
+⚠️ **IMPORTANTE:** Este es el comando más importante para evitar errores de permisos.
 
 ```bash
 docker exec echo-php sh -c '
@@ -124,22 +128,20 @@ docker exec echo-php sh -c '
 - Laravel necesita escribir en `bootstrap/cache/` (cache de configuración y rutas)
 - Sin estos permisos, verás errores como "Permission denied" al intentar escribir logs
 
-> [!NOTE]
-> Después de ejecutar `chown -R $USER:$USER ./laravel`, TODOS los archivos son propiedad de `tuUsuario`. Sin embargo, Laravel se ejecuta dentro del contenedor como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos.
-
 **¿Por qué permisos diferentes para directorios y archivos?**
 - **Directorios (`775`):** Necesitan permiso de ejecución (`x`) para que Laravel pueda entrar en ellos y crear archivos dentro
 - **Archivos (`664`):** NO necesitan permiso de ejecución porque Laravel solo los lee/escribe (logs, cache, sesiones). PHP los interpreta, no los ejecuta directamente como scripts del sistema
-- **Principio de mínimos privilegios:** Solo se otorgan los permisos estrictamente necesarios, mejorando la seguridad
+- **Principio de mínimos privilegios:** Solo se otorgan los permisos estrictamente necesarios, mejorando la seguridad.
+
+📝 **NOTA:** Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
 
 ---
 
 ### 6. Verificar migraciones (automáticas)
 
-> [!IMPORTANT]
-> **Las migraciones se ejecutan automáticamente** al levantar los contenedores.
-> 
-> El contenedor `echo-laravel` ejecuta `php artisan migrate --force` cada vez que se inicia.
+⚠️ **IMPORTANTE:** Las migraciones se ejecutan automáticamente al levantar los contenedores.
+
+El contenedor `echo-laravel` ejecuta `php artisan migrate --force` cada vez que se inicia.
 
 **No necesitas hacer nada**, pero si quieres verificar que se ejecutaron correctamente:
 
@@ -187,11 +189,10 @@ docker compose up -d
 
 ### 2️⃣ Si creas nuevos archivos
 
-> [!IMPORTANT]
-> **¿Necesitas ajustar permisos?**
-> 
-> - **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
-> - **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
+⚠️ **IMPORTANTE:** ¿Necesitas ajustar permisos?
+
+- **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
+- **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
 
 **Si creaste archivos desde un contenedor, ejecuta:**
 
@@ -274,47 +275,28 @@ docker exec echo-php php artisan cache:clear
 
 ---
 
-## 📝 Comandos útiles
+## 📝 Comandos personalizados
 
-### Ejecutar comandos artisan
+### Limpiar todas las cachés
 
-```bash
-# Crear un modelo
-docker exec echo-php php artisan make:model NombreModelo
+Este proyecto incluye un comando personalizado para limpiar todas las cachés de Laravel de una sola vez.
 
-# Crear una migración
-docker exec echo-php php artisan make:migration create_tabla_table
-
-# Ejecutar migraciones
-docker exec echo-php php artisan migrate
-
-# Rollback de migraciones
-docker exec echo-php php artisan migrate:rollback
-
-# Limpiar cache
-docker exec echo-php php artisan cache:clear
-docker exec echo-php php artisan config:clear
-docker exec echo-php php artisan route:clear
-docker exec echo-php php artisan view:clear
-```
-
-### Ver logs de Laravel
+**Ubicación:** `laravel/app/Console/Commands/ClearAllCaches.php`
 
 ```bash
-docker exec echo-php tail -f /var/www/html/storage/logs/laravel.log
+# Limpiar todas las cachés (config, route, view, cache)
+docker exec echo-php php artisan cache:clear-all
+
+# Limpiar todas las cachés y recargar el autoload de Composer
+docker exec echo-php php artisan cache:clear-all --reload
 ```
 
-### Acceder al contenedor PHP
-
-```bash
-docker exec -it echo-php sh
-```
-
-### Acceder a MySQL
-
-```bash
-docker exec -it echo-mysql mysql -u root -proot app
-```
+**¿Qué hace?**
+- Limpia cache de configuración (`config:clear`)
+- Limpia cache de rutas (`route:clear`)
+- Limpia cache de vistas (`view:clear`)
+- Limpia cache de aplicación (`cache:clear`)
+- Con `--reload`: Además ejecuta `composer dump-autoload`
 
 ---
 
@@ -372,8 +354,7 @@ docker exec echo-php sh -c '
 docker exec echo-php php artisan migrate:status
 ```
 
-> [!NOTE]
-> **APP_KEY y migraciones se generan automáticamente** gracias al contenedor `echo-laravel`.
+📝 **NOTA:** APP_KEY y migraciones se generan automáticamente gracias al contenedor `echo-laravel`.
 
 **Uso diario:**
 ```bash
