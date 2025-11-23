@@ -32,6 +32,8 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 > [!IMPORTANT]
 > **Ejecuta esto ANTES de levantar los contenedores Docker.**
+> Es una medida **PREVENTIVA**.
+> No es necesario en el 100% de las situaciones, pero hacerlo incluso aunque fuera en un caso innecesario, no daña nada.
 
 ```bash
 sudo chown -R $USER:$USER ./laravel
