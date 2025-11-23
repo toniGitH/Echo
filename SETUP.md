@@ -1,10 +1,20 @@
 # 🚀 Puesta en marcha del proyecto Echo
 
+> 📝 **NOTA**
+>
+> Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
+>
+> Algunos pasos son específicos para cada sistema operativo y están claramente marcados con sus respectivos iconos.
+>
+> Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
+
 ## 📋 Requisitos previos
 
 - Docker y Docker Compose instalados
 - Git instalado
-- Sistema operativo: Linux (Ubuntu, Mint, Debian, etc.)
+- Sistema operativo: **Linux**, **macOS** o **Windows**
+
+### 🐧 Solo para Linux
 
 > 💡 **RECOMENDACIÓN**
 >
@@ -13,6 +23,18 @@
 > sudo usermod -aG docker $USER
 > ```
 > Después de ejecutar esto, cierra sesión y vuelve a iniciarla para que los cambios surtan efecto.
+
+### 🍎 Solo para macOS
+
+> 💡 **RECOMENDACIÓN**
+>
+> Asegúrate de tener Docker Desktop instalado y corriendo antes de continuar.
+
+### 🪟 Solo para Windows
+
+> 💡 **RECOMENDACIÓN**
+>
+> Asegúrate de tener Docker Desktop con WSL2 habilitado antes de continuar.
 
 ---
 
@@ -30,6 +52,8 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 ---
 
 ### 2. Reasignar propiedad de archivos
+
+#### 🐧 Solo para Linux
 
 > ⚠️ **IMPORTANTE**
 >
@@ -52,6 +76,14 @@ sudo chown -R $USER:$USER ./laravel
 **¿Por qué es necesario?**
 - Los archivos clonados pueden tener permisos extraños
 - Necesitas ser propietario para editarlos en VS Code, PHPStorm, etc.
+
+#### 🍎 macOS / 🪟 Windows
+
+> 💡 **CONSEJO**
+>
+> En macOS y Windows, Docker Desktop maneja los permisos automáticamente.
+>
+> **No necesitas ejecutar ningún comando de permisos en este paso.**
 
 ---
 
@@ -109,6 +141,8 @@ docker compose ps
 
 ### 5. Configurar permisos para Laravel
 
+#### 🐧 Solo para Linux
+
 > ⚠️ **IMPORTANTE**
 >
 > Este es el comando más importante para evitar errores de permisos.
@@ -147,6 +181,16 @@ docker exec echo-php sh -c '
 > 📝 **NOTA**
 >
 > Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
+
+#### 🍎 macOS / 🪟 Windows
+
+> 💡 **CONSEJO**
+>
+> En macOS y Windows, Docker Desktop maneja los permisos automáticamente.
+>
+> **No necesitas ejecutar ningún comando de permisos en este paso.**
+>
+> Laravel podrá escribir en `storage/` y `bootstrap/cache/` sin problemas.
 
 ---
 
@@ -204,6 +248,8 @@ docker compose up -d
 
 ### 2️⃣ Si creas nuevos archivos
 
+#### 🐧 Solo para Linux
+
 > ⚠️ **IMPORTANTE**
 > 
 > ¿Necesitas ajustar permisos?
@@ -226,6 +272,14 @@ docker exec echo-php sh -c '
   find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
 '
 ```
+
+#### 🍎 macOS / 🪟 Windows
+
+> 💡 **CONSEJO**
+>
+> En macOS y Windows, puedes crear archivos libremente desde cualquier lugar (local o contenedor) sin preocuparte por permisos.
+>
+> Docker Desktop maneja todo automáticamente.
 
 ---
 
