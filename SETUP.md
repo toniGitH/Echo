@@ -6,11 +6,11 @@
 - Git instalado
 - Sistema operativo: Linux (Ubuntu, Mint, Debian, etc.)
 
-💡 **RECOMENDACIÓN:** Permitir usar Docker sin sudo (solo una vez, a nivel global):
-```bash
-sudo usermod -aG docker $USER
-```
-Después de ejecutar esto, cierra sesión y vuelve a iniciarla para que los cambios surtan efecto.
+> 💡 **RECOMENDACIÓN:** Permitir usar Docker sin sudo (solo una vez, a nivel global):
+> ```bash
+> sudo usermod -aG docker $USER
+> ```
+> Después de ejecutar esto, cierra sesión y vuelve a iniciarla para que los cambios surtan efecto.
 
 ---
 
@@ -29,11 +29,11 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 ### 2. Reasignar propiedad de archivos
 
-⚠️ **IMPORTANTE:** Ejecuta esto ANTES de levantar los contenedores Docker.
-
-Es una medida **PREVENTIVA**, pero **RECOMENDADA**.
-
-No es necesario en el 100% de las situaciones, pero hacerlo incluso aunque fuera en un caso innecesario, no daña nada.
+> ⚠️ **IMPORTANTE:** Ejecuta esto ANTES de levantar los contenedores Docker.
+>
+> Es una medida **PREVENTIVA**, pero **RECOMENDADA**.
+>
+> No es necesario en el 100% de las situaciones, pero hacerlo incluso aunque fuera en un caso innecesario, no daña nada.
 
 ```bash
 sudo chown -R $USER:$USER ./laravel
@@ -64,11 +64,11 @@ APP_KEY=
 APP_URL=http://localhost:8988
 ```
 
-📝 **NOTA:** Variables NO necesarias en `.env`:
-
-Las siguientes variables ya se definen en `docker-compose.yml` para el contenedor de Laravel y tienen prioridad sobre las que pudieramos indicar en el archivo `.env`:
-- `APP_ENV`, `APP_DEBUG`
-- `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+> 📝 **NOTA:** Variables NO necesarias en `.env`:
+>
+> Las siguientes variables ya se definen en `docker-compose.yml` para el contenedor de Laravel y tienen prioridad sobre las que pudieramos indicar en el archivo `.env`:
+> - `APP_ENV`, `APP_DEBUG`
+> - `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
 
 ---
 
@@ -88,19 +88,19 @@ docker compose up -d --build
 docker compose ps
 ```
 
-💡 **CONSEJO:** Este comando te muestra el estado de todos los contenedores.
-
-Este comando en sí no forma parte del proceso de puesta en marcha del proyecto.
-
-Sólo es para que puedas comprobar que todos los contenedores muestren `STATUS: Up` antes de continuar.
-
-MySQL puede tardar 10-30 segundos en estar listo.
+> 💡 **CONSEJO:** Este comando te muestra el estado de todos los contenedores.
+>
+> Este comando en sí no forma parte del proceso de puesta en marcha del proyecto.
+>
+> Sólo es para que puedas comprobar que todos los contenedores muestren `STATUS: Up` antes de continuar.
+>
+> MySQL puede tardar 10-30 segundos en estar listo.
 
 ---
 
 ### 5. Configurar permisos para Laravel
 
-⚠️ **IMPORTANTE:** Este es el comando más importante para evitar errores de permisos.
+> ⚠️ **IMPORTANTE:** Este es el comando más importante para evitar errores de permisos.
 
 ```bash
 docker exec echo-php sh -c '
@@ -133,15 +133,15 @@ docker exec echo-php sh -c '
 - **Archivos (`664`):** NO necesitan permiso de ejecución porque Laravel solo los lee/escribe (logs, cache, sesiones). PHP los interpreta, no los ejecuta directamente como scripts del sistema
 - **Principio de mínimos privilegios:** Solo se otorgan los permisos estrictamente necesarios, mejorando la seguridad.
 
-📝 **NOTA:** Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
+> 📝 **NOTA:** Después de ejecutar `chown -R $USER:$USER ./laravel` (apartado 2) TODOS los archivos han pasado a ser propiedad de `tuUsuario`. Sin embargo, dentro del Docker, Laravel se ejecuta como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos, y por eso, sólo para esos dos directorios se vuelve a reasignas la propiedad, en este caso, a www-data.
 
 ---
 
 ### 6. Verificar migraciones (automáticas)
 
-⚠️ **IMPORTANTE:** Las migraciones se ejecutan automáticamente al levantar los contenedores.
-
-El contenedor `echo-laravel` ejecuta `php artisan migrate --force` cada vez que se inicia.
+> ⚠️ **IMPORTANTE:** Las migraciones se ejecutan automáticamente al levantar los contenedores.
+>
+> El contenedor `echo-laravel` ejecuta `php artisan migrate --force` cada vez que se inicia.
 
 **No necesitas hacer nada**, pero si quieres verificar que se ejecutaron correctamente:
 
@@ -189,10 +189,10 @@ docker compose up -d
 
 ### 2️⃣ Si creas nuevos archivos
 
-⚠️ **IMPORTANTE:** ¿Necesitas ajustar permisos?
-
-- **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
-- **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
+> ⚠️ **IMPORTANTE:** ¿Necesitas ajustar permisos?
+>
+> - **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
+> - **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
 
 **Si creaste archivos desde un contenedor, ejecuta:**
 
@@ -354,7 +354,7 @@ docker exec echo-php sh -c '
 docker exec echo-php php artisan migrate:status
 ```
 
-📝 **NOTA:** APP_KEY y migraciones se generan automáticamente gracias al contenedor `echo-laravel`.
+> 📝 **NOTA:** APP_KEY y migraciones se generan automáticamente gracias al contenedor `echo-laravel`.
 
 **Uso diario:**
 ```bash
