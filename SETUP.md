@@ -99,15 +99,25 @@ docker compose ps
 > **Este es el comando más importante para evitar errores de permisos.**
 
 ```bash
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 ```
 
 **¿Qué hace?**
 - `chown -R www-data:www-data`: Cambia el propietario a `www-data` (usuario que ejecuta PHP-FPM)
-- `chmod -R 775`: Establece permisos de lectura/escritura/ejecución para propietario y grupo
-  - `7` (propietario): rwx (leer, escribir, ejecutar)
-  - `7` (grupo): rwx (leer, escribir, ejecutar)
-  - `5` (otros): r-x (leer, ejecutar)
+- `find ... -type d -exec chmod 775`: Establece permisos `775` solo para directorios
+  - `7` (propietario): rwx (leer, escribir, entrar)
+  - `7` (grupo): rwx (leer, escribir, entrar)
+  - `5` (otros): r-x (leer, entrar)
+- `find ... -type f -exec chmod 664`: Establece permisos `664` solo para archivos
+  - `6` (propietario): rw- (leer, escribir)
+  - `6` (grupo): rw- (leer, escribir)
+  - `4` (otros): r-- (solo leer)
 
 **¿Por qué es necesario?**
 - Laravel necesita escribir en `storage/` (logs, cache, sesiones, uploads)
@@ -117,9 +127,10 @@ docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /va
 > [!NOTE]
 > Después de ejecutar `chown -R $USER:$USER ./laravel`, TODOS los archivos son propiedad de `tuUsuario`. Sin embargo, Laravel se ejecuta dentro del contenedor como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos.
 
-**¿Por qué 775 y no 777?**
-- `777` da permisos de escritura a TODOS (inseguro)
-- `775` da permisos solo al propietario y grupo (seguro)
+**¿Por qué permisos diferentes para directorios y archivos?**
+- **Directorios (`775`):** Necesitan permiso de ejecución (`x`) para que Laravel pueda entrar en ellos y crear archivos dentro
+- **Archivos (`664`):** NO necesitan permiso de ejecución porque Laravel solo los lee/escribe (logs, cache, sesiones). PHP los interpreta, no los ejecuta directamente como scripts del sistema
+- **Principio de mínimos privilegios:** Solo se otorgan los permisos estrictamente necesarios, mejorando la seguridad
 
 ---
 
@@ -189,7 +200,13 @@ docker compose up -d
 sudo chown -R $USER:$USER ./laravel
 
 # 2. Restaurar permisos de storage y bootstrap/cache
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 ```
 
 ---
@@ -217,7 +234,13 @@ docker compose down
 sudo chown -R $USER:$USER ./laravel
 
 # Paso 2: Volver a dar permisos a storage y bootstrap/cache
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 ```
 
 ---
@@ -229,7 +252,13 @@ docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /va
 **Solución:**
 
 ```bash
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 ```
 
 ---
@@ -331,7 +360,13 @@ cd Laravel-React-Docker-Template
 sudo chown -R $USER:$USER ./laravel
 cp laravel/.env.example laravel/.env
 docker compose up -d --build
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 
 # Opcional: Verificar que las migraciones se ejecutaron
 docker exec echo-php php artisan migrate:status
@@ -349,7 +384,13 @@ docker compose down     # Detener
 **Si archivos son de root:**
 ```bash
 sudo chown -R $USER:$USER ./laravel
-docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
 ```
 
 ---
