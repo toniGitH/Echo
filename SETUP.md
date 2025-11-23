@@ -1,6 +1,6 @@
-# 🚀 Puesta en Marcha del Proyecto Echo
+# 🚀 Puesta en marcha del proyecto Echo
 
-## 📋 Requisitos Previos
+## 📋 Requisitos previos
 
 - Docker y Docker Compose instalados
 - Git instalado
@@ -15,9 +15,9 @@
 
 ---
 
-## 🆕 Primera Vez: Configuración Inicial
+## 🆕 Primera vez: configuración inicial
 
-### 1. Clonar el Repositorio
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/toniGitH/Echo.git
@@ -28,7 +28,7 @@ Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 ---
 
-### 2. Reasignar Propiedad de Archivos
+### 2. Reasignar propiedad de archivos
 
 > [!IMPORTANT]
 > **Ejecuta esto ANTES de levantar los contenedores Docker.**
@@ -51,7 +51,7 @@ sudo chown -R $USER:$USER ./laravel
 
 ---
 
-### 3. Crear Archivo `.env`
+### 3. Crear archivo `.env`
 
 ```bash
 cp laravel/.env.example laravel/.env
@@ -72,7 +72,7 @@ APP_URL=http://localhost:8988
 
 ---
 
-### 4. Levantar los Contenedores
+### 4. Levantar los contenedores
 
 ```bash
 docker compose up -d --build
@@ -83,14 +83,17 @@ docker compose up -d --build
 - `-d`: Modo detached (en segundo plano)
 - `--build`: Construye las imágenes (necesario la primera vez)
 
-**Espera a que todos los contenedores estén corriendo:**
+**Verifica que todos los contenedores estén corriendo:**
 ```bash
 docker compose ps
 ```
 
+> [!TIP]
+> Este comando te muestra el estado de todos los contenedores. Asegúrate de que todos muestren `STATUS: Up` antes de continuar. MySQL puede tardar 10-30 segundos en estar listo.
+
 ---
 
-### 5. Configurar Permisos para Laravel
+### 5. Configurar permisos para Laravel
 
 > [!IMPORTANT]
 > **Este es el comando más importante para evitar errores de permisos.**
@@ -111,13 +114,16 @@ docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /va
 - Laravel necesita escribir en `bootstrap/cache/` (cache de configuración y rutas)
 - Sin estos permisos, verás errores como "Permission denied" al intentar escribir logs
 
+> [!NOTE]
+> Después de ejecutar `chown -R $USER:$USER ./laravel`, TODOS los archivos son propiedad de `tuUsuario`. Sin embargo, Laravel se ejecuta dentro del contenedor como el usuario `www-data`, por lo que necesita ser propietario de `storage/` y `bootstrap/cache/` para poder escribir en ellos.
+
 **¿Por qué 775 y no 777?**
 - `777` da permisos de escritura a TODOS (inseguro)
 - `775` da permisos solo al propietario y grupo (seguro)
 
 ---
 
-### 6. Verificar Migraciones (Automáticas)
+### 6. Verificar migraciones (automáticas)
 
 > [!IMPORTANT]
 > **Las migraciones se ejecutan automáticamente** al levantar los contenedores.
@@ -145,29 +151,50 @@ docker exec echo-php php artisan migrate
 
 ---
 
-### 7. Verificar que Todo Funciona
+### 7. Verificar que todo funciona
 
 Abre tu navegador y ve a:
 
 - **Laravel API**: http://localhost:8988
 - **React Frontend**: http://localhost:3000
 - **Swagger UI**: http://localhost:8081
-- **phpMyAdmin**: http://localhost:8080
 
 ---
 
-## 🔄 Uso Diario: Iniciar el Proyecto
+## 🔄 Uso diario: iniciar el proyecto
 
-Una vez configurado, cada día solo necesitas:
+### 1️⃣ Empezar a trabajar
 
 ```bash
 # Desde la raíz del proyecto
 docker compose up -d
 ```
 
-**¡Eso es todo!** No necesitas volver a ejecutar los comandos de permisos.
+**¡Eso es todo!** Los contenedores se inician y estás listo para trabajar.
 
-Para detener los contenedores:
+---
+
+### 2️⃣ Si creas nuevos archivos
+
+> [!IMPORTANT]
+> **¿Necesitas ajustar permisos?**
+> 
+> - **Archivos creados localmente** (en VS Code): ✅ NO necesitas ajustar permisos
+> - **Archivos creados desde contenedores** (con `php artisan make:...`): ⚠️ SÍ necesitas ajustar permisos
+
+**Si creaste archivos desde un contenedor, ejecuta:**
+
+```bash
+# 1. Reasignar propiedad a tu usuario
+sudo chown -R $USER:$USER ./laravel
+
+# 2. Restaurar permisos de storage y bootstrap/cache
+docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache'
+```
+
+---
+
+### 3️⃣ Dejar de trabajar
 
 ```bash
 docker compose down
@@ -175,7 +202,7 @@ docker compose down
 
 ---
 
-## 🛠️ Solución de Problemas
+## 🛠️ Solución de problemas
 
 ### Problema: Archivos son propiedad de `root`
 
@@ -218,9 +245,9 @@ docker exec echo-php php artisan cache:clear
 
 ---
 
-## 📝 Comandos Útiles
+## 📝 Comandos útiles
 
-### Ejecutar comandos Artisan
+### Ejecutar comandos artisan
 
 ```bash
 # Crear un modelo
@@ -262,26 +289,26 @@ docker exec -it echo-mysql mysql -u root -proot app
 
 ---
 
-## 🔐 Permisos: Explicación Técnica
+## 🔐 Permisos: explicación técnica
 
 ### ¿Por qué hay problemas de permisos en Docker?
 
 En Linux, los permisos se basan en **UID/GID** (números), no en nombres de usuario:
 
-- Tu usuario en el host (`antonio`) tiene UID **1000** (típico en Ubuntu/Mint)
+- Tu usuario en el host (`tuUsuario`) tiene UID **1000** (típico en Ubuntu/Mint)
 - El usuario `www-data` dentro del contenedor tiene UID **33**
 - Cuando montas `./laravel` en el contenedor, los archivos mantienen el UID del host
 
-**Resultado:** Si un archivo es propiedad de `antonio` (UID 1000) en el host, dentro del contenedor sigue siendo UID 1000, pero `www-data` (UID 33) no puede escribir en él.
+**Resultado:** Si un archivo es propiedad de `tuUsuario` (UID 1000) en el host, dentro del contenedor sigue siendo UID 1000, pero `www-data` (UID 33) no puede escribir en él.
 
-### Solución: Dos tipos de permisos
+### Solución: dos tipos de permisos
 
 1. **Archivos de código** (controllers, models, etc.): Propietario = tu usuario (para editar en IDE)
 2. **Directorios de escritura** (`storage/`, `bootstrap/cache/`): Propietario = `www-data` (para que Laravel escriba)
 
 ---
 
-## 📦 Estructura de Contenedores
+## 📦 Estructura de contenedores
 
 | Contenedor | Puerto | Descripción |
 |------------|--------|-------------|
@@ -295,7 +322,7 @@ En Linux, los permisos se basan en **UID/GID** (números), no en nombres de usua
 
 ---
 
-## 🎯 Resumen de Comandos Esenciales
+## 🎯 Resumen de comandos esenciales
 
 **Primera vez (configuración inicial):**
 ```bash
@@ -327,7 +354,7 @@ docker exec echo-php sh -c 'chown -R www-data:www-data /var/www/html/storage /va
 
 ---
 
-## 📚 Recursos Adicionales
+## 📚 Recursos adicionales
 
 - [Documentación de Laravel](https://laravel.com/docs)
 - [Documentación de Docker](https://docs.docker.com/)
