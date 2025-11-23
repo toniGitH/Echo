@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\JsonResponse;
 
 final class RegisterUserRequest extends FormRequest
 {
@@ -60,20 +57,4 @@ final class RegisterUserRequest extends FormRequest
         ];
     }
 
-    /* protected function failedValidation(Validator $validator)
-    {
-        $errors = $validator->errors()->toArray();
-        
-        $consolidatedErrors = [];
-        foreach ($errors as $field => $messages) {
-            $consolidatedErrors[$field] = [reset($messages)];
-        }
-
-        throw new HttpResponseException(
-            new JsonResponse([
-                'message' => __('messages.validation.error'),
-                'errors' => $consolidatedErrors
-            ], 422)
-        );
-    } */
 }

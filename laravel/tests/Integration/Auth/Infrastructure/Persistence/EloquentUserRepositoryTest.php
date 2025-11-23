@@ -399,4 +399,80 @@ final class EloquentUserRepositoryTest extends TestCase
         
         $this->repository->save($user2);
     }
+
+
+    // Verifica que findByCredentials devuelve el usuario si las credenciales son correctas
+    public function test_it_finds_user_by_valid_credentials(): void
+    {
+        $name = UserName::fromString('Juan Pérez');
+        $email = UserEmail::fromString('juan@example.com');
+        $password = UserPassword::fromString('Test1234!');
+        
+        $user = User::create($name, $email, $password);
+        $this->repository->save($user);
+        
+        $foundUser = $this->repository->findByCredentials($email, $password);
+        
+        $this->assertNotNull($foundUser);
+        $this->assertEquals($user->id()->value(), $foundUser->id()->value());
+        $this->assertEquals($user->email()->value(), $foundUser->email()->value());
+        // El usuario recuperado no debe tener password
+        $this->assertNull($foundUser->password());
+    }
+
+    // Verifica que findByCredentials devuelve null si el password es incorrecto
+    public function test_it_returns_null_for_invalid_password(): void
+    {
+        $name = UserName::fromString('Juan Pérez');
+        $email = UserEmail::fromString('juan@example.com');
+        $password = UserPassword::fromString('Test1234!');
+        
+        $user = User::create($name, $email, $password);
+        $this->repository->save($user);
+        
+        $wrongPassword = UserPassword::fromString('Wrong1234!');
+        $foundUser = $this->repository->findByCredentials($email, $wrongPassword);
+        
+        $this->assertNull($foundUser);
+    }
+
+    // Verifica que findByCredentials devuelve null si el email no existe
+    public function test_it_returns_null_for_non_existent_email_in_credentials(): void
+    {
+        $email = UserEmail::fromString('noexiste@example.com');
+        $password = UserPassword::fromString('Test1234!');
+        
+        $foundUser = $this->repository->findByCredentials($email, $password);
+        
+        $this->assertNull($foundUser);
+    }
+
+    // Verifica que findByEmail devuelve el usuario si el email existe
+    public function test_it_finds_user_by_email(): void
+    {
+        $name = UserName::fromString('Juan Pérez');
+        $email = UserEmail::fromString('juan@example.com');
+        $password = UserPassword::fromString('Test1234!');
+        
+        $user = User::create($name, $email, $password);
+        $this->repository->save($user);
+        
+        $foundUser = $this->repository->findByEmail($email);
+        
+        $this->assertNotNull($foundUser);
+        $this->assertEquals($user->id()->value(), $foundUser->id()->value());
+        $this->assertEquals($user->email()->value(), $foundUser->email()->value());
+        // El usuario recuperado no debe tener password
+        $this->assertNull($foundUser->password());
+    }
+
+    // Verifica que findByEmail devuelve null si el email no existe
+    public function test_it_returns_null_when_finding_by_non_existent_email(): void
+    {
+        $email = UserEmail::fromString('noexiste@example.com');
+        
+        $foundUser = $this->repository->findByEmail($email);
+        
+        $this->assertNull($foundUser);
+    }
 }

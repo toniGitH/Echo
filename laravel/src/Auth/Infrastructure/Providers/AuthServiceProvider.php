@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Src\Auth\Infrastructure\Providers;
 
 use Src\Auth\Application\Ports\In\RegisterUserPort;
+use Src\Auth\Application\Ports\In\LoginUserPort;
 use Src\Auth\Application\Ports\Out\UserRepository;
+use Src\Auth\Application\UseCases\LoginUserUseCase;
 use Src\Auth\Application\UseCases\RegisterUserUseCase;
 use Src\Auth\Infrastructure\Persistence\EloquentUserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -24,8 +26,9 @@ class AuthServiceProvider extends ServiceProvider
         // Registrar implementación del repositorio
         $this->app->bind(UserRepository::class, EloquentUserRepository::class);
         
-        // Registrar implementación del caso de uso
+        // Registrar implementación de los casos de uso
         $this->app->bind(RegisterUserPort::class, RegisterUserUseCase::class);
+        $this->app->bind(LoginUserPort::class, LoginUserUseCase::class);
 
     }
 

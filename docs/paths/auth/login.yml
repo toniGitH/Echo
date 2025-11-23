@@ -1,0 +1,279 @@
+post:
+  tags:
+    - Auth
+  summary: Iniciar sesión (SPA - Cookie-based)
+  description: |
+    Autentica a un usuario existente usando autenticación basada en cookies (SPA mode).
+    
+    **⚠️ IMPORTANTE - Flujo de autenticación SPA:**
+    
+    Este endpoint usa autenticación **stateful** con cookies y sesiones, diseñado para Single Page Applications (React, Vue, Angular).
+    
+    **Pasos para autenticarse:**
+    
+    1. **Obtener token CSRF** (OBLIGATORIO):
+       ```
+       GET http://localhost:8988/sanctum/csrf-cookie
+       ```
+       Esto establece las cookies necesarias (`laravel_session` y `XSRF-TOKEN`).
+    
+    2. **Hacer login** (este endpoint):
+       ```
+       POST http://localhost:8988/api/auth/login
+       ```
+       Las cookies se envían automáticamente si usas `credentials: 'include'` en fetch.
+    
+    **Diferencias con autenticación por tokens:**
+    - ✅ Más seguro para SPAs (protección CSRF automática)
+    - ✅ No necesitas almacenar tokens en localStorage
+    - ✅ Las cookies son HttpOnly (no accesibles desde JavaScript)
+    - ❌ No funciona bien en Postman/Insomnia (usa el archivo `test-login.html` en `/public`)
+    - ❌ Requiere que frontend y backend estén en el mismo dominio (o configurar CORS correctamente)
+    
+    **Para probar este endpoint:**
+    - Abre en tu navegador: `http://localhost:8988/test-login.html`
+    - O usa fetch desde la consola del navegador (ver ejemplos abajo)
+    
+    **Validaciones aplicadas:**
+    - Email: formato válido, debe existir en el sistema
+    - Contraseña: debe coincidir con la almacenada
+
+  operationId: loginUser
+  
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              format: email
+              description: Email del usuario registrado
+              example: mortadelo@email.com
+            password:
+              type: string
+              format: password
+              description: Contraseña del usuario
+              example: MySecurePass123!
+        
+        examples:
+          credencialesValidas:
+            summary: ✅ Credenciales válidas
+            description: Email y contraseña correctos de un usuario existente
+            value:
+              email: mortadelo@email.com
+              password: MySecurePass123!
+          
+          credencialesInvalidas:
+            summary: ❌ Credenciales inválidas
+            description: Email o contraseña incorrectos
+            value:
+              email: mortadelo@email.com
+              password: WrongPassword123!
+          
+          emailNoExiste:
+            summary: ❌ Email no registrado
+            description: El email no existe en la base de datos
+            value:
+              email: noexiste@email.com
+              password: MySecurePass123!
+          
+          camposVacios:
+            summary: ❌ Campos vacíos
+            description: Email o contraseña vacíos
+            value:
+              email: ""
+              password: ""
+          
+          emailInvalido:
+            summary: ❌ Email con formato inválido
+            description: El email no tiene un formato válido
+            value:
+              email: correo-sin-arroba.com
+              password: MySecurePass123!
+
+  responses:
+    '200':
+      description: Login exitoso - Usuario autenticado
+      headers:
+        Set-Cookie:
+          description: |
+            Cookies de sesión establecidas automáticamente:
+            - `laravel_session`: ID de sesión del usuario
+            - `XSRF-TOKEN`: Token CSRF para protección
+          schema:
+            type: string
+            example: laravel_session=eyJpdiI6...; Path=/; HttpOnly; SameSite=Lax
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Mensaje de confirmación del login
+                example: Login successful.
+              user:
+                type: object
+                description: Datos del usuario autenticado
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: ID único del usuario (UUID v4)
+                    example: 974561d8-9ca9-4742-9efb-de27deab3b26
+                  name:
+                    type: string
+                    description: Nombre del usuario
+                    example: Mortadelo
+                  email:
+                    type: string
+                    format: email
+                    description: Email del usuario
+                    example: mortadelo@email.com
+          examples:
+            loginExitoso:
+              summary: Login exitoso
+              value:
+                message: Login successful.
+                user:
+                  id: 974561d8-9ca9-4742-9efb-de27deab3b26
+                  name: Mortadelo
+                  email: mortadelo@email.com
+
+    '401':
+      description: Credenciales inválidas - Email o contraseña incorrectos
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Mensaje de error de autenticación
+          examples:
+            credencialesInvalidas:
+              summary: Credenciales incorrectas
+              value:
+                message: Invalid credentials.
+
+    '422':
+      description: Error de validación - Datos inválidos o incompletos
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Mensaje general del error de validación
+              errors:
+                type: object
+                description: Objeto con los errores de cada campo
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+          examples:
+            camposVacios:
+              summary: Campos requeridos vacíos
+              value:
+                message: Validation error. Please check the provided fields.
+                errors:
+                  email:
+                    - The email field is required.
+                  password:
+                    - The password field is required.
+            
+            emailInvalido:
+              summary: Email con formato inválido
+              value:
+                message: Validation error. Please check the provided fields.
+                errors:
+                  email:
+                    - The email has an invalid format. It should be like email@email.com
+
+    '419':
+      description: Token CSRF inválido o expirado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Mensaje de error CSRF
+                example: CSRF token mismatch.
+          examples:
+            csrfMismatch:
+              summary: Token CSRF inválido
+              description: |
+                Esto ocurre cuando:
+                - No se hizo GET /sanctum/csrf-cookie antes del login
+                - La sesión expiró
+                - Las cookies no se están enviando correctamente
+              value:
+                message: CSRF token mismatch.
+
+  x-code-samples:
+    - lang: JavaScript (Fetch)
+      source: |
+        // Paso 1: Obtener token CSRF
+        await fetch('http://localhost:8988/sanctum/csrf-cookie', {
+          credentials: 'include'
+        });
+        
+        // Paso 2: Hacer login
+        const response = await fetch('http://localhost:8988/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          credentials: 'include', // IMPORTANTE: incluir cookies
+          body: JSON.stringify({
+            email: 'mortadelo@email.com',
+            password: 'MySecurePass123!'
+          })
+        });
+        
+        const data = await response.json();
+        console.log(data);
+    
+    - lang: JavaScript (Axios)
+      source: |
+        // Configuración global (hacer una vez al inicio de tu app)
+        axios.defaults.withCredentials = true;
+        axios.defaults.withXSRFToken = true;
+        
+        // Paso 1: Obtener token CSRF
+        await axios.get('http://localhost:8988/sanctum/csrf-cookie');
+        
+        // Paso 2: Hacer login
+        const response = await axios.post('http://localhost:8988/api/auth/login', {
+          email: 'mortadelo@email.com',
+          password: 'MySecurePass123!'
+        });
+        
+        console.log(response.data);
+    
+    - lang: cURL
+      source: |
+        # Paso 1: Obtener token CSRF y guardar cookies
+        curl -X GET http://localhost:8988/sanctum/csrf-cookie \
+          -c cookies.txt
+        
+        # Paso 2: Hacer login usando las cookies
+        curl -X POST http://localhost:8988/api/auth/login \
+          -b cookies.txt \
+          -H "Content-Type: application/json" \
+          -H "Accept: application/json" \
+          -d '{
+            "email": "mortadelo@email.com",
+            "password": "MySecurePass123!"
+          }'

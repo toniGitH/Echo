@@ -10,8 +10,9 @@ return [
     'user' => [
         'registered_success' => 'User registered successfully.',
         'EMAIL_ALREADY_EXISTS' => 'The email you entered already exists. You must choose another one',
-        'EMPTY_USER_ID' => 'Internal error: User ID not generated.',
+        'INVALID_CREDENTIALS' => 'The provided credentials are incorrect.',
         'INVALID_USER_ID_FORMAT' => 'The user ID has an invalid format.',
+        'EMPTY_USER_ID' => 'Internal error: User ID not generated.',
         
         // Empty fields
         'EMPTY_EMAIL' => 'The email field is required.',
