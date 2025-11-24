@@ -2,7 +2,7 @@ services:
   laravel:
     build:
       context: ./laravel
-    container_name: my_app-laravel-ci
+    container_name: echo-laravel-ci
     environment:
       APP_ENV: testing
       APP_DEBUG: true
@@ -16,7 +16,7 @@ services:
   react:
     build:
       context: ./react
-    container_name: my_app-react-ci
+    container_name: echo-react-ci
     working_dir: /app
     volumes:
       - ./react:/app
