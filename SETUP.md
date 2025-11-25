@@ -24,7 +24,7 @@
 >
 > Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
 
-Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al ⚡ [Inicio rápido](#inicio-rápido), al final de esta guía.
+Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al [⚡ Inicio rápido](#-inicio-rápido), al final de esta guía.
 
 ## 📋 Requisitos previos
 
