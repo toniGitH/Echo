@@ -24,6 +24,8 @@
 >
 > Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
 
+Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al ⚡ [Inicio rápido](#inicio-rápido), al final de esta guía.
+
 ## 📋 Requisitos previos
 
 - Docker y Docker Compose instalados
@@ -460,3 +462,43 @@ En Linux, los permisos se basan en **UID/GID** (números), no en nombres de usua
 ```bash
 docker compose logs -f
 ```
+
+---
+
+## ⚡ Inicio rápido
+
+Resumen de comandos para levantar el proyecto:
+
+### 🆕 Primera vez
+
+```bash
+# 1. Clonar repositorio
+git clone https://github.com/toniGitH/Echo.git
+cd Echo
+
+# 2. 🐧 Linux: Reasignar propiedad (macOS/Windows: omitir)
+sudo chown -R $USER:$USER ./laravel
+
+# 3. Crear archivo .env
+cp laravel/.env.example laravel/.env
+# Editar laravel/.env y asegurar que contenga:
+# APP_KEY=
+# APP_URL=http://localhost:8988
+# DB_CONNECTION=mysql
+# DB_HOST=mysql
+# DB_PORT=3306
+# DB_DATABASE=app
+# DB_USERNAME=app
+# DB_PASSWORD=app
+
+# 4. Levantar contenedores
+docker compose up -d --build
+
+# 5. 🐧 Linux: Configurar permisos (macOS/Windows: omitir)
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
