@@ -127,9 +127,7 @@ DB_USERNAME=app
 DB_PASSWORD=app
 ```
 
-📝 **NOTA: Variables de base de datos en `.env`**
-
-**¿Por qué es necesario incluir estas variables en el archivo `.env` si en el `docker-compose.yml` ya están definidas para el contenedor `laravel`?**
+ℹ️ **¿Por qué es necesario incluir estas variables en el archivo `.env` si en el `docker-compose.yml` ya están definidas para el contenedor `laravel`?**
 
 Para que el proyecto se levante correctamente, **AMBOS contenedores** (`laravel` y `php`) deben poder acceder a estas variables de base de datos, porque aunque hacen cosas diferentes, ambas son imprescindibles para que la aplicación funcione correctamente:
 
@@ -150,7 +148,7 @@ Esta es una decisión de diseño para facilitar el testing:
 - Si el contenedor `php` tuviera variables DB en `docker-compose.yml`, estas tendrían **máxima prioridad** y "pisarían" los valores de `phpunit.xml`
 - Mantener el contenedor `php` "limpio" permite cambiar la base de datos de testing (ej: SQLite en memoria) modificando solo `phpunit.xml`, sin tocar el `.env`
 
-**Orden de prioridad de variables en Laravel:**
+🔢 **Orden de prioridad de variables en Laravel:**
 1. Variables de entorno del sistema (valores definidos dentro del docker-compose.yml) - **MÁXIMA**
 2. Variables de `phpunit.xml` (al ejecutar tests) - **MEDIA**
 3. Variables del archivo `.env` - **BAJA**
