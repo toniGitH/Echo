@@ -469,32 +469,40 @@ docker compose logs -f
 
 Resumen de comandos para levantar el proyecto:
 
-### 🆕 Primera vez
-
+**1. Clonar repositorio**
 ```bash
-# 1. Clonar repositorio
 git clone https://github.com/toniGitH/Echo.git
 cd Echo
+```
 
-# 2. 🐧 Linux: Reasignar propiedad (macOS/Windows: omitir)
+**2. 🐧 Linux: Reasignar propiedad** (macOS/Windows: omitir)
+```bash
 sudo chown -R $USER:$USER ./laravel
+```
 
-# 3. Crear archivo .env
+**3. Crear archivo .env**
+```bash
 cp laravel/.env.example laravel/.env
-# Editar laravel/.env y asegurar que contenga:
-# APP_KEY=
-# APP_URL=http://localhost:8988
-# DB_CONNECTION=mysql
-# DB_HOST=mysql
-# DB_PORT=3306
-# DB_DATABASE=app
-# DB_USERNAME=app
-# DB_PASSWORD=app
+```
+Editar `laravel/.env` y asegurar que contenga:
+```env
+APP_KEY=
+APP_URL=http://localhost:8988
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=app
+DB_PASSWORD=app
+```
 
-# 4. Levantar contenedores
+**4. Levantar contenedores**
+```bash
 docker compose up -d --build
+```
 
-# 5. 🐧 Linux: Configurar permisos (macOS/Windows: omitir)
+**5. 🐧 Linux: Configurar permisos** (macOS/Windows: omitir)
+```bash
 docker exec echo-php sh -c '
   chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
   find /var/www/html/storage -type d -exec chmod 775 {} \; &&
@@ -502,3 +510,11 @@ docker exec echo-php sh -c '
   find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
   find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
 '
+```
+
+**🌐 URLs de acceso**
+
+- **Laravel API**: http://localhost:8988
+- **React Frontend**: http://localhost:3000
+- **Swagger UI**: http://localhost:8081
+- **phpMyAdmin**: http://localhost:8080
