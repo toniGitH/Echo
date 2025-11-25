@@ -66,8 +66,8 @@ post:
             summary: ✅ Usuario válido
             description: Todos los campos son correctos y cumplen con las validaciones
             value:
-              name: María García López
-              email: maria.garcia@example.com
+              name: Mortadelo
+              email: mortadelo@example.com
               password: SecurePass123!
               password_confirmation: SecurePass123!
           
@@ -230,12 +230,12 @@ post:
                   name:
                     type: string
                     description: Nombre del usuario
-                    example: María García López
+                    example: Mortadelo
                   email:
                     type: string
                     format: email
                     description: Email del usuario
-                    example: maria.garcia@example.com
+                    example: mortadelo@example.com
           examples:
             registroExitoso:
               summary: Registro exitoso
@@ -243,8 +243,8 @@ post:
                 message: User registered successfully.
                 user:
                   id: 9d4e8c1a-3b2f-4d5e-8f9a-1b2c3d4e5f6a
-                  name: María García López
-                  email: maria.garcia@example.com
+                  name: Mortadelo
+                  email: mortadelo@example.com
 
     '422':
       description: Error de validación - Datos inválidos o incompletos
