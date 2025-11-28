@@ -13,6 +13,7 @@ use Throwable;
 use Src\Shared\Domain\Exceptions\DomainException;
 use Src\Shared\Domain\Exceptions\InvalidValueObjectException;
 use Src\Shared\Domain\Exceptions\MultipleDomainException;
+use Src\Auth\Domain\User\Exceptions\InvalidCredentialsException;
 
 final class Handler
 {
@@ -46,12 +47,19 @@ final class Handler
             );
         }
 
-        // 4) Otros errores de dominio
+        // 4) Credenciales inválidas (login fallido)
+        if ($e instanceof InvalidCredentialsException) {
+            return response()->json([
+                'message' => __($e->getMessage())
+            ], 401);
+        }
+
+        // 5) Otros errores de dominio
         if ($e instanceof DomainException) {
             return $this->errorResponse($e->getMessage(), [], 400);
         }
 
-        // 5) HTTP exceptions
+        // 6) HTTP exceptions
         if ($e instanceof HttpExceptionInterface) {
             return response()->json([
                 'message' => $e->getMessage() ?: __('messages.unexpected_error')
