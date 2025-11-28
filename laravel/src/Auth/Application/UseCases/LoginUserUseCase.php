@@ -26,7 +26,7 @@ final class LoginUserUseCase implements LoginUserPort
     {
         $errors = [];
 
-        // Crear Value Objects y acumular errores
+        // Crear Value Objects y acumular errores (aquí NO se comprueba si el usuario existe, NO hay consula a la base de datos)
         try {
             $email = UserEmail::fromString($credentials['email'] ?? '');
         } catch (InvalidValueObjectException $e) {
@@ -44,7 +44,7 @@ final class LoginUserUseCase implements LoginUserPort
             throw new MultipleDomainException($errors);
         }
 
-        // Verificar credenciales directamente
+        // Verificar credenciales (aquí SÏ se comprueba si el usuario existe en la base de datos))
         $user = $this->userRepository->findByCredentials($email, $password);
 
         // Si las credenciales no son válidas, lanzar excepción
