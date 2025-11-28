@@ -17,9 +17,4 @@ final class InvalidCredentialsException extends DomainException
     {
         parent::__construct('messages.user.INVALID_CREDENTIALS');
     }
-
-    public function errorCode(): string
-    {
-        return 'INVALID_CREDENTIALS';
-    }
 }
