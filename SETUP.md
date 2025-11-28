@@ -16,13 +16,15 @@
 
 # 🚀 Puesta en marcha del proyecto Echo
 
-> 📝 **NOTA**
+Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
+
+Algunos pasos son específicos para cada sistema operativo y están claramente marcados con sus respectivos iconos.
+
+Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
+
+> 🎯 **Inicio rápido**
 >
-> Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
->
-> Algunos pasos son específicos para cada sistema operativo y están claramente marcados con sus respectivos iconos.
->
-> Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
+> Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al [⚡ Inicio rápido](#-inicio-rápido), al final de esta guía.
 
 ## 📋 Requisitos previos
 
@@ -62,8 +64,6 @@
 git clone https://github.com/toniGitH/Echo.git
 cd Echo
 ```
-
-Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
 
 ---
 
@@ -116,14 +116,42 @@ APP_KEY=
 APP_URL=http://localhost:8988
 ```
 
-> 📝 **NOTA**
->
->Variables NO necesarias en `.env`:
->
-> Las siguientes variables ya se definen en `docker-compose.yml` para el contenedor de Laravel y tienen prioridad sobre las que pudieramos indicar en el archivo `.env`:
->
-> - `APP_ENV`, `APP_DEBUG`
-> - `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+Y también estas variables de base de datos:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=app
+DB_PASSWORD=app
+```
+
+ℹ️ **¿Por qué es necesario incluir estas variables en el archivo `.env` si en el `docker-compose.yml` ya están definidas para el contenedor `laravel`?**
+
+Para que el proyecto se levante correctamente, **AMBOS contenedores** (`laravel` y `php`) deben poder acceder a estas variables de base de datos, porque aunque hacen cosas diferentes, ambas son imprescindibles para que la aplicación funcione correctamente:
+
+- **Contenedor `laravel`**: Ejecuta comandos en segundo plano (migraciones, queue workers). Obtiene estas variables de `docker-compose.yml` e **ignora** el archivo `.env`.
+- **Contenedor `php`**: Levanta la aplicación web (vía Nginx y PHP-FPM). Como está "limpio" en `docker-compose.yml` (sin variables DB definidas), **necesita** obtenerlas del archivo `.env`.
+
+⚠️ **IMPORTANTE: Los valores DEBEN coincidir**
+
+Las variables declaradas en `docker-compose.yml` para el contenedor `laravel` **deben ser idénticas** a las declaradas en `.env` para el contenedor `php`. Si no coinciden, cada contenedor usará una base de datos diferente y la aplicación **NO funcionará correctamente**.
+
+💡 **¿Por qué el contenedor `php` está "limpio" en `docker-compose.yml`?**
+
+Esta es una decisión de diseño para facilitar el testing:
+
+- Los valores de las variables declaradas en `docker-compose.yml` para los contenedores SIEMPRE tienen prioridad tanto sobre el archivo `.env` como sobre `phpunit.xml`.
+
+- Al ejecutar tests con PHPUnit, las variables de `phpunit.xml` tienen prioridad sobre el `.env`
+- Si el contenedor `php` tuviera variables DB en `docker-compose.yml`, estas tendrían **máxima prioridad** y "pisarían" los valores de `phpunit.xml`
+- Mantener el contenedor `php` "limpio" permite cambiar la base de datos de testing (ej: SQLite en memoria) modificando solo `phpunit.xml`, sin tocar el `.env`
+
+🔢 **Orden de prioridad de variables en Laravel:**
+1. Variables de entorno del sistema (valores definidos dentro del docker-compose.yml) - **MÁXIMA**
+2. Variables de `phpunit.xml` (al ejecutar tests) - **MEDIA**
+3. Variables del archivo `.env` - **BAJA**
 
 ---
 
@@ -432,3 +460,59 @@ En Linux, los permisos se basan en **UID/GID** (números), no en nombres de usua
 ```bash
 docker compose logs -f
 ```
+
+---
+
+## ⚡ Inicio rápido
+
+Resumen de comandos para levantar el proyecto:
+
+**1. Clonar repositorio**
+```bash
+git clone https://github.com/toniGitH/Echo.git
+cd Echo
+```
+
+**2. 🐧 Linux: Reasignar propiedad** (macOS/Windows: omitir)
+```bash
+sudo chown -R $USER:$USER ./laravel
+```
+
+**3. Crear archivo .env**
+```bash
+cp laravel/.env.example laravel/.env
+```
+Editar `laravel/.env` y asegurar que contenga:
+```env
+APP_KEY=
+APP_URL=http://localhost:8988
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=app
+DB_PASSWORD=app
+```
+
+**4. Levantar contenedores**
+```bash
+docker compose up -d --build
+```
+
+**5. 🐧 Linux: Configurar permisos** (macOS/Windows: omitir)
+```bash
+docker exec echo-php sh -c '
+  chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache &&
+  find /var/www/html/storage -type d -exec chmod 775 {} \; &&
+  find /var/www/html/storage -type f -exec chmod 664 {} \; &&
+  find /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \; &&
+  find /var/www/html/bootstrap/cache -type f -exec chmod 664 {} \;
+'
+```
+
+**🌐 URLs de acceso**
+
+- **Laravel API**: http://localhost:8988
+- **React Frontend**: http://localhost:3000
+- **Swagger UI**: http://localhost:8081
+- **phpMyAdmin**: http://localhost:8080
