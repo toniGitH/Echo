@@ -65,8 +65,6 @@ git clone https://github.com/toniGitH/Echo.git
 cd Echo
 ```
 
-Si no puedes clonarlo, puedes hacer un Fork o descargarlo directamente.
-
 ---
 
 ### 2. Reasignar propiedad de archivos
