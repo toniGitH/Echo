@@ -17,7 +17,13 @@ final class LoginUserRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email:filter'],
-            'password' => ['required', 'string'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'max:50',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{}|;:\'",.<>\/?¿]).+$/',
+            ],
         ];
     }
 
@@ -30,6 +36,9 @@ final class LoginUserRequest extends FormRequest
 
             // Password
             'password.required' => __('messages.user.EMPTY_PASSWORD'),
+            'password.min' => __('messages.user.INVALID_PASSWORD'),
+            'password.max' => __('messages.user.INVALID_PASSWORD'),
+            'password.regex' => __('messages.user.INVALID_PASSWORD'),
         ];
     }
 }
