@@ -16,15 +16,15 @@
 
 # 🚀 Puesta en marcha del proyecto Echo
 
-> 📝 **NOTA**
->
-> Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
->
-> Algunos pasos son específicos para cada sistema operativo y están claramente marcados con sus respectivos iconos.
->
-> Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
+Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
 
-Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al [⚡ Inicio rápido](#-inicio-rápido), al final de esta guía.
+Algunos pasos son específicos para cada sistema operativo y están claramente marcados con sus respectivos iconos.
+
+Si ves una sección marcada solo para tu sistema operativo, síguelas. Si no, puedes omitirlas.
+
+> 🎯 **Inicio rápido**
+>
+> Si quieres saltarte toda la explicación y acceder a un resumen de los comandos para levantar el proyecto, puedes ir directamente al [⚡ Inicio rápido](#-inicio-rápido), al final de esta guía.
 
 ## 📋 Requisitos previos
 
