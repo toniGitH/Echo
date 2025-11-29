@@ -209,4 +209,31 @@ final class UserEmailTest extends TestCase
         $this->assertInstanceOf(UserEmail::class, $email);
         $this->assertEquals('user_name@example.com', $email->value());
     }
+
+    // Verifica que dos UserEmails con el mismo valor son iguales
+    public function test_it_equals_when_same_value(): void
+    {
+        $email1 = UserEmail::fromString('user@example.com');
+        $email2 = UserEmail::fromString('user@example.com');
+        
+        $this->assertTrue($email1->equals($email2));
+    }
+
+    // Verifica que dos UserEmails con diferente valor no son iguales
+    public function test_it_not_equals_when_different_value(): void
+    {
+        $email1 = UserEmail::fromString('user1@example.com');
+        $email2 = UserEmail::fromString('user2@example.com');
+        
+        $this->assertFalse($email1->equals($email2));
+    }
+
+    // Verifica que la comparación de igualdad es case-sensitive
+    public function test_it_equals_is_case_sensitive(): void
+    {
+        $email1 = UserEmail::fromString('User@Example.COM');
+        $email2 = UserEmail::fromString('user@example.com');
+        
+        $this->assertFalse($email1->equals($email2));
+    }
 }
