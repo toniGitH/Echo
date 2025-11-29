@@ -43,4 +43,16 @@ final class UserEmail
     {
         return $this->value;
     }
+
+    /**
+     * Compara este email con otro por su valor.
+     * Aunque no se use en producción, se incluye por consistencia con principios de DDD.
+     * 
+     * @param UserEmail $other
+     * @return bool
+     */
+    public function equals(UserEmail $other): bool
+    {
+        return $this->value === $other->value();
+    }
 }

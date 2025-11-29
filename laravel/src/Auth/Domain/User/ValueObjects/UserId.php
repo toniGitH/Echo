@@ -49,6 +49,13 @@ final class UserId
         }
     }
 
+    /**
+     * Compara este ID con otro por su valor.
+     * Aunque no se use en producción, se incluye por consistencia con principios de DDD.
+     * 
+     * @param UserId $other
+     * @return bool
+     */
     public function equals(UserId $other): bool
     {
         return $this->value === $other->value;
