@@ -256,4 +256,89 @@ final class UserTest extends TestCase
         
         $this->assertNotEquals($user1->id()->value(), $user2->id()->value());
     }
+
+    // Verifica que fromPrimitives reconstruye un usuario correctamente desde datos primitivos
+    public function test_it_reconstructs_user_from_primitives(): void
+    {
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        $name = 'Juan Pérez';
+        $email = 'juan@example.com';
+        
+        $user = User::fromPrimitives($id, $name, $email);
+        
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals($id, $user->id()->value());
+        $this->assertEquals($name, $user->name()->value());
+        $this->assertEquals($email, $user->email()->value());
+    }
+
+    // Verifica que fromPrimitives crea un usuario sin contraseña (password = null)
+    public function test_it_reconstructs_user_from_primitives_without_password(): void
+    {
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        $name = 'Juan Pérez';
+        $email = 'juan@example.com';
+        
+        $user = User::fromPrimitives($id, $name, $email);
+        
+        $this->assertNull($user->password());
+    }
+
+    // Verifica que fromPrimitives lanza excepción cuando el ID es inválido
+    public function test_it_throws_exception_when_from_primitives_receives_invalid_id(): void
+    {
+        $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidUserIdException::class);
+        
+        User::fromPrimitives('invalid-uuid', 'Juan Pérez', 'juan@example.com');
+    }
+
+    // Verifica que fromPrimitives lanza excepción cuando el nombre es inválido
+    public function test_it_throws_exception_when_from_primitives_receives_invalid_name(): void
+    {
+        $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidUserNameException::class);
+        
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        User::fromPrimitives($id, 'AB', 'juan@example.com'); // Nombre muy corto (mínimo 3 caracteres)
+    }
+
+    // Verifica que fromPrimitives lanza excepción cuando el email es inválido
+    public function test_it_throws_exception_when_from_primitives_receives_invalid_email(): void
+    {
+        $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidEmailException::class);
+        
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        User::fromPrimitives($id, 'Juan Pérez', 'invalid-email');
+    }
+
+    // Verifica que toArray no incluye la clave 'password' cuando el usuario no tiene contraseña
+    public function test_it_array_does_not_include_password_when_null(): void
+    {
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        $name = 'Juan Pérez';
+        $email = 'juan@example.com';
+        
+        $user = User::fromPrimitives($id, $name, $email);
+        $array = $user->toArray();
+        
+        $this->assertArrayNotHasKey('password', $array);
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('email', $array);
+    }
+
+    // Verifica que toArray contiene los valores correctos cuando no hay contraseña
+    public function test_it_array_contains_correct_values_without_password(): void
+    {
+        $id = '550e8400-e29b-41d4-a716-446655440000';
+        $name = 'Juan Pérez';
+        $email = 'juan@example.com';
+        
+        $user = User::fromPrimitives($id, $name, $email);
+        $array = $user->toArray();
+        
+        $this->assertEquals($id, $array['id']);
+        $this->assertEquals($name, $array['name']);
+        $this->assertEquals($email, $array['email']);
+        $this->assertCount(3, $array); // Solo 3 elementos (id, name, email)
+    }
 }
