@@ -58,7 +58,7 @@ Aplicación de envío de notificaciones en desarrollo.
 - Entorno de desarrollo: **Docker**
 - Testing: **PHPUnit**
 - Diseño y arquitectura: **DDD** + **Hexagonal**
-- Documentación API: **SwaggerUI**
+- Documentación API: **l5-swagger** (OpenAPI 3.0)
 
 🔝 [Volver al índice](#index)
 
@@ -79,7 +79,6 @@ Aplicación de envío de notificaciones en desarrollo.
 |----------|--------|-----|
 | **Backend** (Nginx + Laravel) | 8988 | [http://localhost:8988](http://localhost:8988) |
 | **Frontend** (React + Vite) | 8989 | [http://localhost:8989](http://localhost:8989) |
-| **Swagger UI** | 8081 | [http://localhost:8081](http://localhost:8081) |
 | **phpMyAdmin** | 8080 | [http://localhost:8080](http://localhost:8080) |
 | **MySQL (desarrollo)** | 3700 | `localhost:3700` |
 | **MySQL (tests)** | 3701 | `localhost:3701` |
@@ -97,9 +96,15 @@ Aplicación de envío de notificaciones en desarrollo.
 
 ## 📖 Documentación API
 
-La información sobre los endpoints de la API se ha generado con SwaggerUI.
+La documentación de la API se genera automáticamente con **l5-swagger** a partir de anotaciones PHP.
 
-**👉 SwaggerUI:** [http://localhost:8081](http://localhost:8081)
+**👉 Swagger UI:** [http://localhost:8988/api/documentation](http://localhost:8988/api/documentation)
+
+> 📘 **Guía completa de documentación**
+>
+> Para aprender cómo documentar nuevos endpoints, regenerar la documentación y más detalles, consulta:
+>
+> **[SWAGGER.md](SWAGGER.md)**
 
 🔝 [Volver al índice](#index)
 
@@ -107,7 +112,7 @@ La información sobre los endpoints de la API se ha generado con SwaggerUI.
 
 ## 🧩 Servicios principales (Docker)
 
-Este proyecto incluye un entorno Docker completo con **9 servicios**:
+Este proyecto incluye un entorno Docker completo con **7 servicios**:
 
 | Servicio | Descripción | Puerto |
 |----------|-------------|--------|
@@ -118,8 +123,6 @@ Este proyecto incluye un entorno Docker completo con **9 servicios**:
 | **MySQL (tests)** | Base de datos para pruebas automáticas | 3701 |
 | **phpMyAdmin** | Interfaz web para gestionar las bases de datos MySQL | 8080 |
 | **React (Vite)** | Interfaz frontend con servidor de desarrollo | 8989 |
-| **Swagger Builder** | Compilador de documentación OpenAPI | - |
-| **Swagger UI** | Servidor de documentación API | 8081 |
 
 > 📝 **NOTA**
 >
