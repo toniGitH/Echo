@@ -15,7 +15,7 @@ final class User
         private UserId $id,
         private UserName $name,
         private UserEmail $email,
-        private UserPassword $password
+        private ?UserPassword $password = null
     ) {}
 
     /**
@@ -35,6 +35,29 @@ final class User
         
         return new self($id, $name, $email, $password);
     }
+
+    /**
+     * Reconstruye un usuario existente desde datos primitivos (por ejemplo, desde la BD).
+     * No incluye la contraseña porque no es necesaria en el dominio después de la autenticación.
+     * 
+     * @param string $id
+     * @param string $name
+     * @param string $email
+     * @return self
+     */
+    public static function fromPrimitives(
+        string $id,
+        string $name,
+        string $email
+    ): self {
+        return new self(
+            UserId::fromString($id),
+            UserName::fromString($name),
+            UserEmail::fromString($email),
+            null // No incluimos password al reconstruir desde BD
+        );
+    }
+
 
     public function id(): UserId
     {
@@ -56,18 +79,24 @@ final class User
         return $this->email;
     }
 
-    public function password(): UserPassword
+    public function password(): ?UserPassword
     {
         return $this->password;
     }
 
     public function toArray(): array
     {
-        return [
+        $data = [
             'id' => $this->id->value(),
             'name' => $this->name->value(),
             'email' => $this->email->value(),
-            'password' => $this->password->value()
         ];
+
+        // Solo incluir password si existe
+        if ($this->password !== null) {
+            $data['password'] = $this->password->value();
+        }
+
+        return $data;
     }
 }

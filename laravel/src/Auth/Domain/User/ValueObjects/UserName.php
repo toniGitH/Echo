@@ -44,6 +44,13 @@ final class UserName
         return $this->value;
     }
 
+    /**
+     * Compara este nombre con otro por su valor.
+     * Aunque no se use en producción, se incluye por consistencia con principios de DDD.
+     * 
+     * @param UserName $other
+     * @return bool
+     */
     public function equals(UserName $other): bool
     {
         return $this->value === $other->value();

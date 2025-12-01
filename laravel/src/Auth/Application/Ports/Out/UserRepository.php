@@ -6,6 +6,7 @@ namespace Src\Auth\Application\Ports\Out;
 
 use Src\Auth\Domain\User\User;
 use Src\Auth\Domain\User\ValueObjects\UserEmail;
+use Src\Auth\Domain\User\ValueObjects\UserPassword;
 
 /**
  * Puerto de salida para la persistencia de usuarios.
@@ -28,4 +29,22 @@ interface UserRepository
      * @return bool True si existe, false en caso contrario
      */
     public function exists(UserEmail $email): bool;
+
+    /**
+     * Busca un usuario por su email.
+     *
+     * @param UserEmail $email El email del usuario a buscar
+     * @return User|null El usuario si existe, null en caso contrario
+     */
+    public function findByEmail(UserEmail $email): ?User;
+
+    /**
+     * Busca un usuario por sus credenciales (email y contraseña).
+     * Verifica que la contraseña coincida con el hash almacenado.
+     *
+     * @param UserEmail $email El email del usuario
+     * @param UserPassword $password La contraseña en texto plano
+     * @return User|null El usuario si las credenciales son válidas, null en caso contrario
+     */
+    public function findByCredentials(UserEmail $email, UserPassword $password): ?User;
 }

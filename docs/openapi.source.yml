@@ -18,6 +18,16 @@ info:
     - Validaciones completas en cada endpoint
     - Respuestas en formato JSON
     - Mensajes de error descriptivos
+    - Autenticación mediante Bearer tokens
+    
+    **🔐 Cómo autenticarte en Swagger UI:**
+    
+    1. Haz login en el endpoint `/auth/login`
+    2. Copia el `token` de la respuesta
+    3. Haz clic en el botón **"Authorize"** 🔓 (arriba a la derecha)
+    4. Pega el token en el campo "Value" (sin escribir "Bearer", solo el token)
+    5. Haz clic en "Authorize" y luego "Close"
+    6. Ahora puedes usar endpoints protegidos como `/auth/logout` ✅
 
   contact:
     name: Soporte API Echo
@@ -27,9 +37,24 @@ servers:
   - url: http://localhost:8988/api
     description: API de desarrollo
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Token de acceso Bearer obtenido del endpoint de login.
+        
+        Formato: `Authorization: Bearer {token}`
+
 paths:
   /auth/register:
     $ref: './paths/auth/register.yml'
+  /auth/login:
+    $ref: './paths/auth/login.yml'
+  /auth/logout:
+    $ref: './paths/auth/logout.yml'
 # ==============================================================
   # Aquí se definen los endpoints de la API.
   #

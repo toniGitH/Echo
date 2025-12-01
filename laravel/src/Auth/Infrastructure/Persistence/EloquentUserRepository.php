@@ -7,6 +7,7 @@ namespace Src\Auth\Infrastructure\Persistence;
 use Src\Auth\Application\Ports\Out\UserRepository;
 use Src\Auth\Domain\User\User;
 use Src\Auth\Domain\User\ValueObjects\UserEmail;
+use Src\Auth\Domain\User\ValueObjects\UserPassword;
 use App\Models\User as EloquentUser;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,5 +31,38 @@ final class EloquentUserRepository implements UserRepository
     public function exists(UserEmail $email): bool
     {
         return EloquentUser::where('email', $email->value())->exists();
+    }
+
+    public function findByEmail(UserEmail $email): ?User
+    {
+        $eloquentUser = EloquentUser::where('email', $email->value())->first();
+
+        if ($eloquentUser === null) {
+            return null;
+        }
+
+        // Reconstruir la entidad de dominio sin password
+        return User::fromPrimitives(
+            $eloquentUser->id,
+            $eloquentUser->name,
+            $eloquentUser->email
+        );
+    }
+
+    public function findByCredentials(UserEmail $email, UserPassword $password): ?User
+    {
+        $eloquentUser = EloquentUser::where('email', $email->value())->first();
+
+        // Si no existe el usuario o la contraseña no coincide, retornar null
+        if ($eloquentUser === null || !Hash::check($password->value(), $eloquentUser->password)) {
+            return null;
+        }
+
+        // Solo reconstruir el User de dominio si las credenciales son válidas
+        return User::fromPrimitives(
+            $eloquentUser->id,
+            $eloquentUser->name,
+            $eloquentUser->email
+        );
     }
 }
