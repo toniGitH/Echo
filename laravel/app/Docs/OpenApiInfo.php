@@ -33,7 +33,7 @@ class OpenApiInfo
     public const DESCRIPTION = <<<'DESC'
 
 <details>
-<summary><strong>📋 DESCRIPCIÓN</strong></summary>
+<summary><strong>📝 DESCRIPCIÓN</strong></summary>
 
 > API REST de Echo - Plataforma de notificaciones por suscripción.
 
@@ -43,7 +43,7 @@ class OpenApiInfo
 
 
 <details>
-<summary><strong>📋 CARACTERÍSTICAS</strong></summary>
+<summary><strong>📌 CARACTERÍSTICAS</strong></summary>
 
 - Arquitectura hexagonal con DDD.
 
