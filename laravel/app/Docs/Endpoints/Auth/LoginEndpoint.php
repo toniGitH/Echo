@@ -9,40 +9,51 @@ class LoginEndpoint
      *     path="/auth/login",
      *     tags={"Auth"},
      *     summary="Iniciar sesión (Bearer Token)",
-     *     description="Autentica a un usuario existente y devuelve un token de acceso Bearer.
-     *
-     * **🔐 Autenticación por tokens (API Mode):**
-     *
-     * Este endpoint usa autenticación **stateless** con tokens Bearer (Laravel Sanctum API tokens).
-     *
-     * **Flujo de autenticación:**
-     *
-     * 1. **Hacer login** (este endpoint):
-     *    ```
-     *    POST http://localhost:8988/api/auth/login
-     *    ```
-     *    Recibes un token de acceso en la respuesta.
-     *
-     * 2. **Usar el token** en peticiones posteriores:
-     *    ```
-     *    Authorization: Bearer {token}
-     *    ```
-     *
-     * **Ventajas de autenticación por tokens:**
-     * - ✅ Funciona perfectamente en Postman, Insomnia, cURL
-     * - ✅ Ideal para aplicaciones móviles y APIs públicas
-     * - ✅ No requiere cookies ni CSRF tokens
-     * - ✅ Stateless (no depende de sesiones del servidor)
-     * - ✅ Frontend y backend pueden estar en dominios diferentes
-     *
-     * **Para probar este endpoint:**
-     * - Usa Postman, Insomnia, cURL o cualquier cliente HTTP
-     * - Copia el token de la respuesta
-     * - Úsalo en el header `Authorization: Bearer {token}` para peticiones autenticadas
-     *
-     * **Validaciones aplicadas:**
-     * - Email: formato válido, debe existir en el sistema
-     * - Contraseña: debe coincidir con la almacenada",
+     *     description="
+
+## 🔐 Autenticación por tokens
+
+> Este endpoint usa autenticación **stateless** con tokens Bearer (Laravel Sanctum API tokens).
+
+> Autentica a un usuario existente y devuelve un token de acceso Bearer.
+
+<details>
+<summary><strong>🔐 Flujo de autenticación</strong></summary>
+
+#### 1️⃣ Hacer login (este endpoint)
+
+```
+POST http://localhost:8988/api/auth/login
+```
+
+> Recibes un token de acceso en la respuesta.
+
+#### 2️⃣ Usar el token en peticiones posteriores
+
+```
+Authorization: Bearer {token}
+```
+
+</details>
+
+<details>
+<summary><strong>✨ Ventajas de autenticación por tokens</strong></summary>
+
+- Funciona perfectamente en Postman, Insomnia, cURL y Swagger UI
+- Ideal para aplicaciones móviles y APIs públicas
+- No requiere cookies ni CSRF tokens
+- Stateless (no depende de sesiones del servidor)
+- Frontend y backend pueden estar en dominios diferentes
+
+</details>
+
+<details>
+<summary><strong>✅ Validaciones aplicadas</strong></summary>
+
+- **Email:** formato válido, debe existir en el sistema
+- **Contraseña:** debe coincidir con la almacenada
+
+</details>",
      *     operationId="loginUser",
      *     @OA\RequestBody(
      *         required=true,
