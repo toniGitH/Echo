@@ -9,19 +9,40 @@ class RegisterEndpoint
      *     path="/auth/register",
      *     tags={"Auth"},
      *     summary="Registrar nuevo usuario",
-     *     description="Crea un nuevo usuario en el sistema con validaciones completas.
-     *
-     * **Validaciones aplicadas:**
-     * - Nombre: mínimo 3 caracteres, máximo 100
-     * - Email: formato válido, único en el sistema
-     * - Contraseña: mínimo 8 caracteres, máximo 50, debe incluir mayúscula, minúscula, número y carácter especial
-     * - Confirmación de contraseña: debe coincidir con la contraseña
-     *
-     * **Nota sobre idiomas:**
-     * - Esta documentación está en español, pero los mensajes JSON de la API están en inglés.
-     * - Si quieres cambiar el idioma de las respuestas de la API, modifica la variable `APP_LOCALE` en tu archivo `.env`:
-     *   - `APP_LOCALE=en` para inglés
-     *   - `APP_LOCALE=es` para español",
+     *     description="
+
+## 📝 Registro de usuario
+
+> Crea un nuevo usuario en el sistema con validaciones completas.
+
+<details>
+<summary><strong>✅ Validaciones aplicadas</strong></summary>
+
+- **Nombre:** mínimo 3 caracteres, máximo 100
+
+- **Email:** formato válido, único en el sistema
+
+- **Contraseña:** mínimo 8 caracteres, máximo 50, debe incluir:
+  - Al menos una letra mayúscula
+  - Al menos una letra minúscula
+  - Al menos un número
+  - Al menos un carácter especial (!@#$%^&*()_-+=[]{}|;:'\"",.&lt;&gt;/?¿)
+
+- **Confirmación de contraseña:** debe coincidir con la contraseña
+
+</details>
+
+<details>
+<summary><strong>🌐 Nota sobre idiomas</strong></summary>
+
+> Esta documentación está en español, pero los mensajes JSON de la API están en inglés.
+
+> Si quieres cambiar el idioma de las respuestas de la API, modifica la variable `APP_LOCALE` en tu archivo `laravel/.env`:
+
+- `APP_LOCALE=en` para inglés
+- `APP_LOCALE=es` para español
+
+</details>",
      *     operationId="registerUser",
      *     @OA\RequestBody(
      *         required=true,
