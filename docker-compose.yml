@@ -94,6 +94,7 @@ services:
       sh -lc "composer install || true;
       php artisan key:generate --force || true;
       php artisan migrate --force || true;
+      php artisan l5-swagger:generate || true;
       php artisan queue:work --tries=3 --sleep=3"
 
   # Contenedor phpMyAdmin para gestionar las bases de datos
@@ -130,33 +131,7 @@ services:
       - ./react:/app
     command: sh -lc "npm install && npm run dev -- --host"
 
-  # Contenedor de compilación de la documentación Swagger (redocly)
-  swagger-builder:
-    image: node:18-alpine
-    container_name: echo-swagger-builder
-    working_dir: /docs
-    volumes:
-      - ./docs:/docs
-    command: >
-      sh -c "npm install -g @redocly/cli &&
-             redocly bundle /docs/openapi.source.yml --output /docs/openapi.yml &&
-             echo '✅ Documentación Swagger compilada' &&
-             tail -f /dev/null"
-    restart: unless-stopped
 
-  # Contenedor de SwaggerUI
-  swagger-ui:
-    image: swaggerapi/swagger-ui:latest
-    container_name: echo-swagger
-    restart: unless-stopped
-    ports:
-      - "8081:8080"
-    volumes:
-      - ./docs:/usr/share/nginx/html/docs:ro
-    environment:
-      SWAGGER_JSON: /usr/share/nginx/html/docs/openapi.yml
-    depends_on:
-      - swagger-builder
 
 # Volúmenes persistentes para las bases de datos
 volumes:
