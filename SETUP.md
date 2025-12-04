@@ -1,19 +1,3 @@
-<div align="center">
-
-<img src=".github/assets/logo-echo.png" alt="Echo Logo"/>
-
-[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://reactjs.org)
-[![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)](https://php.net)
-[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://docker.com)
-[![DDD](https://img.shields.io/badge/Architecture-DDD-green)](https://en.wikipedia.org/wiki/Domain-driven_design)
-[![Hexagonal](https://img.shields.io/badge/Architecture-Hexagonal-blue)](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
-[![PHPUnit](https://img.shields.io/badge/Testing-PHPUnit-3776AB?logo=php&logoColor=white)](https://phpunit.de)
-
-</div>
-
----
-
 # 🚀 Puesta en marcha del proyecto Echo
 
 Esta guía funciona para **Linux** 🐧, **macOS** 🍎 y **Windows** 🪟.
