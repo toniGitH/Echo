@@ -28,9 +28,14 @@ final class RegisterUserRequest extends FormRequest
                 'string',
                 'min:8',
                 'max:50',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{}|;:\'",.<>\/?¿]).+$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{}|;:\'",.< >\/?¿]).+$/',
                 'confirmed',
             ],
+            // IMPORTANTE: El rol 'admin' NO se puede usar en el registro público.
+            // Los administradores solo pueden ser designados por clientes mediante
+            // un endpoint específico (aún no implementado en esta fase).
+            'roles' => ['required', 'array', 'min:1'],
+            'roles.*' => ['required', 'string', 'in:client,follower'],
         ];
     }
 
@@ -54,6 +59,10 @@ final class RegisterUserRequest extends FormRequest
             'password.max' => __('messages.user.INVALID_PASSWORD'),
             'password.regex' => __('messages.user.INVALID_PASSWORD'),
             'password.confirmed' => __('messages.user.PASSWORD_CONFIRMATION_MISMATCH'), // ⚠️ ESPECÍFICO
+
+            // Roles
+            'roles.required' => __('messages.user.ROLES_REQUIRED'),
+            'roles.*.in' => __('messages.user.INVALID_ROLE_FOR_REGISTRATION'),
         ];
     }
 

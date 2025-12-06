@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            // Roles permitidos: 'client', 'follower', 'admin'
+            // La validación se realiza en la capa de dominio (User::validateRoles)
+            // y en la capa de aplicación (RegisterUserRequest, etc.)
+            // Formato: JSON array de strings, ej: ["client", "follower"]
+            $table->json('roles');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

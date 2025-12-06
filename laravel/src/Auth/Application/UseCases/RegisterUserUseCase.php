@@ -10,6 +10,7 @@ use Src\Auth\Domain\User\User;
 use Src\Auth\Domain\User\ValueObjects\UserEmail;
 use Src\Auth\Domain\User\ValueObjects\UserPassword;
 use Src\Auth\Domain\User\ValueObjects\UserName;
+use Src\Auth\Domain\User\ValueObjects\UserRole;
 use Src\Shared\Domain\Exceptions\InvalidValueObjectException;
 use Src\Shared\Domain\Exceptions\MultipleDomainException;
 
@@ -45,6 +46,24 @@ final class RegisterUserUseCase implements RegisterUserPort
             $errors['password'][] = $e->getMessage();
         }
 
+        // Validar y crear roles
+        $roles = [];
+        if (isset($userData['roles']) && is_array($userData['roles'])) {
+            if (empty($userData['roles'])) {
+                $errors['roles'][] = 'messages.user.ROLES_REQUIRED';
+            } else {
+                foreach ($userData['roles'] as $roleString) {
+                    try {
+                        $roles[] = UserRole::fromString($roleString);
+                    } catch (InvalidValueObjectException $e) {
+                        $errors['roles'][] = $e->getMessage();
+                    }
+                }
+            }
+        } else {
+            $errors['roles'][] = 'messages.user.ROLES_REQUIRED';
+        }
+
         // Verificar unicidad del email solo si no hay errores de email
         if (!isset($errors['email']) && $this->userRepository->exists($email)) {
             $errors['email'][] = 'messages.user.EMAIL_ALREADY_EXISTS';
@@ -55,8 +74,8 @@ final class RegisterUserUseCase implements RegisterUserPort
             throw new MultipleDomainException($errors);
         }
 
-        // Crear entidad User
-        $user = User::create($name, $email, $password);
+        // Crear entidad User con roles
+        $user = User::create($name, $email, $password, $roles);
 
         // Persistir usuario
         $this->userRepository->save($user);

@@ -24,6 +24,13 @@ return [
         'INVALID_USER_NAME' => 'The name must be between 3 and 100 characters.',
         'INVALID_PASSWORD' => 'The password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character.',
         'PASSWORD_CONFIRMATION_MISMATCH' => 'The password confirmation does not match.',
+        
+        // Roles
+        'EMPTY_ROLE' => 'Role cannot be empty.',
+        'INVALID_ROLE' => 'The provided role is not valid.',
+        'INVALID_ROLE_TYPE' => 'All roles must be valid UserRole instances.',
+        'INVALID_ROLE_FOR_REGISTRATION' => 'You can only register as a client or follower. Administrators are designated by clients.',
+        'ROLES_REQUIRED' => 'You must select at least one role.',
     ],
 
     'unexpected_error' => 'An unexpected error occurred. Please try again later.',

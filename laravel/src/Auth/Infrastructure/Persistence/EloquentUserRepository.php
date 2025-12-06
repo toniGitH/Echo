@@ -25,6 +25,13 @@ final class EloquentUserRepository implements UserRepository
         $eloquentUser->email = $user->email()->value();
         // Hasheamos la contraseña explícitamente antes de guardar
         $eloquentUser->password = Hash::make($user->password()->value());
+        
+        // Serializar roles a JSON
+        $eloquentUser->roles = array_map(
+            fn($role) => $role->value(),
+            $user->roles()
+        );
+        
         $eloquentUser->save();
     }
 
@@ -45,7 +52,8 @@ final class EloquentUserRepository implements UserRepository
         return User::fromPrimitives(
             $eloquentUser->id,
             $eloquentUser->name,
-            $eloquentUser->email
+            $eloquentUser->email,
+            $eloquentUser->roles ?? []
         );
     }
 
@@ -62,7 +70,8 @@ final class EloquentUserRepository implements UserRepository
         return User::fromPrimitives(
             $eloquentUser->id,
             $eloquentUser->name,
-            $eloquentUser->email
+            $eloquentUser->email,
+            $eloquentUser->roles ?? []
         );
     }
 }

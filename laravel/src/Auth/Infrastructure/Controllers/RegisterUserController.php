@@ -43,6 +43,7 @@ final class RegisterUserController extends Controller
                 'id' => $user->id()->value(),
                 'name' => $user->name()->value(),
                 'email' => $user->email()->value(),
+                'roles' => array_map(fn($role) => $role->value(), $user->roles()),
             ]
         ], 201);
     }

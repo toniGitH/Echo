@@ -13,17 +13,20 @@ use Ramsey\Uuid\Uuid;
  */
 final class UserId
 {
-    private function __construct(private string $value)
+    private string $value;
+
+    private function __construct(string $value)
     {
         $this->ensureIsValidUuid($value);
+        $this->value = $value;
     }
 
-    public static function generate(): self
+    public static function generate(): self // Crear un ID nuevo (registro)
     {
         return new self(Uuid::uuid4()->toString());
     }
 
-    public static function fromString(string $value): self
+    public static function fromString(string $value): self // Reconstruye un ID desde BD
     {
         return new self($value);
     }

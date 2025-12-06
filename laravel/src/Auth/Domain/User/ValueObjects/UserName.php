@@ -13,27 +13,31 @@ final class UserName
 
     private function __construct(string $value)
     {
+        // Normalización universal
+        $value = trim($value);
+        
+        // Validación completa
         $this->ensureIsValidUserName($value);
+        
+        // Asignación
         $this->value = $value;
     }
 
     public static function fromString(string $value): self
     {
-        $value = trim($value);
-        
-        // Primero verificar si está vacío
-        if (empty($value)) {
-            throw new EmptyUserNameException();
-        }
-        
+        // Solo delega al constructor
         return new self($value);
     }
 
     private function ensureIsValidUserName(string $value): void
     {
+        // Validación 1: No puede estar vacío
+        if (empty($value)) {
+            throw new EmptyUserNameException();
+        }
+        
+        // Validación 2: Longitud debe estar entre 3 y 100 caracteres
         $length = mb_strlen($value);
-
-        // Solo validar longitud (ya verificamos vacío en fromString)
         if ($length < 3 || $length > 100) {
             throw new InvalidUserNameException();
         }

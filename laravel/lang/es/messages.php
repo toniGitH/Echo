@@ -24,6 +24,13 @@ return [
         'INVALID_USER_NAME' => 'El nombre debe tener entre 3 y 100 caracteres.',
         'INVALID_PASSWORD' => 'La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.',
         'PASSWORD_CONFIRMATION_MISMATCH' => 'La confirmación de la contraseña no coincide.',
+        
+        // Roles
+        'EMPTY_ROLE' => 'El rol no puede estar vacío.',
+        'INVALID_ROLE' => 'El rol proporcionado no es válido.',
+        'INVALID_ROLE_TYPE' => 'Todos los roles deben ser instancias válidas de UserRole.',
+        'INVALID_ROLE_FOR_REGISTRATION' => 'Solo puedes registrarte como cliente o follower. Los administradores son designados por clientes.',
+        'ROLES_REQUIRED' => 'Debes seleccionar al menos un rol.',
     ],
 
     'unexpected_error' => 'Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo más tarde.',
