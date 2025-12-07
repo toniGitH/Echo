@@ -34,12 +34,13 @@ class CheckRole
             $user->roles ?? []
         );
 
-        // Verificar si tiene alguno de los roles requeridos
+        // Convertir strings ('admin', 'client', 'follower') a Value Objects UserRoleueridos
         $requiredRoles = array_map(
             fn($role) => UserRole::fromString($role),
             $roles
         );
 
+        // Verificar si tiene alguno de los roles requeridos
         if (!$domainUser->hasAnyRole($requiredRoles)) {
             return response()->json([
                 'message' => 'Forbidden. Insufficient permissions.'
