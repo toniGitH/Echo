@@ -30,6 +30,7 @@ class LoginUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Test1234!',
             'password_confirmation' => 'Test1234!',
+            'roles' => ['follower'],
         ];
 
         $data = array_merge($defaultData, $userData);

@@ -10,6 +10,7 @@ use Src\Auth\Domain\User\ValueObjects\UserId;
 use Src\Auth\Domain\User\ValueObjects\UserName;
 use Src\Auth\Domain\User\ValueObjects\UserEmail;
 use Src\Auth\Domain\User\ValueObjects\UserPassword;
+use Src\Auth\Domain\User\ValueObjects\UserRole;
 
 final class UserTest extends TestCase
 {
@@ -20,7 +21,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertInstanceOf(UserId::class, $user->id());
@@ -36,7 +37,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertNotEmpty($user->id()->value());
         $this->assertMatchesRegularExpression(
@@ -52,8 +53,8 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user1 = User::create($name, $email, $password);
-        $user2 = User::create($name, $email, $password);
+        $user1 = User::create($name, $email, $password, [UserRole::follower()]);
+        $user2 = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertNotEquals($user1->id()->value(), $user2->id()->value());
     }
@@ -65,7 +66,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(UserName::class, $user->name());
         $this->assertEquals('Juan Pérez', $user->name()->value());
@@ -78,7 +79,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertIsString($user->nameValue());
         $this->assertEquals('Juan Pérez', $user->nameValue());
@@ -91,7 +92,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(UserEmail::class, $user->email());
         $this->assertEquals('juan@example.com', $user->email()->value());
@@ -104,7 +105,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(UserPassword::class, $user->password());
         $this->assertEquals('Test1234!', $user->password()->value());
@@ -117,7 +118,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $array = $user->toArray();
         
         $this->assertIsArray($array);
@@ -134,7 +135,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $array = $user->toArray();
         
         $this->assertEquals($user->id()->value(), $array['id']);
@@ -150,7 +151,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $array = $user->toArray();
         
         $this->assertIsString($array['id']);
@@ -166,7 +167,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('ana@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('Ana', $user->nameValue());
@@ -180,7 +181,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('user@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($longName, $user->nameValue());
@@ -193,7 +194,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Abc123!@');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('Abc123!@', $user->password()->value());
@@ -206,7 +207,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('user.name+tag@sub.example.co.uk');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('user.name+tag@sub.example.co.uk', $user->email()->value());
@@ -219,7 +220,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('maria@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals('María José O\'Connor-Smith', $user->nameValue());
@@ -232,7 +233,7 @@ final class UserTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         // Verificar que obtenemos la misma referencia del objeto
         $this->assertSame($name, $user->name());
@@ -251,8 +252,8 @@ final class UserTest extends TestCase
         $email2 = UserEmail::fromString('juan@example.com');
         $password2 = UserPassword::fromString('Test1234!');
         
-        $user1 = User::create($name1, $email1, $password1);
-        $user2 = User::create($name2, $email2, $password2);
+        $user1 = User::create($name1, $email1, $password1, [UserRole::follower()]);
+        $user2 = User::create($name2, $email2, $password2, [UserRole::follower()]);
         
         $this->assertNotEquals($user1->id()->value(), $user2->id()->value());
     }
@@ -264,7 +265,7 @@ final class UserTest extends TestCase
         $name = 'Juan Pérez';
         $email = 'juan@example.com';
         
-        $user = User::fromPrimitives($id, $name, $email);
+        $user = User::fromPrimitives($id, $name, $email, ['follower']);
         
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($id, $user->id()->value());
@@ -279,7 +280,7 @@ final class UserTest extends TestCase
         $name = 'Juan Pérez';
         $email = 'juan@example.com';
         
-        $user = User::fromPrimitives($id, $name, $email);
+        $user = User::fromPrimitives($id, $name, $email, ['follower']);
         
         $this->assertNull($user->password());
     }
@@ -288,26 +289,29 @@ final class UserTest extends TestCase
     public function test_it_throws_exception_when_from_primitives_receives_invalid_id(): void
     {
         $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
-        User::fromPrimitives('invalid-uuid', 'Juan Pérez', 'juan@example.com');
+        User::fromPrimitives('invalid-uuid', 'Juan Pérez', 'juan@example.com', ['follower']);
     }
 
     // Verifica que fromPrimitives lanza excepción cuando el nombre es inválido
     public function test_it_throws_exception_when_from_primitives_receives_invalid_name(): void
     {
         $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         $id = '550e8400-e29b-41d4-a716-446655440000';
-        User::fromPrimitives($id, 'AB', 'juan@example.com'); // Nombre muy corto (mínimo 3 caracteres)
+        User::fromPrimitives($id, 'AB', 'juan@example.com', ['follower']); // Nombre muy corto (mínimo 3 caracteres)
     }
 
     // Verifica que fromPrimitives lanza excepción cuando el email es inválido
     public function test_it_throws_exception_when_from_primitives_receives_invalid_email(): void
     {
         $this->expectException(\Src\Auth\Domain\User\Exceptions\InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         $id = '550e8400-e29b-41d4-a716-446655440000';
-        User::fromPrimitives($id, 'Juan Pérez', 'invalid-email');
+        User::fromPrimitives($id, 'Juan Pérez', 'invalid-email', ['follower']);
     }
 
     // Verifica que toArray no incluye la clave 'password' cuando el usuario no tiene contraseña
@@ -317,7 +321,7 @@ final class UserTest extends TestCase
         $name = 'Juan Pérez';
         $email = 'juan@example.com';
         
-        $user = User::fromPrimitives($id, $name, $email);
+        $user = User::fromPrimitives($id, $name, $email, ['follower']);
         $array = $user->toArray();
         
         $this->assertArrayNotHasKey('password', $array);
@@ -333,12 +337,12 @@ final class UserTest extends TestCase
         $name = 'Juan Pérez';
         $email = 'juan@example.com';
         
-        $user = User::fromPrimitives($id, $name, $email);
+        $user = User::fromPrimitives($id, $name, $email, ['follower']);
         $array = $user->toArray();
         
         $this->assertEquals($id, $array['id']);
         $this->assertEquals($name, $array['name']);
         $this->assertEquals($email, $array['email']);
-        $this->assertCount(3, $array); // Solo 3 elementos (id, name, email)
+        $this->assertCount(4, $array); // 4 elementos (id, name, email, roles)
     }
 }

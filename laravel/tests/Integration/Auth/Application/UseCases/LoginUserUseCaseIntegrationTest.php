@@ -34,7 +34,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -58,7 +59,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -80,7 +82,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -186,7 +189,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -209,7 +213,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'user.name+tag@sub.example.co.uk',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -244,7 +249,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -266,7 +272,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -304,7 +311,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $registeredUser = $this->registerUseCase->execute($registerData);
 
@@ -329,7 +337,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -352,7 +361,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -375,7 +385,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Abc123!@'
+            'password' => 'Abc123!@',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -397,7 +408,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'MyVeryLongAndSecurePassword123!@#$%'
+            'password' => 'MyVeryLongAndSecurePassword123!@#$%',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -419,7 +431,8 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData);
 
@@ -441,14 +454,16 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData1);
 
         $registerData2 = [
             'name' => 'María García',
             'email' => 'maria@example.com',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData2);
 
@@ -478,14 +493,16 @@ final class LoginUserUseCaseIntegrationTest extends TestCase
         $registerData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData1);
 
         $registerData2 = [
             'name' => 'María García',
             'email' => 'maria@example.com',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
         $this->registerUseCase->execute($registerData2);
 

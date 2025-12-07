@@ -10,6 +10,7 @@ use Src\Auth\Domain\User\User;
 use Src\Auth\Domain\User\ValueObjects\UserName;
 use Src\Auth\Domain\User\ValueObjects\UserEmail;
 use Src\Auth\Domain\User\ValueObjects\UserPassword;
+use Src\Auth\Domain\User\ValueObjects\UserRole;
 use App\Models\User as EloquentUser;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,7 +31,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -48,7 +49,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -66,7 +67,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $userId = $user->id()->value();
         
         $this->repository->save($user);
@@ -83,13 +84,15 @@ final class EloquentUserRepositoryTest extends TestCase
         $user1 = User::create(
             UserName::fromString('Juan Pérez'),
             UserEmail::fromString('juan@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $user2 = User::create(
             UserName::fromString('María García'),
             UserEmail::fromString('maria@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $this->repository->save($user1);
@@ -117,7 +120,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         $exists = $this->repository->exists($email);
@@ -143,7 +146,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         // Buscar con mayúsculas
@@ -161,7 +164,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('user@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -178,7 +181,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('ana@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -195,7 +198,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('maria@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -212,7 +215,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('user.name+tag@sub.example.co.uk');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -227,13 +230,15 @@ final class EloquentUserRepositoryTest extends TestCase
         $user1 = User::create(
             UserName::fromString('Juan Pérez'),
             UserEmail::fromString('juan@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $user2 = User::create(
             UserName::fromString('María García'),
             UserEmail::fromString('maria@example.com'),
-            UserPassword::fromString('Different1234!')
+            UserPassword::fromString('Different1234!'),
+            [UserRole::follower()]
         );
         
         $this->repository->save($user1);
@@ -251,13 +256,15 @@ final class EloquentUserRepositoryTest extends TestCase
         $user1 = User::create(
             UserName::fromString('Juan Pérez'),
             UserEmail::fromString('juan@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $user2 = User::create(
             UserName::fromString('María García'),
             UserEmail::fromString('maria@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $this->repository->save($user1);
@@ -279,7 +286,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         // Verificar que existe
@@ -299,7 +306,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -315,7 +322,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         $partialEmail = UserEmail::fromString('juan@example.co');
@@ -331,7 +338,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Abc123!@');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -348,7 +355,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('MyVeryLongAndSecurePassword123!@#$%');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -365,7 +372,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         
         $this->repository->save($user);
         
@@ -384,13 +391,15 @@ final class EloquentUserRepositoryTest extends TestCase
         $user1 = User::create(
             UserName::fromString('Juan Pérez'),
             UserEmail::fromString('juan@example.com'),
-            UserPassword::fromString('Test1234!')
+            UserPassword::fromString('Test1234!'),
+            [UserRole::follower()]
         );
         
         $user2 = User::create(
             UserName::fromString('María García'),
             UserEmail::fromString('juan@example.com'),
-            UserPassword::fromString('Different1234!')
+            UserPassword::fromString('Different1234!'),
+            [UserRole::follower()]
         );
         
         $this->repository->save($user1);
@@ -408,7 +417,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         $foundUser = $this->repository->findByCredentials($email, $password);
@@ -427,7 +436,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         $wrongPassword = UserPassword::fromString('Wrong1234!');
@@ -454,7 +463,7 @@ final class EloquentUserRepositoryTest extends TestCase
         $email = UserEmail::fromString('juan@example.com');
         $password = UserPassword::fromString('Test1234!');
         
-        $user = User::create($name, $email, $password);
+        $user = User::create($name, $email, $password, [UserRole::follower()]);
         $this->repository->save($user);
         
         $foundUser = $this->repository->findByEmail($email);

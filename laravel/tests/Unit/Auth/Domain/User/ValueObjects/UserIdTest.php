@@ -38,6 +38,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_is_empty(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_USER_ID');
         
         UserId::fromString('');
     }
@@ -46,6 +47,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_is_only_whitespace(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_USER_ID');
         
         UserId::fromString('   ');
     }
@@ -54,6 +56,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_has_invalid_format(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
         UserId::fromString('not-a-valid-uuid');
     }
@@ -62,6 +65,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_is_not_version_4(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
         // UUID v1
         UserId::fromString('550e8400-e29b-11d4-a716-446655440000');
@@ -71,6 +75,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_has_invalid_characters(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
         UserId::fromString('550e8400-e29b-41d4-a716-44665544000g');
     }
@@ -79,6 +84,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_is_too_short(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
         UserId::fromString('550e8400-e29b-41d4');
     }
@@ -87,6 +93,7 @@ final class UserIdTest extends TestCase
     public function test_it_throws_exception_when_uuid_is_too_long(): void
     {
         $this->expectException(InvalidUserIdException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_ID_FORMAT');
         
         UserId::fromString('550e8400-e29b-41d4-a716-446655440000-extra');
     }

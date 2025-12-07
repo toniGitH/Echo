@@ -68,6 +68,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_is_empty(): void
     {
         $this->expectException(EmptyEmailException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_EMAIL');
         
         UserEmail::fromString('');
     }
@@ -76,6 +77,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_is_only_whitespace(): void
     {
         $this->expectException(EmptyEmailException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_EMAIL');
         
         UserEmail::fromString('   ');
     }
@@ -84,6 +86,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_no_at_symbol(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('userexample.com');
     }
@@ -92,6 +95,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_no_domain(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user@');
     }
@@ -100,6 +104,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_no_user(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('@example.com');
     }
@@ -108,6 +113,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_multiple_at_symbols(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user@@example.com');
     }
@@ -116,6 +122,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_no_domain_extension(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user@example');
     }
@@ -124,6 +131,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_spaces_in_middle(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user name@example.com');
     }
@@ -132,6 +140,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_invalid_characters(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('username@example#1.com');
     }
@@ -140,6 +149,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_starts_with_dot(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('.user@example.com');
     }
@@ -148,6 +158,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_ends_with_dot_before_at(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user.@example.com');
     }
@@ -156,6 +167,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_email_has_consecutive_dots(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user..name@example.com');
     }
@@ -164,6 +176,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_domain_starts_with_hyphen(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user@-example.com');
     }
@@ -172,6 +185,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_domain_ends_with_hyphen(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('user@example-.com');
     }
@@ -180,6 +194,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_with_completely_invalid_format(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('not-an-email');
     }
@@ -188,6 +203,7 @@ final class UserEmailTest extends TestCase
     public function test_it_throws_exception_when_only_one_character(): void
     {
         $this->expectException(InvalidEmailException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_EMAIL_FORMAT');
         
         UserEmail::fromString('a');
     }

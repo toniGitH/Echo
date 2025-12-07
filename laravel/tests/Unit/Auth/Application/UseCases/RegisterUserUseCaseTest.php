@@ -33,7 +33,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -59,7 +60,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -82,7 +84,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => '',
             'email' => '',
-            'password' => ''
+            'password' => '',
+            'roles' => []
         ];
 
         $this->userRepository
@@ -102,9 +105,11 @@ final class RegisterUserUseCaseTest extends TestCase
             $this->assertArrayHasKey('name', $errors);
             $this->assertArrayHasKey('email', $errors);
             $this->assertArrayHasKey('password', $errors);
+            $this->assertArrayHasKey('roles', $errors);
             $this->assertCount(1, $errors['name']);
             $this->assertCount(1, $errors['email']);
             $this->assertCount(1, $errors['password']);
+            $this->assertCount(1, $errors['roles']);
         }
     }
 
@@ -114,7 +119,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => '',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -139,7 +145,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => '',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -164,7 +171,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => ''
+            'password' => '',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -189,7 +197,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'AB',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -212,7 +221,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => str_repeat('a', 101),
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -235,7 +245,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'invalid-email',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -258,7 +269,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test12!'
+            'password' => 'Test12!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -281,7 +293,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'test1234!'
+            'password' => 'test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -304,7 +317,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'TEST1234!'
+            'password' => 'TEST1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -327,7 +341,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'TestTest!'
+            'password' => 'TestTest!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -350,7 +365,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234'
+            'password' => 'Test1234',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -373,7 +389,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'AB',
             'email' => 'invalid-email',
-            'password' => 'short'
+            'password' => 'short',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -398,7 +415,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'AB',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -428,7 +446,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'invalid-email',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -456,7 +475,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => '',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -497,7 +517,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Ana',
             'email' => 'ana@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -522,7 +543,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => $longName,
             'email' => 'user@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -546,7 +568,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Abc123!@'
+            'password' => 'Abc123!@',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -570,7 +593,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -597,7 +621,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -624,7 +649,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => '  juan@example.com  ',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository
@@ -650,7 +676,8 @@ final class RegisterUserUseCaseTest extends TestCase
         $userData = [
             'name' => '  Juan Pérez  ',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->userRepository

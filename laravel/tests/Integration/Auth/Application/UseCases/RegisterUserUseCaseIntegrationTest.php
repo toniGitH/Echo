@@ -30,7 +30,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -49,7 +50,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -67,7 +69,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -75,7 +78,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'María García',
             'email' => 'juan@example.com',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
 
         $this->expectException(MultipleDomainException::class);
@@ -90,7 +94,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -98,7 +103,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'María García',
             'email' => 'juan@example.com',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
 
         try {
@@ -118,13 +124,17 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'AB', // Nombre muy corto
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         try {
             $this->useCase->execute($userData);
+            $this->fail('Expected MultipleDomainException was not thrown');
         } catch (MultipleDomainException $e) {
-            // Se espera la excepción
+            $errors = $e->errors();
+            $this->assertArrayHasKey('name', $errors);
+            $this->assertContains('messages.user.INVALID_USER_NAME', $errors['name']);
         }
 
         $this->assertDatabaseMissing('users', [
@@ -140,7 +150,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -148,7 +159,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'María García',
             'email' => 'juan@example.com',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
 
         try {
@@ -170,13 +182,15 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $userData2 = [
             'name' => 'María García',
             'email' => 'maria@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user1 = $this->useCase->execute($userData1);
@@ -193,13 +207,15 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $userData2 = [
             'name' => 'María García',
             'email' => 'maria@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user1 = $this->useCase->execute($userData1);
@@ -232,7 +248,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -240,7 +257,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'María García',
             'email' => 'JUAN@EXAMPLE.COM',
-            'password' => 'Different1234!'
+            'password' => 'Different1234!',
+            'roles' => ['follower']
         ];
 
         $this->expectException(MultipleDomainException::class);
@@ -255,7 +273,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Ana',
             'email' => 'ana@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -273,7 +292,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => $longName,
             'email' => 'user@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -290,7 +310,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Abc123!@'
+            'password' => 'Abc123!@',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -306,7 +327,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'MyVeryLongAndSecurePassword123!@#$%'
+            'password' => 'MyVeryLongAndSecurePassword123!@#$%',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -322,7 +344,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'María José O\'Connor-Smith',
             'email' => 'maria@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -339,7 +362,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'user.name+tag@sub.example.co.uk',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -355,7 +379,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => '  Juan Pérez  ',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -372,7 +397,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => '  juan@example.com  ',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -398,8 +424,15 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
             $errors = $e->errors();
 
             $this->assertArrayHasKey('name', $errors);
+            $this->assertContains('messages.user.INVALID_USER_NAME', $errors['name']);
+            
             $this->assertArrayHasKey('email', $errors);
+            $this->assertContains('messages.user.INVALID_EMAIL_FORMAT', $errors['email']);
+            
             $this->assertArrayHasKey('password', $errors);
+            $this->assertContains('messages.user.INVALID_PASSWORD', $errors['password']);
+            
+            $this->assertArrayHasKey('roles', $errors);
         }
 
         $this->assertDatabaseCount('users', 0);
@@ -412,7 +445,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -420,7 +454,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'AB', // Muy corto
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         try {
@@ -430,7 +465,10 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
             $errors = $e->errors();
 
             $this->assertArrayHasKey('name', $errors);
+            $this->assertContains('messages.user.INVALID_USER_NAME', $errors['name']);
+            
             $this->assertArrayHasKey('email', $errors);
+            $this->assertContains('messages.user.EMAIL_ALREADY_EXISTS', $errors['email']);
         }
 
         // Solo debe haber un usuario
@@ -443,7 +481,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -459,7 +498,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -475,7 +515,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -491,7 +532,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);
@@ -508,7 +550,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
         $this->useCase->execute($userData1);
 
@@ -516,7 +559,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData2 = [
             'name' => 'María García',
             'email' => 'invalid-email',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         try {
@@ -548,6 +592,7 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
             $this->assertArrayHasKey('name', $errors);
             $this->assertArrayHasKey('email', $errors);
             $this->assertArrayHasKey('password', $errors);
+            $this->assertArrayHasKey('roles', $errors);
         }
 
         $this->assertDatabaseCount('users', 0);
@@ -559,13 +604,15 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData1 = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $userData2 = [
             'name' => 'María García',
             'email' => 'maria@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $this->useCase->execute($userData1);
@@ -586,7 +633,8 @@ final class RegisterUserUseCaseIntegrationTest extends TestCase
         $userData = [
             'name' => 'Juan Pérez',
             'email' => 'juan@example.com',
-            'password' => 'Test1234!'
+            'password' => 'Test1234!',
+            'roles' => ['follower']
         ];
 
         $user = $this->useCase->execute($userData);

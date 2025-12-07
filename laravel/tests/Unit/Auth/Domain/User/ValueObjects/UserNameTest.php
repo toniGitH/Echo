@@ -51,6 +51,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_empty(): void
     {
         $this->expectException(EmptyUserNameException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_NAME');
         
         UserName::fromString('');
     }
@@ -59,6 +60,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_only_whitespace(): void
     {
         $this->expectException(EmptyUserNameException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_NAME');
         
         UserName::fromString('   ');
     }
@@ -67,6 +69,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_too_short(): void
     {
         $this->expectException(InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         UserName::fromString('AB');
     }
@@ -75,6 +78,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_one_character(): void
     {
         $this->expectException(InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         UserName::fromString('A');
     }
@@ -83,6 +87,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_too_long(): void
     {
         $this->expectException(InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         $tooLongName = str_repeat('a', 101);
         UserName::fromString($tooLongName);
@@ -92,6 +97,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_when_username_is_extremely_long(): void
     {
         $this->expectException(InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         $tooLongName = str_repeat('a', 500);
         UserName::fromString($tooLongName);
@@ -165,6 +171,7 @@ final class UserNameTest extends TestCase
     public function test_it_throws_exception_with_multibyte_characters_when_too_long(): void
     {
         $this->expectException(InvalidUserNameException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_USER_NAME');
         
         // Cadena de 101 caracteres japoneses (inválida)
         $tooLongName = str_repeat('あ', 101);

@@ -28,6 +28,12 @@ class TranslationTest extends TestCase
             'messages.user.INVALID_USER_NAME',
             'messages.user.INVALID_PASSWORD',
             'messages.user.PASSWORD_CONFIRMATION_MISMATCH',
+            'messages.user.INVALID_CREDENTIALS',
+            'messages.user.EMPTY_ROLE',
+            'messages.user.INVALID_ROLE',
+            'messages.user.INVALID_ROLE_TYPE',
+            'messages.user.INVALID_ROLE_FOR_REGISTRATION',
+            'messages.user.ROLES_REQUIRED',
             'messages.unexpected_error',
         ];
 

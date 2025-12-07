@@ -33,6 +33,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john.doe@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -74,6 +75,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'jane.doe@example.com',
             'password' => 'SecurePass123!',
             'password_confirmation' => 'SecurePass123!',
+            'roles' => ['follower'],
         ];
 
         $this->postJson($this->endpoint, $userData);
@@ -98,6 +100,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'joe@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -116,6 +119,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'longname@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -132,6 +136,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Pass123!', // 8 caracteres (mínimo)
             'password_confirmation' => 'Pass123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -150,6 +155,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => $longPassword,
             'password_confirmation' => $longPassword,
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -165,6 +171,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'special@example.com',
             'password' => 'Password123!@#$%^&*()_-+=[]{}|;:\'",.<>/?¿',
             'password_confirmation' => 'Password123!@#$%^&*()_-+=[]{}|;:\'",.<>/?¿',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -184,6 +191,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => $email,
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -200,6 +208,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'jose@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -216,6 +225,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'user123@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -232,6 +242,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'obrien@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -251,6 +262,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -259,6 +271,9 @@ class RegisterUserControllerTest extends TestCase
             ->assertJsonStructure([
                 'message',
                 'errors' => ['name'],
+            ])
+            ->assertJsonFragment([
+                'name' => [__('messages.user.EMPTY_NAME')],
             ]);
 
         $this->assertDatabaseCount('users', 0);
@@ -272,12 +287,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['name']);
+                ->assertJsonValidationErrors(['name'])
+                ->assertJsonFragment([
+                    'name' => [__('messages.user.EMPTY_NAME')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -290,12 +309,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['name']);
+                ->assertJsonValidationErrors(['name'])
+                ->assertJsonFragment([
+                    'name' => [__('messages.user.INVALID_USER_NAME')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -308,12 +331,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['name']);
+                ->assertJsonValidationErrors(['name'])
+                ->assertJsonFragment([
+                    'name' => [__('messages.user.INVALID_USER_NAME')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -326,12 +353,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonValidationErrors(['name']);
+                ->assertJsonValidationErrors(['name'])
+                ->assertJsonFragment([
+                    'name' => [__('messages.user.EMPTY_NAME')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -350,6 +381,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -371,6 +403,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -392,12 +425,16 @@ class RegisterUserControllerTest extends TestCase
             'name' => 'John Doe',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.EMPTY_EMAIL')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -410,12 +447,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => '',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.EMPTY_EMAIL')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -444,12 +485,16 @@ class RegisterUserControllerTest extends TestCase
                 'email' => $invalidEmail,
                 'password' => 'Password123!',
                 'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
             ];
 
             $response = $this->postJson($this->endpoint, $userData);
 
             $response->assertStatus(422, "Failed for email: {$invalidEmail}")
-                    ->assertJsonStructure(['errors' => ['email']]);
+                    ->assertJsonStructure(['errors' => ['email']])
+                    ->assertJsonFragment([
+                        'email' => [__('messages.user.INVALID_EMAIL_FORMAT')],
+                    ]);
 
             $this->assertDatabaseCount('users', 0);
         }
@@ -466,12 +511,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => $email,
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.INVALID_EMAIL_FORMAT')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -484,6 +533,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'duplicate@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $this->postJson($this->endpoint, $userData)->assertStatus(201);
@@ -493,12 +543,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'duplicate@example.com',
             'password' => 'DifferentPass123!',
             'password_confirmation' => 'DifferentPass123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData2);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.EMAIL_ALREADY_EXISTS')],
+                ]);
 
         $this->assertDatabaseCount('users', 1);
     }
@@ -515,6 +569,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $this->postJson($this->endpoint, $userData)->assertStatus(201);
@@ -524,12 +579,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'TEST@EXAMPLE.COM',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData2);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.EMAIL_ALREADY_EXISTS')],
+                ]);
 
         $this->assertDatabaseCount('users', 1);
     }
@@ -542,12 +601,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => null,
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['email']]);
+                ->assertJsonStructure(['errors' => ['email']])
+                ->assertJsonFragment([
+                    'email' => [__('messages.user.EMPTY_EMAIL')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -560,6 +623,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => ['test@example.com'],
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -578,6 +642,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john+test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -594,6 +659,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@mail.example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -613,6 +679,7 @@ class RegisterUserControllerTest extends TestCase
             'name' => 'John Doe',
             'email' => 'test@example.com',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -636,7 +703,10 @@ class RegisterUserControllerTest extends TestCase
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['password']]);
+                ->assertJsonStructure(['errors' => ['password']])
+                ->assertJsonFragment([
+                    'password' => [__('messages.user.EMPTY_PASSWORD')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -649,12 +719,16 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Pass1!', // 6 caracteres
             'password_confirmation' => 'Pass1!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
 
         $response->assertStatus(422)
-                ->assertJsonStructure(['errors' => ['password']]);
+                ->assertJsonStructure(['errors' => ['password']])
+                ->assertJsonFragment([
+                    'password' => [__('messages.user.INVALID_PASSWORD')],
+                ]);
 
         $this->assertDatabaseCount('users', 0);
     }
@@ -667,6 +741,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Pass12!', // 7 caracteres
             'password_confirmation' => 'Pass12!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -705,6 +780,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password123!', // sin mayúscula
             'password_confirmation' => 'password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -723,6 +799,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'PASSWORD123!', // sin minúscula
             'password_confirmation' => 'PASSWORD123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -741,6 +818,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password!!!!', // sin número
             'password_confirmation' => 'Password!!!!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -759,6 +837,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123', // sin carácter especial
             'password_confirmation' => 'Password123',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -777,6 +856,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'abcdefgh',
             'password_confirmation' => 'abcdefgh',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -795,6 +875,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'ABCDEFGH',
             'password_confirmation' => 'ABCDEFGH',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -813,6 +894,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => '12345678',
             'password_confirmation' => '12345678',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -831,6 +913,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => '!@#$%^&*',
             'password_confirmation' => '!@#$%^&*',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -866,6 +949,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'DifferentPassword123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1044,6 +1128,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1064,6 +1149,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'duplicate@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
         $this->postJson($this->endpoint, $firstUser)->assertStatus(201);
 
@@ -1097,6 +1183,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1121,6 +1208,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1145,6 +1233,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
             'role' => 'admin', // Campo no esperado
             'is_active' => true, // Campo no esperado
             'is_verified' => true, // Campo no esperado
@@ -1173,6 +1262,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'hacker@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1195,6 +1285,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => "admin'--@example.com",
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1211,6 +1302,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'xss@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1239,6 +1331,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1255,6 +1348,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1280,6 +1374,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'John.Doe@Example.COM',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1306,18 +1401,21 @@ class RegisterUserControllerTest extends TestCase
                 'email' => 'user1@example.com',
                 'password' => 'Password123!',
                 'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
             ],
             [
                 'name' => 'User Two',
                 'email' => 'user2@example.com',
                 'password' => 'Password456!',
                 'password_confirmation' => 'Password456!',
+            'roles' => ['follower'],
             ],
             [
                 'name' => 'User Three',
                 'email' => 'user3@example.com',
                 'password' => 'Password789!',
                 'password_confirmation' => 'Password789!',
+            'roles' => ['follower'],
             ],
         ];
 
@@ -1341,6 +1439,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john1@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $user2 = [
@@ -1348,6 +1447,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john2@example.com', // Email diferente
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response1 = $this->postJson($this->endpoint, $user1);
@@ -1367,6 +1467,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'user1@example.com',
             'password' => 'SamePassword123!',
             'password_confirmation' => 'SamePassword123!',
+            'roles' => ['follower'],
         ];
 
         $user2 = [
@@ -1374,6 +1475,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'user2@example.com',
             'password' => 'SamePassword123!', // Misma contraseña
             'password_confirmation' => 'SamePassword123!',
+            'roles' => ['follower'],
         ];
 
         $response1 = $this->postJson($this->endpoint, $user1);
@@ -1401,6 +1503,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1423,6 +1526,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1443,6 +1547,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1459,7 +1564,7 @@ class RegisterUserControllerTest extends TestCase
 
         // Verificar que no hay campos adicionales inesperados en user
         $user = $response->json('user');
-        $this->assertCount(3, $user, 'El objeto user debería tener exactamente 3 campos');
+        $this->assertCount(4, $user, 'El objeto user debería tener exactamente 4 campos');
     }
 
     // Comprueba que la respuesta de error de validación tiene la estructura JSON correcta
@@ -1470,6 +1575,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'invalid',
             'password' => 'weak',
             'password_confirmation' => 'different',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1493,6 +1599,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1520,6 +1627,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->json('POST', $this->endpoint, $userData, [
@@ -1538,6 +1646,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1554,6 +1663,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         // GET
@@ -1581,6 +1691,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'john@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1598,6 +1709,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1619,6 +1731,7 @@ class RegisterUserControllerTest extends TestCase
             'email' => 'emoji@example.com',
             'password' => 'Password123!',
             'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
         ];
 
         $response = $this->postJson($this->endpoint, $userData);
@@ -1647,6 +1760,7 @@ class RegisterUserControllerTest extends TestCase
                 'email' => $email,
                 'password' => 'Password123!',
                 'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
             ];
 
             $response = $this->postJson($this->endpoint, $userData);
@@ -1654,6 +1768,102 @@ class RegisterUserControllerTest extends TestCase
             $response->assertStatus(201, "Failed to register user with name: {$name}");
             $this->assertDatabaseHas('users', ['name' => $name, 'email' => $email]);
         }
+    }
+
+    // ============================================
+    // TESTS DE RESTRICCIÓN DE ROLES
+    // ============================================
+
+    // Comprueba que no se puede registrar un usuario con el rol 'admin'
+    // Los administradores solo pueden ser designados por clientes
+    public function test_cannot_register_with_admin_role(): void
+    {
+        $userData = [
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'roles' => ['admin'],
+        ];
+
+        $response = $this->postJson($this->endpoint, $userData);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['roles.0']);
+
+        // Verificar que el mensaje de error es el correcto
+        $errors = $response->json('errors');
+        $this->assertStringContainsString(
+            'Solo puedes registrarte como cliente o follower',
+            $errors['roles.0'][0]
+        );
+
+        // Verificar que el usuario NO fue creado en la base de datos
+        $this->assertDatabaseMissing('users', [
+            'email' => 'admin@example.com',
+        ]);
+    }
+
+    // Comprueba que no se puede registrar con un rol inválido
+    public function test_cannot_register_with_invalid_role(): void
+    {
+        $userData = [
+            'name' => 'Invalid Role User',
+            'email' => 'invalid@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'roles' => ['superuser'], // Rol que no existe
+        ];
+
+        $response = $this->postJson($this->endpoint, $userData);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['roles.0']);
+
+        // Verificar que el usuario NO fue creado en la base de datos
+        $this->assertDatabaseMissing('users', [
+            'email' => 'invalid@example.com',
+        ]);
+    }
+
+    // Comprueba que se puede registrar con rol 'client'
+    public function test_can_register_with_client_role(): void
+    {
+        $userData = [
+            'name' => 'Client User',
+            'email' => 'client@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'roles' => ['client'],
+        ];
+
+        $response = $this->postJson($this->endpoint, $userData);
+
+        $response->assertStatus(201);
+        
+        $this->assertDatabaseHas('users', [
+            'email' => 'client@example.com',
+        ]);
+    }
+
+    // Comprueba que se puede registrar con rol 'follower'
+    public function test_can_register_with_follower_role(): void
+    {
+        $userData = [
+            'name' => 'Follower User',
+            'email' => 'follower@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'roles' => ['follower'],
+        ];
+
+        $response = $this->postJson($this->endpoint, $userData);
+
+        $response->assertStatus(201);
+        
+        $this->assertDatabaseHas('users', [
+            'email' => 'follower@example.com',
+        ]);
     }
 
     // ============================================

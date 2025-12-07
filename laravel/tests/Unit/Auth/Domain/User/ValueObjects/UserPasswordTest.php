@@ -53,6 +53,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_is_empty(): void
     {
         $this->expectException(EmptyPasswordException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_PASSWORD');
         
         UserPassword::fromString('');
     }
@@ -69,6 +70,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_no_uppercase(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('test1234!');
     }
@@ -77,6 +79,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_no_lowercase(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('TEST1234!');
     }
@@ -93,6 +96,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_no_special_characters(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('Test1234');
     }
@@ -101,6 +105,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_only_letters(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('TestPassword');
     }
@@ -109,6 +114,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_only_numbers(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('12345678');
     }
@@ -117,6 +123,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_only_special_characters(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('!@#$%^&*');
     }
@@ -125,6 +132,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_uppercase_numbers_but_no_special(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('TEST1234');
     }
@@ -133,6 +141,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_lowercase_numbers_but_no_special(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('test1234');
     }
@@ -149,6 +158,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_is_one_character(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('A');
     }
@@ -157,6 +167,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_is_8_chars_but_invalid(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('abcdefgh');
     }
@@ -165,6 +176,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_has_spaces_instead_of_special_chars(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('Test 1234');
     }
@@ -197,6 +209,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_when_password_is_only_whitespace(): void
     {
         $this->expectException(EmptyPasswordException::class);
+        $this->expectExceptionMessage('messages.user.EMPTY_PASSWORD');
         
         UserPassword::fromString('        ');
     }
@@ -207,6 +220,7 @@ final class UserPasswordTest extends TestCase
         // Aunque tiene espacios al principio y final, si cumple requisitos debería ser válida
         // Sin embargo, los espacios NO cuentan como caracteres especiales según la regex
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('  Test123!  ');
     }
@@ -223,6 +237,7 @@ final class UserPasswordTest extends TestCase
     public function test_it_throws_exception_with_7_chars_meeting_other_requirements(): void
     {
         $this->expectException(InvalidPasswordException::class);
+        $this->expectExceptionMessage('messages.user.INVALID_PASSWORD');
         
         UserPassword::fromString('Test12!');
     }
