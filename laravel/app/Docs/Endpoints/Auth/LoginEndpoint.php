@@ -72,7 +72,9 @@ Authorization: Bearer {token}
      *                 format="password",
      *                 description="Contraseña del usuario",
      *                 example="SecurePass123!"
-     *             )
+     *             ),
+     *             @OA\Examples(example="usuario_cliente", summary="Login como cliente", value={"email": "juan.perez@example.com", "password": "Password123!"}),
+     *             @OA\Examples(example="usuario_follower", summary="Login como follower", value={"email": "maria.garcia@example.com", "password": "SecurePass456!"})
      *         )
      *     ),
      *     @OA\Response(
@@ -132,22 +134,16 @@ Authorization: Bearer {token}
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="Error de validación - Datos inválidos o incompletos",
+     *         description="Unprocessable Entity - Error de validación en los datos enviados",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 description="Mensaje general del error de validación"
-     *             ),
-     *             @OA\Property(
-     *                 property="errors",
-     *                 type="object",
-     *                 description="Objeto con los errores de cada campo",
-     *                 @OA\AdditionalProperties(
-     *                     type="array",
-     *                     @OA\Items(type="string")
-     *                 )
-     *             )
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object"),
+     *             @OA\Examples(example="email_vacio", summary="Email vacío", value={"message": "The given data was invalid.", "errors": {"email": {"The email field is required."}}}),
+     *             @OA\Examples(example="email_invalido", summary="Email con formato inválido", value={"message": "The given data was invalid.", "errors": {"email": {"The email must be a valid email address."}}}),
+     *             @OA\Examples(example="password_vacio", summary="Contraseña vacía", value={"message": "The given data was invalid.", "errors": {"password": {"The password field is required."}}}),
+     *             @OA\Examples(example="password_corto", summary="Contraseña demasiado corta", value={"message": "The given data was invalid.", "errors": {"password": {"The password must be at least 8 characters."}}}),
+     *             @OA\Examples(example="password_debil", summary="Contraseña sin requisitos de seguridad", value={"message": "The given data was invalid.", "errors": {"password": {"The password must contain at least one uppercase letter, one lowercase letter, one number and one special character."}}}),
+     *             @OA\Examples(example="errores_multiples", summary="Múltiples errores de validación", value={"message": "The given data was invalid.", "errors": {"email": {"The email must be a valid email address."}, "password": {"The password must be at least 8 characters.", "The password must contain at least one uppercase letter, one lowercase letter, one number and one special character."}}})
      *         )
      *     )
      * )
