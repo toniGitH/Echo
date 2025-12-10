@@ -74,13 +74,14 @@ class RegisterEndpoint
      *                 format="password",
      *                 minLength=8,
      *                 maxLength=50,
-     *                 description="Contraseña del usuario. Debe cumplir con los siguientes requisitos:
-     * - Mínimo 8 caracteres
-     * - Máximo 50 caracteres
-     * - Al menos una letra mayúscula
-     * - Al menos una letra minúscula
-     * - Al menos un número
-     * - Al menos un carácter especial (!@#$%^&*()_-+=[]{}|;:',.<>/?¿)",
+     *                 description="Contraseña del usuario.<br>
+                        Debe cumplir con los siguientes requisitos:<br>
+                        - Mínimo 8 caracteres<br>
+                        - Máximo 50 caracteres<br>
+                        - Al menos una letra mayúscula<br>
+                        - Al menos una letra minúscula<br>
+                        - Al menos un número<br>
+                        - Al menos un carácter especial (!@#$%^&*()_-+=[]{}|;:',.<>/?¿)",
      *                 example="Password123!"
      *             ),
      *             @OA\Property(
@@ -93,13 +94,14 @@ class RegisterEndpoint
      *             @OA\Property(
      *                 property="roles",
      *                 type="array",
-     *                 description="Roles del usuario. Puedes seleccionar uno o ambos roles.
-     * 
-     * **Roles disponibles en registro público:**
-     * - `client`: Usuario que puede crear y gestionar eventos
-     * - `follower`: Usuario que puede seguir eventos
-     * 
-     * ⚠️ **Nota importante:** El rol `admin` NO está permitido en el registro público. Los administradores solo pueden ser designados por clientes mediante endpoints específicos (no disponibles en esta fase).",
+     *                 description="Roles del usuario. Puedes seleccionar uno o ambos roles.<br>
+                          Roles disponibles en registro público:<br>
+                          - `client`: Usuario que puede crear y gestionar eventos<br>
+                          - `follower`: Usuario que puede seguir eventos<br>
+                          <br>
+                          ⚠️ **Nota importante**<br>
+                          El rol `admin` NO está permitido en el registro público.<br>
+                          Los administradores solo pueden ser designados por clientes mediante endpoints específicos (no disponibles en esta fase).",
      *                 minItems=1,
      *                 maxItems=2,
      *                 @OA\Items(
