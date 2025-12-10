@@ -104,7 +104,6 @@ class RegisterEndpoint
      *                 maxItems=2,
      *                 @OA\Items(
      *                     type="string",
-     *                     enum={"client", "follower"},
      *                     example="client"
      *                 ),
      *                 example={"client", "follower"}
@@ -153,8 +152,7 @@ class RegisterEndpoint
      *                     type="array",
      *                     description="Roles asignados al usuario",
      *                     @OA\Items(
-     *                         type="string",
-     *                         enum={"client", "follower"}
+     *                         type="string"
      *                     ),
      *                     example={"client", "follower"}
      *                 )
